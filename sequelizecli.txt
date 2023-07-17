@@ -1,0 +1,12 @@
+npx sequelize init
+npx sequelize db:create
+npx sequelize model:generate --name Member --attributes email:string,nickname:string,password:string,image:string,group:integer,created_at:date,updated_at:date
+npx sequelize model:generate --name Point --attributes member_id:integer,point_status_code:integer,point:integer,reason:string,created_at:date,expiry_at:date
+npx sequelize model:generate --name MemberInfo --attributes member_id:integer,name:string,phone:string,address:string
+npx sequelize model:generate --name Restaurant --attributes member_id:integer,name:string,address:string,tel:string,desc:text,image:string,created_at:date,updated_at:date
+npx sequelize model:generate --name Review --attributes restaurant_id:integer,member_id:integer,star:integer,review:text,image:string,created_at:date,updated_at:date
+npx sequelize model:generate --name Order --attributes restaurant_id:integer,member_info_id:integer,cart_id:integer,status:integer,arrival_at:date,created_at:date
+npx sequelize model:generate --name Keyword --attributes restaurant_id:integer,keyword:string,created_at:date,updated_at:date
+npx sequelize model:generate --name Menu --attributes restaurant_id:integer,name:string,price:integer,image:string,created_at:date,updated_at:date
+npx sequelize model:generate --name Cart --attributes member_id:integer
+npx sequelize model:generate --name CartItem --attributes cart_id:integer,menu_id:integer,count:integer
