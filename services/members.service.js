@@ -1,7 +1,7 @@
 const MemberRepository = require('../repositories/members.repository');
 
 class MemberService {
-    memberRepository = MemberRepository;
+    memberRepository = new MemberRepository();
     //
 }
 

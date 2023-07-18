@@ -1,7 +1,7 @@
 const MenuService = require('../services/menus.service');
 
 class MenusController {
-    menuService = MenuService;
+    menuService = new MenuService();
     //
 }
 

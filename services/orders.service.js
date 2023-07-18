@@ -1,7 +1,7 @@
 const OrderRepository = require('../repositories/orders.repository');
 
 class OrderService {
-    orderRepository = OrderRepository;
+    orderRepository = new OrderRepository();
     //
 }
 

@@ -1,7 +1,7 @@
 const ViewService = require('../services/views.service');
 
 class ViewsController {
-    viewService = ViewService;
+    viewService = new ViewService();
     //
 }
 

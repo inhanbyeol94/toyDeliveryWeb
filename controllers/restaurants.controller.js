@@ -1,7 +1,7 @@
 const RestaurantService = require('../services/restaurants.service');
 
 class RestaurantsController {
-    restaurantService = RestaurantService;
+    restaurantService = new RestaurantService();
     //
 }
 
