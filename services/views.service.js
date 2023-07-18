@@ -1,7 +1,7 @@
 const ViewRepository = require('../repositories/views.repository');
 
 class ViewService {
-    viewRepository = ViewRepository;
+    viewRepository = new ViewRepository();
     //
 }
 

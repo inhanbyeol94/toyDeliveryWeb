@@ -1,8 +1,7 @@
 const MenuRepository = require('../repositories/menus.repository');
 
 class MenuService {
-    menuRepository = MenuRepository;
-    //
+    menuRepository = new MenuRepository();
 }
 
 module.exports = MenuService;

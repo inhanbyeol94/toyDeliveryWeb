@@ -1,7 +1,7 @@
 const KeywordRepository = require('../repositories/keywords.repository');
 
 class KeywordService {
-    keywordRepository = KeywordRepository;
+    keywordRepository = new KeywordRepository();
     //
 }
 
