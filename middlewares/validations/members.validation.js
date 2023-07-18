@@ -3,7 +3,7 @@ const { member } = require('./message.json');
 
 const Membervalidations = {
     signupValidation: async (req, res, next) => {
-        const { email, nickname, name, phone, address, password, confirmPassword, group } = req.body;
+        const { email, nickname, name, phone, address, password, confirmPassword } = req.body;
 
         const schema = Joi.object().keys({
             email: Joi.string()
@@ -46,6 +46,34 @@ const Membervalidations = {
 
         try {
             await schema.validateAsync({ email, nickname, name, phone, address, password, confirmPassword });
+        } catch (err) {
+            return res.status(412).json({ result: err.message });
+        }
+
+        next();
+    },
+
+    loginValidation: async (req, res, next) => {
+        const { email, password } = req.body;
+
+        const schema = Joi.object().keys({
+            email: Joi.string()
+                .empty()
+                .max(40)
+                .regex(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i)
+                .required()
+                .messages(member.email),
+            password: Joi.string()
+                .empty()
+                .min(8)
+                .max(20)
+                .regex(/^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])/)
+                .required()
+                .messages(member.password),
+        });
+
+        try {
+            await schema.validateAsync({ email, password });
         } catch (err) {
             return res.status(412).json({ result: err.message });
         }
