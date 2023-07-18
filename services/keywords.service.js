@@ -22,11 +22,18 @@ class KeywordService {
     createKeyword = async (restaurant_id, member_id, keyword) => {
         const findAllKeyword = await this.keywordRepository.findAllKeyword(restaurant_id);
         const findOneKeyword = await this.keywordRepository.findOneKeyword(keyword);
-        //레스토랑 추가해야함
+        const findOneRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
         const error = new Error();
 
-        //권한 존재 여부, 업장 존재 여부 추가해야함
-        if (findAllKeyword.length == 5) {
+        if (!findOneRestaurant) {
+            error.message = '업장이 존재하지 않습니다.';
+            error.status = 404;
+            throw error;
+        } else if (member_id != findOneRestaurant.member_id) {
+            error.message = '키워드 생성 권한이 존재하지 않습니다.';
+            error.status = 403;
+            throw error;
+        } else if (findAllKeyword.length == 5) {
             error.message = '키워드는 최대 5개까지만 허용합니다.';
             error.status = 412;
             throw error;
@@ -48,19 +55,26 @@ class KeywordService {
     };
 
     updateKeyword = async (keyword_id, restaurant_id, member_id, keyword) => {
-        const findOneKeywordById = await this.keywordRepository.findOneKeyword(keyword_id);
-        //레스토랑 추가해야함
+        const findOneKeywordById = await this.keywordRepository.findOneKeywordById(keyword_id);
+        const findOneRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
         const error = new Error();
 
-        //수정 권한 여부, 업장 존재 여부 추가해야함
-        if (!findOneKeywordById) {
+        if (!findOneRestaurant) {
+            error.message = '업장이 존재하지 않습니다.';
+            error.status = 404;
+            throw error;
+        } else if (member_id != findOneRestaurant.member_id) {
+            error.message = '키워드 수정 권한이 존재하지 않습니다.';
+            error.status = 403;
+            throw error;
+        } else if (!findOneKeywordById) {
             error.message = '키워드가 존재하지 않습니다.';
             error.status = 404;
             throw error;
         }
 
         await this.keywordRepository.updateKeyword(keyword_id, restaurant_id, keyword);
-        const updateKeyword = await this.keywordRepository.findOneKeyword(keyword_id);
+        const updateKeyword = await this.keywordRepository.findOneKeywordById(keyword_id);
         return {
             keyword_id: updateKeyword.keyword_id,
             restaurant_id: updateKeyword.restaurant_id,
@@ -71,12 +85,19 @@ class KeywordService {
     };
 
     deleteKeyword = async (keyword_id, restaurant_id, member_id) => {
-        const findOneKeywordById = await this.keywordRepository.findOneKeyword(keyword_id);
-        //레스토랑 추가해야함
+        const findOneKeywordById = await this.keywordRepository.findOneKeywordById(keyword_id);
+        const findOneRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
         const error = new Error();
 
-        //삭제 권한 여부, 업장 여부 추가해야함
-        if (!findOneKeywordById) {
+        if (!findOneRestaurant) {
+            error.message = '업장이 존재하지 않습니다.';
+            error.status = 404;
+            throw error;
+        } else if (member_id != findOneRestaurant.member_id) {
+            error.message = '키워드 삭제 권한이 존재하지 않습니다.';
+            error.status = 403;
+            throw error;
+        } else if (!findOneKeywordById) {
             error.message = '키워드가 존재하지 않습니다.';
             error.status = 404;
             throw error;

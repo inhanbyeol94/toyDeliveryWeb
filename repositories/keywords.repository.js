@@ -1,4 +1,4 @@
-const { Keyword } = require('../models');
+const { Keyword, Restaurant } = require('../models');
 const { Op } = require('sequelize');
 class KeywordRepository {
     //
@@ -13,16 +13,35 @@ class KeywordRepository {
         return findAllKeywordData;
     };
 
-    findOneKeywordById = async (keyword_id) => {
-        const findOneKeywordData = await Keyword.findOne({ where: { keyword_id } });
+    findAll = async () => {
+        const findAll = await Keyword.findAll();
 
-        return findOneKeywordData;
+        return findAll;
+    };
+
+    searchKeyword = async (keyword) => {
+        const search = await Keyword.findAll({
+            where: { keyword },
+            include: [
+                {
+                    model: Restaurant,
+                },
+            ],
+        });
+
+        return search;
     };
 
     findOneKeyword = async (keyword) => {
-        const findOneKeyword = await Keyword.findOne({ where: { keyword } });
+        const findOne = await Keyword.findOne({ where: { keyword } });
 
-        return findOneKeyword;
+        return findOne;
+    };
+
+    findOneKeywordById = async (keyword_id) => {
+        const findOne = await Keyword.findOne({ where: { keyword_id } });
+
+        return findOne;
     };
 
     updateKeyword = async (keyword_id, restaurant_id, keyword) => {

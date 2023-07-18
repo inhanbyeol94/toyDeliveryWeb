@@ -25,7 +25,9 @@ class KeywordsController {
             await this.keywordService.createKeyword(restaurant_id, member_id, keyword);
             res.status(201).json({ message: '키워드를 추가하였습니다.' });
         } catch (error) {
-            return res.status(error.status).json({ errorMessage: error.message });
+            if (error.status) return res.status(error.status).json({ errorMessage: error.message });
+
+            return res.status(500).json({ errorMessage: '키워드를 추가하는데 실패했습니다.' });
         }
     };
 
@@ -39,7 +41,9 @@ class KeywordsController {
 
             res.status(200).json({ message: '키워드 수정에 성공하였습니다.' });
         } catch (error) {
-            return res.status(error.status).json({ errorMessage: error.message });
+            if (error.status) return res.status(error.status).json({ errorMessage: error.message });
+
+            return res.status(500).json({ errorMessage: '키워드를 수정하는데 실패했습니다.' });
         }
     };
 
@@ -52,7 +56,9 @@ class KeywordsController {
 
             res.status(200).json({ message: '키워드 삭제에 성공하였습니다.' });
         } catch (error) {
-            return res.status(error.status).json({ errorMessage: error.message });
+            if (error.status) return res.status(error.status).json({ errorMessage: error.message });
+
+            return res.status(500).json({ errorMessage: '키워드를 삭제하는데 실패했습니다.' });
         }
     };
 }
