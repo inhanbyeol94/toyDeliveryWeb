@@ -7,7 +7,7 @@ const MemberRepository = require('../repositories/members.repository');
 
 class MemberService {
     memberRepository = new MemberRepository();
-    signUp = async ({ email, nickname, password, group, name, phone, address, authCode }) => {
+    signUp = async ({ email, nickname, password, name, phone, address, authCode, url }) => {
         const overlapEmail = await this.memberRepository.findOne({ email });
         if (overlapEmail) throw { code: 405, result: '이미 사용중인 이메일 입니다.' };
 
@@ -25,6 +25,7 @@ class MemberService {
 
         const passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
         const expiryDate = dayjs().add(1, 'year').endOf('day').$d;
+        const group = url == '/user/signup' ? 0 : 1;
 
         await this.memberRepository.createMember({ email, nickname, passwordToCrypto, group, name, phone, address, expiryDate });
 
