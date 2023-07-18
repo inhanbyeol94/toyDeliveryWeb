@@ -43,7 +43,6 @@ class MembersController {
 
     logout = async (req, res) => {
         try {
-            console.log(req.session.user);
             const { code, result } = await this.memberService.logout();
 
             await req.session.destroy(() => {
