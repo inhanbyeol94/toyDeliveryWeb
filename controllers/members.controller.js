@@ -5,8 +5,9 @@ class MembersController {
 
     signUp = async (req, res) => {
         try {
-            const { email, nickname, password, group, name, phone, address, authCode } = req.body;
-            const { code, result } = await this.memberService.signUp({ email, nickname, password, group, name, phone, address, authCode });
+            const { url } = req;
+            const { email, nickname, password, name, phone, address, authCode } = req.body;
+            const { code, result } = await this.memberService.signUp({ email, nickname, password, name, phone, address, authCode, url });
             return res.status(code).json({ result });
         } catch (err) {
             if (err.code) return res.status(err.code).json({ message: err.result });
@@ -17,7 +18,6 @@ class MembersController {
     isEmailValid = async (req, res) => {
         try {
             const { email } = req.body;
-
             const { code, result } = await this.memberService.isEmailValid({ email });
             return res.status(code).json({ result });
         } catch (err) {
@@ -29,9 +29,9 @@ class MembersController {
 
     login = async (req, res) => {
         try {
-            const { email, password, group } = req.body;
-
-            const { code, result, payload } = await this.memberService.login({ email, password, group });
+            const { url } = req;
+            const { email, password } = req.body;
+            const { code, result, payload } = await this.memberService.login({ email, password, url });
             req.session.user = payload;
             return res.status(code).json({ result });
         } catch (err) {
@@ -43,7 +43,6 @@ class MembersController {
 
     logout = async (req, res) => {
         try {
-            console.log(req.session.user);
             const { code, result } = await this.memberService.logout();
 
             await req.session.destroy(() => {

@@ -1,5 +1,5 @@
 require('dotenv').config;
-const { SECRET_KEY, SESSION_SECRET_KEY } = process.env;
+const { SECRET_KEY } = process.env;
 const crypto = require('crypto');
 const dayjs = require('dayjs');
 const sendMail = require('../mail');
@@ -7,7 +7,7 @@ const MemberRepository = require('../repositories/members.repository');
 
 class MemberService {
     memberRepository = new MemberRepository();
-    signUp = async ({ email, nickname, password, group, name, phone, address, authCode }) => {
+    signUp = async ({ email, nickname, password, name, phone, address, authCode, url }) => {
         const overlapEmail = await this.memberRepository.findOne({ email });
         if (overlapEmail) throw { code: 405, result: '이미 사용중인 이메일 입니다.' };
 
@@ -25,6 +25,7 @@ class MemberService {
 
         const passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
         const expiryDate = dayjs().add(1, 'year').endOf('day').$d;
+        const group = url == '/user/signup' ? 0 : 1;
 
         await this.memberRepository.createMember({ email, nickname, passwordToCrypto, group, name, phone, address, expiryDate });
 
@@ -51,9 +52,9 @@ class MemberService {
         return { code: 200, result: '인증번호가 발송되었습니다.\n이메일을 확인해 주세요.' };
     };
 
-    login = async ({ email, password, group }) => {
+    login = async ({ email, password, url }) => {
         const passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
-
+        const group = url == '/user/login' ? 0 : 1;
         const findUser = await this.memberRepository.findOne({ email });
         if (!findUser) throw { code: 401, result: '가입되지 않은 이메일 입니다.' };
 
