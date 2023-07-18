@@ -12,8 +12,8 @@ class MenuRepository {
         });
     };
 
-    createMenu = async (restaurant_id, name, price, image) => {
-        return await Menu.create({ restaurant_id, name, price, image });
+    createMenu = async (restaurant_id, member_id, name, price, image) => {
+        return await Menu.create({ restaurant_id, member_id, name, price, image });
     };
 
     updateMenu = async (restaurant_id, menu_id, name, price, image) => {
