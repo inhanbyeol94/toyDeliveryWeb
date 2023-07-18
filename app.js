@@ -1,11 +1,11 @@
 require('dotenv').config();
+const { SESSION_SECRET_KEY } = process.env;
 
 const express = require('express');
 const app = express();
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 const fs = require('fs');
-const { SESSION_SECRET_KEY } = process.env;
 
 app.use(
     session({
