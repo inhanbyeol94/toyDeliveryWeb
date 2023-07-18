@@ -7,7 +7,7 @@ const { signupValidation } = require('../middlewares/validations/members.validat
 const MembersController = require('../controllers/members.controller');
 const membersController = new MembersController();
 
-router.post('/signup', signupValidation, membersController.signUp);
+router.post('/signup', membersController.signUp);
 router.post('/signup/emailvalid', membersController.isEmailValid);
 router.post('/login', membersController.login);
 router.get('/logout', authMiddleware, membersController.logout);

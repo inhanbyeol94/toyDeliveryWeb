@@ -16,7 +16,7 @@ class RestaurantRepository {
     };
 
     updateRestaurant = async (restaurant_id, name, address, tel, desc, image) => {
-        const updateRestaurant = await this.Restaurant.update(
+        const updateRestaurant = await Restaurant.update(
             { name, address, tel, desc, image },
             {
                 where: { restaurant_id },
@@ -26,7 +26,11 @@ class RestaurantRepository {
     };
 
     deleteRestaurant = async (restaurant_id) => {
-        return await this.Restaurant.destroy({ where: { restaurant_id } });
+        return await Restaurant.destroy({ where: { restaurant_id } });
+    };
+
+    findMemberId = async (restaurant_id) => {
+        return await Restaurant.findOne({ where: { restaurant_id } });
     };
 }
 

@@ -36,7 +36,7 @@ class RestaurantService {
         };
     };
 
-    createRestaurant = async (name, address, tel, desc, image) => {
+    createRestaurant = async (member_id, name, address, tel, desc, image) => {
         const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, tel, desc, image);
 
         return {

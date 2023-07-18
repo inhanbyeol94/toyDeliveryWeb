@@ -17,7 +17,7 @@ class MenuRepository {
     };
 
     updateMenu = async (restaurant_id, menu_id, name, price, image) => {
-        const updateMenu = await this.Menu.update(
+        const updateMenu = await Menu.update(
             { name, price, image },
             {
                 where: { [Op.and]: [{ restaurant_id }, { menu_id }] },
@@ -27,7 +27,7 @@ class MenuRepository {
     };
 
     deleteMenu = async (restaurant_id, menu_id) => {
-        return await this.Menu.destroy({ where: { [Op.and]: [{ restaurant_id }, { menu_id }] } });
+        return await Menu.destroy({ where: { [Op.and]: [{ restaurant_id }, { menu_id }] } });
     };
 }
 
