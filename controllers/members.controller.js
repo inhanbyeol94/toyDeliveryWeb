@@ -18,7 +18,6 @@ class MembersController {
     isEmailValid = async (req, res) => {
         try {
             const { email } = req.body;
-
             const { code, result } = await this.memberService.isEmailValid({ email });
             return res.status(code).json({ result });
         } catch (err) {
@@ -30,9 +29,9 @@ class MembersController {
 
     login = async (req, res) => {
         try {
-            const { email, password, group } = req.body;
-
-            const { code, result, payload } = await this.memberService.login({ email, password, group });
+            const { url } = req;
+            const { email, password } = req.body;
+            const { code, result, payload } = await this.memberService.login({ email, password, url });
             req.session.user = payload;
             return res.status(code).json({ result });
         } catch (err) {
