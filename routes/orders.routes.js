@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const OrderController = require('../controllers/orders.controller');
-const orderController = new OrderController();
+const OrdersController = require('../controllers/orders.controller');
+const orderController = new OrdersController();
 
 router.post('/restaurant/:restaurant_id/order', orderController.orderItem);
-router.put('/restaurant/:restaurant_id/order', orderController.orderCheck);
+router.get('/restaurant/:restaurant_id/order', orderController.orderCheck);
+router.put('/restaurant/:restaurant_id/order', orderController.orderUpdate);
 
 module.exports = router;
