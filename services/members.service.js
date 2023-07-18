@@ -64,6 +64,7 @@ class MemberService {
         if (!passwordValid) throw { code: 401, result: '패스워드가 일치하지 않습니다.' };
 
         const payload = {
+            member_id: findUser.member_id,
             email: findUser.email,
             nickname: findUser.nickname,
             defaultName: findUser.MemberInfos.name,
