@@ -1,7 +1,7 @@
 const MemberService = require('../services/members.service');
 
 class MembersController {
-    memberService = MemberService;
+    memberService = new MemberService();
     //
 }
 

@@ -1,7 +1,7 @@
 const PointService = require('../services/points.service');
 
 class PointsController {
-    pointSevice = PointService;
+    pointSevice = new PointService();
     //
 }
 
