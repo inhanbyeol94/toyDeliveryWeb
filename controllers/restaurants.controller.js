@@ -10,15 +10,22 @@ class RestaurantsController {
 
     getRestaurant = async (req, res, next) => {
         const { restaurant_id } = req.params;
-        const restaurant = await this.restaurantService.findRestaurant(restaurant_id);
-        res.status(200).json({ data: restaurant });
+        try {
+            const restaurant = await this.restaurantService.findRestaurant(restaurant_id);
+            if (!restaurant) throw new Error('존재하지 않는 매장입니다.');
+
+            res.status(200).json({ data: restaurant });
+        } catch (error) {
+            res.status(400).json({ errorMessage: Error });
+        }
     };
 
     createRestaurant = async (req, res, next) => {
         const { name, address, tel, desc, image } = req.body;
-
-        const createRestaurant = await this.restaurantService.createRestaurant(name, address, tel, desc, image);
-        res.status(201).json({ data: createRestaurant });
+        try {
+            const createRestaurant = await this.restaurantService.createRestaurant(name, address, tel, desc, image);
+            res.status(201).json({ data: createRestaurant });
+        } catch {}
     };
 
     updateRestaurant = async (req, res, next) => {
