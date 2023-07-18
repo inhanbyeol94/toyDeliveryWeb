@@ -23,7 +23,7 @@ app.use(
 //front-end
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
-app.use(express.static(__dirname + '/views/static'));
+app.use(express.static(__dirname + '/views/assets'));
 
 //back-end
 app.use(express.json());
