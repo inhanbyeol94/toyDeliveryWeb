@@ -37,10 +37,11 @@ class RestaurantService {
     };
 
     createRestaurant = async (name, address, tel, desc, image) => {
-        const createRestaurant = await this.restaurantRepository.createRestaurant(name, address, tel, desc, image);
+        const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, tel, desc, image);
 
         return {
             restaurant_id: createRestaurant.restaurant_id,
+            member_id: createRestaurant.member_id,
             name: createRestaurant.name,
             address: createRestaurant.address,
             tel: createRestaurant.tel,
@@ -51,10 +52,10 @@ class RestaurantService {
         };
     };
 
-    updateRestaurant = async (restaurant_id, name, address, tel, desc, image) => {
+    updateRestaurant = async (member_id, restaurant_id, name, address, tel, desc, image) => {
         const findRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
-        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
 
+        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
         if (findRestaurant.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
 
         await this.restaurantRepository.updateRestaurant(restaurant_id, name, address, tel, desc, image);
@@ -73,11 +74,11 @@ class RestaurantService {
         };
     };
 
-    deleteRestaurant = async (restaurant_id) => {
+    deleteRestaurant = async (restaurant_id, member_id) => {
         const findRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
-        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
 
-        if (findRestaurant.member_id !== member_id) throw new Error('권한이 없습니다.');
+        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
+        if (findRestaurant.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
 
         await this.restaurantRepository.deleteRestaurant(restaurant_id);
 
