@@ -53,7 +53,7 @@ class RestaurantService {
 
     updateRestaurant = async (restaurant_id, name, address, tel, desc, image) => {
         const findRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
-        if (!findRestaurant) throw new Error("Post doesn't exist");
+        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
 
         if (findRestaurant.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
 

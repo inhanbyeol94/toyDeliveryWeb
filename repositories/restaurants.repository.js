@@ -1,7 +1,7 @@
 const { Restaurant } = require('../models');
 
 class RestaurantRepository {
-    findAllRestauant = async () => {
+    findAllRestaurant = async () => {
         return await Restaurant.findAll();
     };
 
