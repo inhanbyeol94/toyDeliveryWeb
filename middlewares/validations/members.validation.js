@@ -80,6 +80,27 @@ const Membervalidations = {
 
         next();
     },
+
+    isEmailValidation: async (req, res, next) => {
+        const { email } = req.body;
+
+        const schema = Joi.object().keys({
+            email: Joi.string()
+                .empty()
+                .max(40)
+                .regex(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i)
+                .required()
+                .messages(member.email),
+        });
+
+        try {
+            await schema.validateAsync({ email });
+        } catch (err) {
+            return res.status(412).json({ result: err.message });
+        }
+
+        next();
+    },
 };
 
 module.exports = Membervalidations;
