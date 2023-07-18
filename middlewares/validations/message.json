@@ -50,5 +50,46 @@
             "string.empty": "주소를 입력해 주세요.",
             "string.max": "주소는 최대 100자 이내로 입력해 주세요."
         }
+    },
+    "restaurant": {
+        "name": {
+            "string.base": "가게의 이름은 문자열이어야 합니다.",
+            "any.required": "가게의 이름을 입력해 주세요.",
+            "string.pattern.base": "형식이 올바르지 않습니다.",
+            "string.max": "가게의 이름은 최대 30자 이내로 입력해 주세요.",
+            "string.empty": "가게의 이름을 입력해 주세요."
+        },
+        "address": {
+            "string.base": "가게의 주소는 문자열이어야 합니다.",
+            "any.required": "가게의 주소를 입력해 주세요.",
+            "string.empty": "가게의 주소를 입력해 주세요.",
+            "string.max": "가게의 주소는 최대 100자 이내로 입력해 주세요."
+        },
+        "tel": {
+            "string.base": "가게의 전화번호는 문자열이어야 합니다.",
+            "any.required": "가게의 전화번호를 입력해 주세요.",
+            "string.pattern.base": "형식이 올바르지 않습니다.",
+            "string.max": "가게의 전화번호는 최대 15자 이내로 입력해 주세요.",
+            "string.empty": "가게의 전화번호를 입력해 주세요."
+        },
+        "desc": {
+            "string.base": "가게의 소개문은 문자열이어야 합니다.",
+            "any.required": "가게의 소개문을 입력해 주세요.",
+            "string.max": "가게의 소개문은 최대 1000자 이내로 입력해 주세요.",
+            "string.empty": "가게의 소개문을 입력해 주세요."
+        }
+    },
+    "menu": {
+        "name": {
+            "string.base": "메뉴의 이름은 문자열이어야 합니다.",
+            "any.required": "메뉴의 이름을 입력해 주세요.",
+            "string.max": "메뉴의 이름은 최대 50자 이내로 입력해 주세요.",
+            "string.empty": "메뉴의 이름을 입력해 주세요."
+        },
+        "price": {
+            "string.base": "가격은 숫자열이어야 합니다.",
+            "any.required": "가격을 입력해 주세요.",
+            "string.empty": "가격을 입력해 주세요."
+        }
     }
 }
