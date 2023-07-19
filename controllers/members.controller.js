@@ -2,7 +2,6 @@ const MemberService = require('../services/members.service');
 
 class MembersController {
     memberService = new MemberService();
-
     signUp = async (req, res) => {
         try {
             const { url } = req;

@@ -2,7 +2,6 @@ const ViewService = require('../services/views.service');
 
 class ViewsController {
     viewService = new ViewService();
-
     index = async (req, res) => {
         const pageInfo = await this.viewService.index();
         return res.render('index', pageInfo);
