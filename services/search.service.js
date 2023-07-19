@@ -58,32 +58,32 @@ class RestaurantService {
         });
     };
 
-    //카테고리는 보류
-    // category = async (category) => {
-    //     const findAll = await this.restaurantRepository.findAll();
+    //일단 카테고리는 키워드에 저장해서 그걸 가져다 쓰기로 함.
+    category = async (category) => {
+        const findAll = await this.keywordRepository.findAll();
 
-    //     const findMenu = await findAll.map((c) => {
-    //         if (c.category.search(category) > -1) {
-    //             return this.restaurantRepository.searchCategory(c.category);
-    //         }
-    //     });
+        const findCategory = await findAll.map((c) => {
+            if (c.keyword.search(category) > -1) {
+                return this.keywordRepository.searchCategory(c.keyword);
+            }
+        });
 
-    //     findMenu.sort((a, b) => {
-    //         return b.created_at - a.created_at;
-    //     });
+        findCategory.sort((a, b) => {
+            return b.created_at - a.created_at;
+        });
 
-    //     return findMenu.map((category) => {
-    //         return {
-    //             restaurant_id: category.restaurant_id,
-    //             restaurant_name: category.name,
-    //             restaurant_number: category.tel,
-    //             restaurant_address: category.address,
-    //             desc: category.desc,
-    //             created_at: category.created_at,
-    //             updated_at: category.updated_at,
-    //         };
-    //     });
-    // };
+        return findCategory.map((key) => {
+            return {
+                restaurant_id: key.restaurant.restaurant_id,
+                restaurant_name: key.restaurant.name,
+                restaurant_number: key.restaurant.tel,
+                restaurant_address: key.restaurant.address,
+                desc: key.restaurant.desc,
+                created_at: key.restaurant.created_at,
+                updated_at: key.restaurant.updated_at,
+            };
+        });
+    };
 }
 
 module.exports = RestaurantService;

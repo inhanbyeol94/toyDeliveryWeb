@@ -6,6 +6,10 @@ class MenuRepository {
         return await Menu.findAll({ where: { restaurant_id } });
     };
 
+    findAll = async () => {
+        return await Menu.findAll();
+    };
+    
     findMenuId = async (restaurant_id, menu_id) => {
         return await Menu.findOne({
             where: { [Op.and]: [{ restaurant_id }, { menu_id }] },

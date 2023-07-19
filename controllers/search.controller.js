@@ -28,17 +28,17 @@ class SearchController {
     };
 
     //일단 보류
-    // category = async (req, res) => {
-    //     const { search } = req.body;
+    category = async (req, res) => {
+        const { search } = req.body;
 
-    //     try {
-    //         const searchCategory = await this.searchService.category(search);
+        try {
+            const searchCategory = await this.searchService.category(search);
 
-    //         res.status(200).json({ search: searchCategory });
-    //     } catch (err) {
-    //         return res.status(500).json({ errorMessage: '검색에 실패했습니다.' });
-    //     }
-    // };
+            res.status(200).json({ search: searchCategory });
+        } catch (err) {
+            return res.status(500).json({ errorMessage: '검색에 실패했습니다.' });
+        }
+    };
 }
 
 module.exports = SearchController;
