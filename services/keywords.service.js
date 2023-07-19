@@ -22,7 +22,7 @@ class KeywordService {
     createKeyword = async (restaurant_id, member_id, keyword) => {
         const findAllKeyword = await this.keywordRepository.findAllKeyword(restaurant_id);
         const findOneKeyword = await this.keywordRepository.findOneKeyword(keyword);
-        const findOneRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
+        const findOneRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id: restaurant_id });
         const error = new Error();
 
         if (!findOneRestaurant) {
@@ -43,20 +43,14 @@ class KeywordService {
             throw error;
         }
 
-        const createKeyword = await this.keywordRepository.createKeyword(restaurant_id, keyword);
-
-        return {
-            keyword_id: createKeyword.keyword_id,
-            restaurant_id: createKeyword.restaurant_id,
-            keyword: createKeyword.keyword,
-            created_at: createKeyword.created_at,
-            updated_at: createKeyword.updated_at,
-        };
+        await this.keywordRepository.createKeyword(restaurant_id, keyword);
+        return { status: 201, message: '키워드를 추가했습니다.' };
     };
 
     updateKeyword = async (keyword_id, restaurant_id, member_id, keyword) => {
         const findOneKeywordById = await this.keywordRepository.findOneKeywordById(keyword_id);
-        const findOneRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
+        const findOneRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id: restaurant_id });
+        const findAllKeyword = await this.keywordRepository.findAllKeyword(restaurant_id);
         const error = new Error();
 
         if (!findOneRestaurant) {
@@ -70,6 +64,13 @@ class KeywordService {
         } else if (!findOneKeywordById) {
             error.message = '키워드가 존재하지 않습니다.';
             error.status = 404;
+            throw error;
+        }
+        const find = findAllKeyword.filter((key) => key.keyword == keyword);
+
+        if (find.length) {
+            error.message = '이미 존재하는 키워드입니다.';
+            error.status = 412;
             throw error;
         }
 
@@ -86,7 +87,7 @@ class KeywordService {
 
     deleteKeyword = async (keyword_id, restaurant_id, member_id) => {
         const findOneKeywordById = await this.keywordRepository.findOneKeywordById(keyword_id);
-        const findOneRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
+        const findOneRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id: restaurant_id });
         const error = new Error();
 
         if (!findOneRestaurant) {
