@@ -10,3 +10,4 @@ npx sequelize model:generate --name Keyword --attributes restaurant_id:integer,k
 npx sequelize model:generate --name Menu --attributes restaurant_id:integer,name:string,price:integer,image:string,created_at:date,updated_at:date
 npx sequelize model:generate --name Cart --attributes member_id:integer
 npx sequelize model:generate --name CartItem --attributes cart_id:integer,menu_id:integer,count:integer
+npx sequelize model:generate --name IsEmailValid --attributes email:string,auth_code:string,created_at:date
