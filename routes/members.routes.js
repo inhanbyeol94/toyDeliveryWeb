@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { allAuthMiddleware, nonAuthMiddleware } = require('../middlewares/auth.middleware');
+const { allAuthMiddleware, nonAuthMiddleware } = require('../middlewares/api.auth.middleware');
 const { signupValidation, loginValidation, isEmailValidation, updateValidation } = require('../middlewares/validations/members.validation');
 
 const MembersController = require('../controllers/members.controller');
