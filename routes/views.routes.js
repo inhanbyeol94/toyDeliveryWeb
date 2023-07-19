@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { nonAuthMiddleware, allAuthMiddleware } = require('../middlewares/api.auth.middleware');
+const { nonAuthMiddleware, allAuthMiddleware, userAuthMiddleware, adminAuthMiddleware } = require('../middlewares/view.auth.middleware');
 
 const ViewController = require('../controllers/views.controller');
 const viewController = new ViewController();
