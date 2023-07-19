@@ -48,7 +48,7 @@ class ReviewsController {
             res.status(500).json({ error: '리뷰 수정 중 오류가 발생했습니다.' });
         }
     };
-  
+
     // 리뷰 삭제
     deleteReview = async (req, res) => {
         try {
