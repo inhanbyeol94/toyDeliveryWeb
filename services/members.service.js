@@ -81,14 +81,14 @@ class MemberService {
         return { code: 200, result: '로그아웃 성공' };
     };
 
-    updateMember = async (member_id, url_member_id, name, nickname, password, changePwd, confirmPwd, address, phone, image) => {
+    updateMember = async (member_id_locals, member_id, name, nickname, password, changePwd, confirmPwd, address, phone, image) => {
         let passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
 
-        const findUser = await this.memberRepository.findOne({ url_member_id });
+        const findUser = await this.memberRepository.findOne(member_id);
         const error = new Error();
 
         //이부분은 validation joi쪽에서 하겠지만 아직 잘 몰라서
-        if (member_id != findUser.member_id) {
+        if (member_id_locals != findUser.member_id) {
             error.message = '회원정보 수정권한이 존재하지 않습니다.';
             error.status = 403;
             throw error;
@@ -144,12 +144,12 @@ class MemberService {
         };
     };
 
-    deleteMember = async (member_id, url_member_id, password) => {
-        const findMember = await this.memberRepository.findOne(url_member_id);
+    deleteMember = async (member_id_locals, member_id, password) => {
+        const findMember = await this.memberRepository.findOne(member_id);
         const passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
 
         const error = new Error();
-        if (member_id != findMember.member_id) {
+        if (member_id_locals != findMember.member_id) {
             error.message = '회원 탈퇴 권한이 없습니다.';
             error.status = 403;
             throw error;
