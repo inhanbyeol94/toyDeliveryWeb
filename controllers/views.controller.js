@@ -16,6 +16,10 @@ class ViewsController {
         const pageInfo = await this.viewService.login();
         return res.render('signup', pageInfo);
     };
+    orderAdmin = async (req, res) => {
+        const pageInfo = await this.viewService.orderAdmin();
+        return res.render('orderAdmin', pageInfo);
+    };
 }
 
 module.exports = ViewsController;

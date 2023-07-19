@@ -23,6 +23,12 @@ class ViewService {
             subtitle: '회원가입',
         };
     };
+    orderAdmin = async () => {
+        return {
+            title: 'Toy Delivery Web',
+            subtitle: '매장 주문관리',
+        };
+    };
 }
 
 module.exports = ViewService;
