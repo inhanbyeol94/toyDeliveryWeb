@@ -4,29 +4,29 @@ class PointService {
     pointRepository = new PointRepository();
     memberRepository = new MemberRepository();
 
-    getPoint = async (member_id_session, member_id) => {
-        const findAllPoint = await this.pointRepository.findAllPoint(member_id);
-        const error = new Error();
-        if (member_id_session != findAllPoint.member_id) {
-            error.message = '포인트 조회 권한이 없습니다.';
-            error.status = 403;
-            throw error;
-        }
-        findAllPoint.sort((a, b) => {
-            return b.created_at - a.created_at;
-        });
+    // getPoint = async (member_id_session, member_id) => {
+    //     const findAllPoint = await this.pointRepository.findAllPoint(member_id);
+    //     const error = new Error();
+    //     if (member_id_session != findAllPoint.member_id) {
+    //         error.message = '포인트 조회 권한이 없습니다.';
+    //         error.status = 403;
+    //         throw error;
+    //     }
+    //     findAllPoint.sort((a, b) => {
+    //         return b.created_at - a.created_at;
+    //     });
 
-        return findAllPoint.map((point) => {
-            return {
-                point_id: point.point_id,
-                member_id: point.member.member_id,
-                point: point.point,
-                point_status_code: point.point_status_code,
-                reason: point.reason,
-                created_at: point.created_at,
-            };
-        });
-    };
+    //     return findAllPoint.map((point) => {
+    //         return {
+    //             point_id: point.point_id,
+    //             member_id: point.member.member_id,
+    //             point: point.point,
+    //             point_status_code: point.point_status_code,
+    //             reason: point.reason,
+    //             created_at: point.created_at,
+    //         };
+    //     });
+    // };
 
     postPoint = async (member_id_session, member_id, point, point_status_code, reason) => {
         const findMember = await this.memberRepository.findOne(member_id);
@@ -46,27 +46,32 @@ class PointService {
         return { status: 201, message: '포인트를 변경하였습니다.' };
     };
 
-    // calculation = async (member_id_session, member_id) => {
-    //     const findAllPoint = await this.pointRepository.findAllPoint(member_id);
-    //     let firstPoint = 0;
-    //     const error = new Error();
-    //     if (member_id_session != findAllPoint.member_id) {
-    //         error.message = '포인트 조회 권한이 없습니다.';
-    //         error.status = 403;
-    //         throw error;
-    //     }
+    calculation = async (member_id_session, member_id) => {
+        const findAllPoint = await this.pointRepository.findAllPoint(member_id);
+        let firstPoint = 0;
+        const error = new Error();
+        if (member_id_session != findAllPoint.member_id) {
+            error.message = '포인트 조회 권한이 없습니다.';
+            error.status = 403;
+            throw error;
+        }
 
-    //     for (let point of findAllPoint) {
-    //         if (point[0]) {
-    //             firstPoint = point[0].point;
-    //         } else if (point.point_status_code == 0) {
-    //             firstPoint = firstPoint - point.point;
-    //         } else if (point.point_status_code == 1) {
-    //             firstPoint = firstPoint + point.point;
-    //         }
-    //     }
-    //     return { status: 200, result: firstPoint };
-    // };
+        for (let point of findAllPoint) {
+            if (point[0]) {
+                firstPoint = point[0].point;
+            } else if (point.point_status_code == 0) {
+                firstPoint = firstPoint - point.point;
+            } else if (point.point_status_code == 1) {
+                firstPoint = firstPoint + point.point;
+            }
+        }
+        const result = {
+            member_id: findAllPoint.member.member_id,
+            nickname: findAllPoint.member.nickname,
+            point: firstPoint,
+        };
+        return { status: 200, result: result };
+    };
 }
 
 module.exports = PointService;
