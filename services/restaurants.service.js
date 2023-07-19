@@ -1,7 +1,7 @@
 const RestaurantRepository = require('../repositories/restaurants.repository');
 
 class RestaurantService {
-    restaurantRepository = new new RestaurantRepository()();
+    restaurantRepository = new RestaurantRepository();
 
     findAllRestaurant = async () => {
         const allRestaurant = await this.restaurantRepository.findAllRestaurant();

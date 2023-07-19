@@ -1,7 +1,7 @@
 const MenuService = require('../services/menus.service');
 
 class MenusController {
-    menuService = new new MenuService()();
+    menuService = new MenuService();
 
     getMenuList = async (req, res, next) => {
         const { restaurant_id } = req.params;
