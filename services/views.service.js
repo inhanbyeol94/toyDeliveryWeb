@@ -23,6 +23,13 @@ class ViewService {
             subtitle: '회원가입',
         };
     };
+
+    profile = async () => {
+        return {
+            title: 'Toy Delivery Web',
+            subtitle: '사용자 프로필',
+        };
+    };
 }
 
 module.exports = ViewService;
