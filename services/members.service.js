@@ -116,11 +116,10 @@ class MemberService {
             member_id: findUser.member_id,
             email: findUser.email,
             nickname: findUser.nickname,
-            name: findUser.MemberInfos.name,
-            phone: findUser.MemberInfos.phone,
-            address: findUser.MemberInfos.address,
+            defaultName: findUser.MemberInfos.name,
+            defaultPhone: findUser.MemberInfos.phone,
+            defaultAddress: findUser.MemberInfos.address,
             group: findUser.group,
-            image: findUser.image,
         };
         return { code: 200, result: '회원 정보를 수정하였습니다.', payload };
     };
