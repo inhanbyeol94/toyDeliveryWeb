@@ -91,5 +91,22 @@
             "any.required": "가격을 입력해 주세요.",
             "string.empty": "가격을 입력해 주세요."
         }
+    },
+
+    "keywordVal": {
+        "keyword": {
+            "string.base": "키워드는 문자열이어야 합니다.",
+            "any.required": "키워드를 입력해 주세요.",
+            "string.pattern.base": "키워드 형식이 올바르지 않습니다.",
+            "string.max": "키워드는 최대 50자 이내로 입력해 주세요.",
+            "string.empty": "키워드를 입력해 주세요."
+        },
+        "search": {
+            "string.base": "검색어는 문자열이어야 합니다.",
+            "any.required": "검색어를 입력해 주세요.",
+            "string.pattern.base": "검색어 형식이 올바르지 않습니다.",
+            "string.max": "검색어는 최대 50자 이내로 입력해 주세요.",
+            "string.empty": "검색어를 입력해 주세요."
+        }
     }
 }

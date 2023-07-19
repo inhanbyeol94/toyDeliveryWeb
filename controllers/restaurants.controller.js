@@ -1,7 +1,7 @@
 const RestaurantService = require('../services/restaurants.service');
 
 class RestaurantsController {
-    restaurantService = new RestaurantService();
+    restaurantService = new new RestaurantService()();
 
     getRestaurantList = async (req, res, next) => {
         const restaurants = await this.restaurantService.findAllRestaurant();

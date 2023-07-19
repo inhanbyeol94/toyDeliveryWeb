@@ -80,6 +80,89 @@ class MemberService {
     logout = async () => {
         return { code: 200, result: '로그아웃 성공' };
     };
+
+    updateMember = async (member_id, url_member_id, name, nickname, password, changePwd, confirmPwd, address, phone, image) => {
+        let passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
+
+        const findUser = await this.memberRepository.findOne({ url_member_id });
+        const error = new Error();
+
+        //이부분은 validation joi쪽에서 하겠지만 아직 잘 몰라서
+        if (member_id != findUser.member_id) {
+            error.message = '회원정보 수정권한이 존재하지 않습니다.';
+            error.status = 403;
+            throw error;
+        } else if (!name || !nickname || !password || !address || !phone || !image) {
+            error.message = '데이터 형식이 올바르지 않습니다.';
+            error.status = 400;
+            throw error;
+        } else if (passwordToCrypto != findUser.password) {
+            error.message = '비밀번호가 일치하지 않습니다.';
+            error.status = 412;
+            throw error;
+        } else if (changePwd || confirmPwd) {
+            if (changePwd != confirmPwd) {
+                error.message = '변경할 비밀번호가 일치하지 않습니다.';
+                error.status = 412;
+                throw error;
+            } else if (changePwd == confirmPwd) {
+                const changePwdToCrypto = crypto.pbkdf2Sync(changePwd, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
+                passwordToCrypto = changePwdToCrypto;
+            }
+        }
+
+        await this.memberRepository.updateMember(member_id, nickname, passwordToCrypto, name, phone, address, image);
+        const payload = {
+            member_id: findUser.member_id,
+            email: findUser.email,
+            nickname: findUser.nickname,
+            name: findUser.MemberInfos.name,
+            phone: findUser.MemberInfos.phone,
+            address: findUser.MemberInfos.address,
+            group: findUser.group,
+            image: findUser.image,
+        };
+        return { code: 200, result: '회원 정보를 수정하였습니다.', payload };
+    };
+
+    findMember = async (member_id) => {
+        const findMember = await this.memberRepository.findOne(member_id);
+
+        return {
+            code: 200,
+            member: {
+                email: findMember.email,
+                nickname: findMember.nickname,
+                name: findMember.MemberInfos.name,
+                phone: findMember.MemberInfos.phone,
+                address: findMember.MemberInfos.address,
+                group: findMember.group,
+                image: findMember.image,
+                created_at: findMember.created_at,
+                updated_at: findMember.updated_at,
+            },
+        };
+    };
+
+    deleteMember = async (member_id, url_member_id, password) => {
+        const findMember = await this.memberRepository.findOne(url_member_id);
+        const passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
+
+        const error = new Error();
+        if (member_id != findMember.member_id) {
+            error.message = '회원 탈퇴 권한이 없습니다.';
+            error.status = 403;
+            throw error;
+        } else if (passwordToCrypto != findMember.password) {
+            error.message = '비밀번호가 일치하지 않습니다.';
+            error.status = 412;
+            throw error;
+        }
+
+        await this.memberRepository.deleteMember(member_id);
+
+        return { code: 200, result: '회원 탈퇴에 성공하였습니다.' };
+    };
 }
 
 module.exports = MemberService;

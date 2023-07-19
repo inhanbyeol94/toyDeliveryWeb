@@ -29,6 +29,29 @@ class MemberRepository {
             );
         });
     };
+
+    updateMember = async (member_id, nickname, passwordToCrypto, name, phone, address, image) => {
+        await Member.update(
+            { nickname, password: passwordToCrypto, image },
+            {
+                where: { member_id },
+            }
+        );
+        const updateMemberInfoData = await MemberInfo.update(
+            { name, address, phone },
+            {
+                where: { member_id },
+            }
+        );
+
+        return updateMemberInfoData;
+    };
+
+    deleteMember = async (member_id) => {
+        const deleteMemberData = await Member.destroy({ where: { member_id } });
+
+        return deleteMemberData;
+    };
 }
 
 module.exports = MemberRepository;

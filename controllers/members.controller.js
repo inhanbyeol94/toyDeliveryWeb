@@ -2,7 +2,6 @@ const MemberService = require('../services/members.service');
 
 class MembersController {
     memberService = new MemberService();
-
     signUp = async (req, res) => {
         try {
             const { url } = req;
@@ -10,9 +9,9 @@ class MembersController {
             const { code, result } = await this.memberService.signUp({ email, nickname, password, name, phone, address, authCode, url });
             return res.status(code).json({ result });
         } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.result });
+            if (err.code) return res.status(err.code).json({ result: err.result });
             console.error(err);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.status(500).json({ result: '오류가 발생하였습니다.' });
         }
     };
     isEmailValid = async (req, res) => {
@@ -21,9 +20,9 @@ class MembersController {
             const { code, result } = await this.memberService.isEmailValid({ email });
             return res.status(code).json({ result });
         } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.result });
+            if (err.code) return res.status(err.code).json({ result: err.result });
             console.error(err);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.status(500).json({ result: '오류가 발생하였습니다.' });
         }
     };
 
@@ -35,9 +34,9 @@ class MembersController {
             req.session.user = payload;
             return res.status(code).json({ result });
         } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.result });
+            if (err.code) return res.status(err.code).json({ result: err.result });
             console.error(err);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.status(500).json({ result: '오류가 발생하였습니다.' });
         }
     };
 
@@ -49,9 +48,65 @@ class MembersController {
                 return res.status(code).json({ result });
             });
         } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.result });
+            if (err.code) return res.status(err.code).json({ result: err.result });
             console.error(err);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.status(500).json({ result: '오류가 발생하였습니다.' });
+        }
+    };
+
+    getMember = async (req, res) => {
+        try {
+            const { member_id } = req.session.user;
+            const { code, member } = await this.memberService.findMember(member_id);
+
+            res.status(code).json({ member });
+        } catch (err) {
+            return res.status(500).json({ message: '회원 정보 조회에 실패하였습니다.' });
+        }
+    };
+
+    updateMember = async (req, res) => {
+        try {
+            const { url_member_id } = req.params;
+            const { name, nickname, password, changePwd, confirmPwd, address, phone, image } = req.body;
+            const { member_id } = req.session.user;
+
+            const { code, result, payload } = await this.memberService.updateMember(
+                member_id,
+                url_member_id,
+                name,
+                nickname,
+                password,
+                changePwd,
+                confirmPwd,
+                address,
+                phone,
+                image
+            );
+            req.session.user = payload;
+            return res.status(code).json({ result });
+        } catch (err) {
+            if (err.status) return res.status(err.status).json({ message: err.message });
+
+            return res.status(500).json({ message: '회원 정보를 수정 할 수 없습니다.' });
+        }
+    };
+
+    deleteMember = async (req, res) => {
+        try {
+            const { url_member_id } = req.params;
+            const { password } = req.body;
+            const { member_id } = req.session.user;
+
+            const { code, result } = await this.memberService.deleteMember(member_id, url_member_id, password);
+
+            await req.session.destroy(() => {
+                return res.status(code).json({ message: result });
+            });
+        } catch (err) {
+            if (err.status) return res.status(err.status).json({ message: err.message });
+
+            return res.status(500).json({ message: '회원 탈퇴에 실패하였습니다.' });
         }
     };
 }
