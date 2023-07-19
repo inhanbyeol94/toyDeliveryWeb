@@ -21,6 +21,11 @@ class ViewsController {
         const pageInfo = await this.viewService.profile();
         return res.render('profile', pageInfo);
     };
+
+    restaurant = async (req, res) => {
+        const pageInfo = await this.viewService.restaurant();
+        return res.render('restaurant', pageInfo);
+    };
 }
 
 module.exports = ViewsController;
