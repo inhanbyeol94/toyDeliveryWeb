@@ -1,4 +1,4 @@
-const { Menu } = require('../models');
+const { Menu, Restaurant } = require('../models');
 const { Op } = require('sequelize');
 
 class MenuRepository {
@@ -9,7 +9,18 @@ class MenuRepository {
     findAll = async () => {
         return await Menu.findAll();
     };
-    
+
+    searchMenu = async (name) => {
+        return await Menu.findAll({
+            where: { name },
+            include: [
+                {
+                    model: Restaurant,
+                },
+            ],
+        });
+    };
+
     findMenuId = async (restaurant_id, menu_id) => {
         return await Menu.findOne({
             where: { [Op.and]: [{ restaurant_id }, { menu_id }] },

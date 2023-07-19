@@ -27,7 +27,6 @@ class SearchController {
         }
     };
 
-    //일단 보류
     category = async (req, res) => {
         const { search } = req.body;
 
