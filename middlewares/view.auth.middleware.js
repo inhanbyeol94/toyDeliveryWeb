@@ -1,7 +1,7 @@
 const { Member } = require('../models');
 
 const authMiddlewares = {
-    viewNonAuthMiddleware: async (req, res, next) => {
+    nonAuthMiddleware: async (req, res, next) => {
         try {
             if (req.session.user) return res.render('403');
             next();
@@ -11,7 +11,7 @@ const authMiddlewares = {
         }
     },
 
-    viewAllAuthMiddleware: async (req, res, next) => {
+    allAuthMiddleware: async (req, res, next) => {
         try {
             if (!req.session.user) return res.redirect('/login');
             const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
@@ -29,7 +29,7 @@ const authMiddlewares = {
         }
     },
 
-    viewUserAuthMiddleware: async (req, res, next) => {
+    userAuthMiddleware: async (req, res, next) => {
         try {
             if (!req.session.user) return res.redirect('/login');
             const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
@@ -49,7 +49,7 @@ const authMiddlewares = {
         }
     },
 
-    viewAdminAuthMiddleware: async (req, res, next) => {
+    adminAuthMiddleware: async (req, res, next) => {
         try {
             if (!req.session.user) return res.redirect('/login');
             const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
