@@ -1,7 +1,7 @@
 const PointRepository = require('../repositories/points.repository');
 
 class PointService {
-    pointRepository = PointRepository;
+    pointRepository = new PointRepository();
     //
 }
 

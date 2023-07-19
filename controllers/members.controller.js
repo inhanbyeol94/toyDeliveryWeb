@@ -2,7 +2,6 @@ const MemberService = require('../services/members.service');
 
 class MembersController {
     memberService = new MemberService();
-
     signUp = async (req, res) => {
         try {
             const { url } = req;
@@ -10,9 +9,9 @@ class MembersController {
             const { code, result } = await this.memberService.signUp({ email, nickname, password, name, phone, address, authCode, url });
             return res.status(code).json({ result });
         } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.result });
+            if (err.code) return res.status(err.code).json({ result: err.result });
             console.error(err);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.status(500).json({ result: '오류가 발생하였습니다.' });
         }
     };
     isEmailValid = async (req, res) => {
@@ -21,9 +20,9 @@ class MembersController {
             const { code, result } = await this.memberService.isEmailValid({ email });
             return res.status(code).json({ result });
         } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.result });
+            if (err.code) return res.status(err.code).json({ result: err.result });
             console.error(err);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.status(500).json({ result: '오류가 발생하였습니다.' });
         }
     };
 
@@ -35,9 +34,9 @@ class MembersController {
             req.session.user = payload;
             return res.status(code).json({ result });
         } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.result });
+            if (err.code) return res.status(err.code).json({ result: err.result });
             console.error(err);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.status(500).json({ result: '오류가 발생하였습니다.' });
         }
     };
 
@@ -49,9 +48,9 @@ class MembersController {
                 return res.status(code).json({ result });
             });
         } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.result });
+            if (err.code) return res.status(err.code).json({ result: err.result });
             console.error(err);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.status(500).json({ result: '오류가 발생하였습니다.' });
         }
     };
 }

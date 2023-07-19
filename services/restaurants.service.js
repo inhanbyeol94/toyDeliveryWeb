@@ -1,7 +1,7 @@
 const RestaurantRepository = require('../repositories/restaurants.repository');
 
 class RestaurantService {
-    restaurantRepository = RestaurantRepository;
+    restaurantRepository = new RestaurantRepository();
     //
 }
 

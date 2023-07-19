@@ -3,7 +3,6 @@ const Review = require('../models/review');
 
 class ReviewsController {
     reviewService = new ReviewService();
-
     // 리뷰 작성
     createReview = async (req, res) => {
         try {
@@ -49,7 +48,7 @@ class ReviewsController {
             res.status(500).json({ error: '리뷰 수정 중 오류가 발생했습니다.' });
         }
     };
-
+  
     // 리뷰 삭제
     deleteReview = async (req, res) => {
         try {

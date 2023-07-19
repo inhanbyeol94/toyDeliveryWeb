@@ -10,6 +10,7 @@ const development = {
     define: {
         timestamps: false,
     },
+    logging: false,
     // port: env.MYSQL_PORT,
 };
 
