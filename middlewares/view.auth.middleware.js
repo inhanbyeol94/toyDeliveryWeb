@@ -1,75 +1,71 @@
 const { Member } = require('../models');
 
 const authMiddlewares = {
-    nonAuthMiddleware: async (req, res, next) => {
+    viewNonAuthMiddleware: async (req, res, next) => {
         try {
-            if (req.session.user) throw { code: 401, result: '로그인 상태에서는 작업할 수 없습니다.' };
+            if (req.session.user) return res.render('403');
             next();
         } catch (error) {
-            if (error.code) return res.status(401).json({ message: error.result });
             console.log(error);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.redirect('/');
         }
     },
 
-    allAuthMiddleware: async (req, res, next) => {
+    viewAllAuthMiddleware: async (req, res, next) => {
         try {
-            if (!req.session.user) throw { code: 401, result: '로그인이 필요합니다.' };
-            const findUser = await Member.findOne({ where: { email: req.session.user.email } });
+            if (!req.session.user) return res.redirect('/login');
+            const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
 
             if (!findUser) {
                 await req.session.destroy(() => {
-                    throw { code: 401, result: '로그인 정보가 변조되어 로그아웃 되었습니다.' };
+                    return res.render('403');
                 });
             }
 
             next();
         } catch (error) {
-            if (error.code) return res.status(401).json({ message: error.result });
             console.log(error);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.redirect('/');
         }
     },
 
-    userAuthMiddleware: async (req, res, next) => {
+    viewUserAuthMiddleware: async (req, res, next) => {
         try {
-            if (!req.session.user) throw { code: 401, result: '로그인이 필요합니다.' };
-            const findUser = await Member.findOne({ where: { email: req.session.user.email } });
+            if (!req.session.user) return res.redirect('/login');
+            const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
 
             if (!findUser) {
                 await req.session.destroy(() => {
-                    throw { code: 401, result: '로그인 정보가 변조되어 로그아웃 되었습니다.' };
+                    return res.render('403');
                 });
             }
 
-            if (req.session.user.group !== 0) throw { code: 401, result: '사용자만 접근이 가능합니다.' };
+            if (req.session.user.group !== 0) return res.render('403');
 
             next();
         } catch (error) {
-            if (error.code) return res.status(401).json({ message: error.result });
             console.log(error);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.redirect('/');
         }
     },
 
-    adminAuthMiddleware: async (req, res, next) => {
+    viewAdminAuthMiddleware: async (req, res, next) => {
         try {
-            if (!req.session.user) throw { code: 401, result: '로그인이 필요합니다.' };
-            const findUser = await Member.findOne({ where: { email: req.session.user.email } });
+            if (!req.session.user) return res.redirect('/login');
+            const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
 
             if (!findUser) {
                 await req.session.destroy(() => {
-                    throw { code: 401, result: '로그인 정보가 변조되어 로그아웃 되었습니다.' };
+                    return res.render('403');
                 });
             }
 
-            if (req.session.user.group !== 1) throw { code: 401, result: '사장님만 접근이 가능합니다.' };
+            if (req.session.user.group !== 1) return res.render('403');
 
             next();
         } catch (error) {
-            if (error.code) return res.status(401).json({ message: error.result });
             console.log(error);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            return res.redirect('/');
         }
     },
 };
