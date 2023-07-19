@@ -14,6 +14,7 @@ class RestaurantService {
             return {
                 restaurant_id: restaurant.restaurant_id,
                 name: restaurant.name,
+                category: restaurant.category,
                 tel: restaurant.tel,
                 image: restaurant.image,
                 createdAt: restaurant.createdAt,
@@ -28,6 +29,7 @@ class RestaurantService {
             restaurant_id: restaurant.restaurant_id,
             name: restaurant.name,
             address: restaurant.address,
+            category: restaurant.category,
             tel: restaurant.tel,
             desc: restaurant.desc,
             image: restaurant.image,
@@ -36,14 +38,15 @@ class RestaurantService {
         };
     };
 
-    createRestaurant = async (member_id, name, address, tel, desc, image) => {
-        const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, tel, desc, image);
+    createRestaurant = async (member_id, name, address, category, tel, desc, image) => {
+        const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, category, tel, desc, image);
 
         return {
             restaurant_id: createRestaurant.restaurant_id,
             member_id: createRestaurant.member_id,
             name: createRestaurant.name,
             address: createRestaurant.address,
+            category: createRestaurant.category,
             tel: createRestaurant.tel,
             desc: createRestaurant.desc,
             image: createRestaurant.image,
@@ -52,13 +55,13 @@ class RestaurantService {
         };
     };
 
-    updateRestaurant = async (member_id, restaurant_id, name, address, tel, desc, image) => {
+    updateRestaurant = async (member_id, restaurant_id, name, address, category, tel, desc, image) => {
         const findRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
 
         if (!findRestaurant) throw new Error("Restaurant doesn't exist");
         if (findRestaurant.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
 
-        await this.restaurantRepository.updateRestaurant(restaurant_id, name, address, tel, desc, image);
+        await this.restaurantRepository.updateRestaurant(restaurant_id, name, address, category, tel, desc, image);
 
         const updateRestaurant = await this.restaurantRepository.findRestaurantId(restaurant_id);
 
@@ -67,6 +70,7 @@ class RestaurantService {
             name: updateRestaurant.name,
             address: updateRestaurant.address,
             tel: updateRestaurant.tel,
+            category: updateRestaurant.category,
             desc: updateRestaurant.desc,
             image: updateRestaurant.image,
             createdAt: updateRestaurant.createdAt,

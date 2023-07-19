@@ -11,13 +11,13 @@ class RestaurantRepository {
         });
     };
 
-    createRestaurant = async (member_id, name, address, tel, desc, image) => {
-        return await Restaurant.create({ member_id, name, address, tel, desc, image });
+    createRestaurant = async (member_id, name, address, category, tel, desc, image) => {
+        return await Restaurant.create({ member_id, name, address, category, tel, desc, image });
     };
 
-    updateRestaurant = async (restaurant_id, name, address, tel, desc, image) => {
+    updateRestaurant = async (restaurant_id, name, address, category, tel, desc, image) => {
         const updateRestaurant = await Restaurant.update(
-            { name, address, tel, desc, image },
+            { name, address, category, tel, desc, image },
             {
                 where: { restaurant_id },
             }
