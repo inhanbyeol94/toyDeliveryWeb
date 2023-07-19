@@ -9,5 +9,6 @@ const viewController = new ViewController();
 router.get('/', viewController.index);
 router.get('/login', nonAuthMiddleware, viewController.login);
 router.get('/signup', nonAuthMiddleware, viewController.signUp);
+router.get('/profile', nonAuthMiddleware, viewController.profile);
 
 module.exports = router;
