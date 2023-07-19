@@ -13,8 +13,8 @@ router.post('/signup/emailvalid', nonAuthMiddleware, isEmailValidation, membersC
 router.post('/user/login', nonAuthMiddleware, loginValidation, membersController.login);
 router.post('/admin/login', nonAuthMiddleware, loginValidation, membersController.login);
 router.get('/logout', allAuthMiddleware, membersController.logout);
-router.get('/member_info', membersController.getMember);
-router.put('/member_info/:url_member_id', allAuthMiddleware, updateValidation, membersController.updateMember);
-router.delete('/member_info/:url_member_id', membersController.deleteMember);
+router.get('/member_info', allAuthMiddleware, membersController.getMember);
+router.put('/member_info/:member_id', allAuthMiddleware, updateValidation, membersController.updateMember);
+router.delete('/member_info/:member_id', allAuthMiddleware, membersController.deleteMember);
 
 module.exports = router;

@@ -67,7 +67,7 @@ class MembersController {
 
     updateMember = async (req, res) => {
         try {
-            const { url_member_id } = req.params;
+            const url_member_id = req.params.member_id;
             const { name, nickname, password, changePwd, confirmPwd, address, phone, image } = req.body;
             const { member_id } = req.session.user;
 
@@ -94,7 +94,7 @@ class MembersController {
 
     deleteMember = async (req, res) => {
         try {
-            const { url_member_id } = req.params;
+            const url_member_id = req.params.member_id;
             const { password } = req.body;
             const { member_id } = req.session.user;
 
