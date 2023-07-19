@@ -1,7 +1,12 @@
-const { Member, MemberInfo, Point, IsEmailValid, sequelize } = require('../models');
+const { Member, MemberInfo, Point, IsEmailValid, Restaurant, sequelize } = require('../models');
 class MemberRepository {
     findOne = async (target) => {
-        return Member.findOne({ where: target, include: [{ model: MemberInfo, where: { default: true } }], nest: true, raw: true });
+        return Member.findOne({
+            where: target,
+            include: [{ model: MemberInfo, where: { default: true } }, { model: Restaurant }],
+            nest: true,
+            raw: true,
+        });
     };
 
     //general
