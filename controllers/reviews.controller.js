@@ -1,7 +1,7 @@
 const ReviewService = require('../services/reviews.service');
 
 class ReviewsController {
-    reviewService = ReviewService;
+    reviewService = new ReviewService();
     //
 }
 
