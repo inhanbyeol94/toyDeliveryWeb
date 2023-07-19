@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>
+    <%= title %>
+  </title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin
+  * Updated: May 30 2023 with Bootstrap v5.3.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <main>
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+              <div class="d-flex justify-content-center py-4">
+                <a href="index.html" class="logo d-flex align-items-center w-auto">
+                  <img src="assets/img/logo.png" alt="">
+                  <span class="d-none d-lg-block">Toy Delivery Web</span>
+                </a>
+              </div><!-- End Logo -->
+
+              <div class="card mb-3 signupBox">
+
+                <div class="card-body">
+
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+                    <p class="text-center small">회원가입 시 모든 정보는 필수로 입력해 주세요.</p>
+                  </div>
+
+                  <div class="row g-3 needs-validation" novalidate>
+                    <div class="col-12">
+                      <label class="form-label">이메일</label>
+                      <div style="display: flex;">
+                        <input type="email" class="form-control me-2 fs-14" id="userEmail"
+                          placeholder="hongkildong@gmail.com">
+                        <button class="btn btn-dark fs-14" style="margin-left: auto; width: 25%;"
+                          id="authBtn">인증</button>
+                      </div>
+                    </div>
+
+                    <div class="col-12 d-none" id="authCodeBox">
+                      <input type="text" class="form-control fs-14" id="authCode" placeholder="인증번호를 입력해 주세요.">
+                      <span class="fs-12 ms-2" style="color: gray;">인증메일이 안오셨나요? <a href="#"
+                          id="reAuthCodeBtn">재발송</a></span>
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label">비밀번호</label>
+                      <input type="password" class="form-control fs-14" id="userPassword"
+                        placeholder="영문, 숫자, 특수문자를 포함해야합니다.">
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label">확인 비밀번호</label>
+                      <input type="password" class="form-control fs-14" id="userConfirmPassword"
+                        placeholder="비밀번호를 한번 더 입력해 주세요.">
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label">닉네임</label>
+                      <input type="text" class="form-control fs-14" id="userNickname" placeholder="길똥이">
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label">이름</label>
+                      <input type="text" class="form-control fs-14" id="userName" placeholder="홍길동">
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label">연락처</label>
+                      <input type="tel" class="form-control fs-14" id="userPhone" placeholder="010-1234-5678">
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label">주소</label>
+                      <input type="tel" class="form-control fs-14 mb-2" id="userAddress" placeholder="서울특별시 동작구 대방동 123"
+                        readonly>
+                      <input type="tel" class="form-control fs-14" id="userSubAddress" placeholder="상세주소를 입력해 주세요.">
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label">구분</label>
+                      <select class="form-select fs-14" id="memberList">
+                        <option value="" disabled selected>선택</option>
+                        <option value="1">고객</option>
+                        <option value="2">사장</option>
+                      </select>
+                    </div>
+
+                    <div class="col-12">
+                      <button class="btn btn-dark w-100" id="createBtn">Create Account</button>
+                    </div>
+                    <div class="col-12">
+                      <p class="small mb-0">이미 가입된 계정이 있습니까? <a href="/login">로그인</a></p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/signup.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</body>
+
+</html>
