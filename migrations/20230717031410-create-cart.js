@@ -18,6 +18,15 @@ module.exports = {
                 },
                 onDelete: 'CASCADE',
             },
+            restaurant_id: {
+                allowNull: false,
+                type: Sequelize.BIGINT,
+                references: {
+                    model: 'Restaurants',
+                    key: 'restaurant_id',
+                },
+                onDelete: 'CASCADE',
+            },
             created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
