@@ -12,11 +12,14 @@ loginBtn.addEventListener('click', async () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(new loginUser()),
     });
-
+    const { status } = await api;
     const { result } = await api.json();
 
-    alert(result);
-    if (result == '로그인 성공') return (window.location.href = '/');
+    if (status == 200) {
+        window.location.href = '/';
+    } else {
+        alert(result);
+    }
 });
 
 class loginUser {
