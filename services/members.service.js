@@ -68,6 +68,7 @@ class MemberService {
             member_id: findUser.member_id,
             email: findUser.email,
             nickname: findUser.nickname,
+            image: findUser.image,
             defaultName: findUser.MemberInfos.name,
             defaultPhone: findUser.MemberInfos.phone,
             defaultAddress: findUser.MemberInfos.address,
