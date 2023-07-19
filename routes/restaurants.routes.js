@@ -4,7 +4,7 @@ const router = express.Router();
 const RestaurantController = require('../controllers/restaurants.controller');
 const restaurantController = new RestaurantController();
 
-const { adminAuthMiddleware } = require('../middlewares/auth.middleware');
+const { adminAuthMiddleware } = require('../middlewares/api.auth.middleware');
 const { restaurantValidation } = require('../middlewares/validations/restaurants.validation');
 
 router.get('/restaurant', restaurantController.getRestaurantList);
