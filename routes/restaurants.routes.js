@@ -12,6 +12,5 @@ router.get('/restaurant/:restaurant_id', restaurantController.getRestaurant);
 router.post('/restaurant', restaurantValidation, adminAuthMiddleware, restaurantController.createRestaurant);
 router.put('/restaurant/:restaurant_id', restaurantValidation, adminAuthMiddleware, restaurantController.updateRestaurant);
 router.delete('/restaurant/:restaurant_id', adminAuthMiddleware, restaurantController.deleteRestaurant);
-// router.post('/restaurant/search', restaurantController.searchRestaurant);
 
 module.exports = router;

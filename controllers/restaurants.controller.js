@@ -58,13 +58,6 @@ class RestaurantsController {
             res.status(400).json({ errorMessage: Error });
         }
     };
-
-    // searchRestaurant = async (req, res, next) => {
-    //     const { searchFindings } = req.params;
-    //     const searchRestaurant = await this.restaurantService.searchRestaurant(searchFindings);
-
-    //     res.status(200).json({ data: searchRestaurant });
-    // };
 }
 
 module.exports = RestaurantsController;

@@ -15,7 +15,6 @@ const Menuvalidations = {
         } catch (err) {
             return res.status(412).json({ result: err.message });
         }
-
         next();
     },
 };
