@@ -1,72 +1,37 @@
 const { Review } = require('../models');
 
 class ReviewRepository {
-    reviewRepository = new ReviewRepository();
-
-    findReview = async (review_id) => {
-        const review = await this.reviewRepository.findReviewId(review_id);
-        return {
-            restaurant_id: review.restaurant_id,
-            member_id: review.member_id,
-            menu_id: review.menu_id,
-            menu_name: review.menu_name,
-            star: review.name,
-            review: review.review,
-            image: review.image,
-            createdAt: review.createdAt,
-            updatedAt: review.updatedAt,
-        };
+    findAllReview = async () => {
+        return await Review.findAll();
     };
 
-    createReview = async (restaurant_id, member_id, menu_id, menu_name, star, review, image) => {
-        const createdReview = await this.reviewRepository.createReview(restaurant_id, member_id, star, review, image);
-
-        return {
-            restaurant_id: createdReview.restaurant_id,
-            member_id: createdReview.member_id,
-            menu_id: createdReview.menu_id,
-            menu_name: createdReview.menu_name,
-            star: createdReview.name,
-            review: createdReview.review,
-            image: createdReview.image,
-            createdAt: createdReview.createdAt,
-            updatedAt: createdReview.updatedAt,
-        };
+    findReviewId = async (data) => {
+        return await Review.findOne({
+            where: data,
+        });
     };
 
-    updateReview = async (member_id, restaurant_id, review, star, image) => {
-        const findReview = await this.reviewRepository.findReviewId(review_id);
+    createReview = async (member_id, menu_id, menu_name, star, review, image) => {
+        return await Review.create({ member_id, menu_id, menu_name, star, review, image })
+    };
 
-        if (!findReview) throw new Error("Review doesn't exist");
-        if (findReview.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
-
-        await this.reviewRepository.updateReview(member_id, restaurant_id, menu_id, menu_name, review, star, image);
-        const updateReview = await this.reviewRepository.findReviewId(review_id);
-
-        return {
-            member_id: updateReview.member_id,
-            restaurant_id: updateReview.restaurant_id,
-            review: updateReview.review,
-            star: updateReview.star,
-            image: updateReview.image,
-            createdAt: updateReview.createdAt,
-            updatedAt: updateReview.updatedAt,
-        };
+    updateReview = async (review_id, star, review, image) => {
+        const updateReview = await this.Review.update(
+            { star, review, image },
+            {
+                where: { review_id },
+            }
+        );
+        return updateReview; 
     };
 
     deleteReview = async (review_id) => {
-        const findReview = await this.reviewRepository.findReviewId(review_id);
-
-        if (!findReview) throw new Error("Review doesn't exist");
-        if (findReview.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
-
-        await this.reviewRepository.deleteReview(review_id);
-
-        return {
-            review_id: findReview.review_id,
-            member_id: findReview.member_id
-        };
+        return await Review.destroy({ where: { review_id } })
     };
-};
+
+    findMemberId = async (review_id) => {
+        return await Review.findOne({ where: { review_id } });
+    };
+}
 
 module.exports = ReviewRepository;

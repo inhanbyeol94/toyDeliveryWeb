@@ -92,7 +92,6 @@
             "string.empty": "가격을 입력해 주세요."
         }
     },
-
     "keywordVal": {
         "keyword": {
             "string.base": "키워드는 문자열이어야 합니다.",
