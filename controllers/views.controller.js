@@ -15,6 +15,11 @@ class ViewsController {
         return res.render('signup', pageInfo);
     };
 
+    orderAdmin = async (req, res) => {
+        const pageInfo = await this.viewService.orderAdmin();
+        return res.render('orderAdmin', pageInfo);
+    };
+
     index = async (req, res) => {
         const { user } = req.session;
         const { title, subtitle } = pageConfig.index;
