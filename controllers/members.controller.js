@@ -61,6 +61,7 @@ class MembersController {
 
             res.status(code).json({ member });
         } catch (err) {
+            if (err.status) return res.status(err.status).json({ message: err.message });
             return res.status(500).json({ message: '회원 정보 조회에 실패하였습니다.' });
         }
     };

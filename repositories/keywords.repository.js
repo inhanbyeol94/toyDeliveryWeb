@@ -39,7 +39,7 @@ class KeywordRepository {
     };
 
     findOneKeywordById = async (keyword_id) => {
-        const findOne = await Keyword.findOne({ where: { keyword_id } });
+        const findOne = await Keyword.findOne({ where: { keyword_id }, include: [{ model: Restaurant }] });
 
         return findOne;
     };

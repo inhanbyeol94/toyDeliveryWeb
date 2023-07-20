@@ -19,11 +19,11 @@ class KeywordsController {
     createKeyword = async (req, res) => {
         const { restaurant_id } = req.params;
         const { keyword } = req.body;
-        const { member_id } = res.locals.member;
+        const { member_id } = req.session.user;
 
         try {
-            await this.keywordService.createKeyword(restaurant_id, member_id, keyword);
-            res.status(201).json({ message: '키워드를 추가하였습니다.' });
+            const { status, message } = await this.keywordService.createKeyword(restaurant_id, member_id, keyword);
+            res.status(status).json({ message });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ errorMessage: error.message });
 
@@ -34,7 +34,7 @@ class KeywordsController {
     updateKeyword = async (req, res) => {
         const { restaurant_id, keyword_id } = req.params;
         const { keyword } = req.body;
-        const { member_id } = res.locals.member;
+        const { member_id } = req.session.user;
 
         try {
             await this.keywordService.updateKeyword(keyword_id, restaurant_id, member_id, keyword);
@@ -49,7 +49,7 @@ class KeywordsController {
 
     deleteKeyword = async (req, res) => {
         const { restaurant_id, keyword_id } = req.params;
-        const { member_id } = res.locals.member;
+        const { member_id } = req.session.user;
 
         try {
             await this.keywordService.deleteKeyword(keyword_id, restaurant_id, member_id);
