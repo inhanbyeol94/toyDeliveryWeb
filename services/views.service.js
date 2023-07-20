@@ -8,8 +8,6 @@ class ViewService {
     authorization = async ({ member_id, title, subtitle }) => {
         const user = await this.memberRepository.findOne({ member_id: member_id || null });
 
-        console.log(user);
-
         switch (user?.group) {
             case 0:
                 return {
