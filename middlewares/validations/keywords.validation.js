@@ -29,7 +29,7 @@ const keywordValidations = {
             search: Joi.string()
                 .empty()
                 .max(50)
-                .regex(/^[가-힣a-zA-Z0-9]$/)
+                .regex(/^[가-힣a-zA-Z0-9\s]{1,50}$/)
                 .required()
                 .messages(keywordVal.search),
         });
