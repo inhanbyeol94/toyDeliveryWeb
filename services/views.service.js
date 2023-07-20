@@ -63,6 +63,13 @@ class ViewService {
             css: 'orderAdmin',
         };
     };
+    menuAdmin = async () => {
+        return {
+            title: 'Toy Delivery Web',
+            subtitle: '메뉴관리',
+            css: 'menuAdmin',
+        };
+    };
 }
 
 module.exports = ViewService;
