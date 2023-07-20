@@ -92,7 +92,6 @@
             "string.empty": "가격을 입력해 주세요."
         }
     },
-
     "keywordVal": {
         "keyword": {
             "string.base": "키워드는 문자열이어야 합니다.",
@@ -107,6 +106,20 @@
             "string.pattern.base": "검색어 형식이 올바르지 않습니다.",
             "string.max": "검색어는 최대 50자 이내로 입력해 주세요.",
             "string.empty": "검색어를 입력해 주세요."
+        }
+    },
+    "review": {
+        "star": {
+            "number.base": "별점은 숫자여야 합니다.",
+            "number.integer": "별점은 정수여야 합니다.",
+            "number.min": "별점은 최소 1 이상이어야 합니다.",
+            "number.max": "별점은 최대 5 이하여야 합니다.",
+            "any.required": "별점을 입력해 주세요."
+        },
+        "review": {
+            "string.base": "리뷰는 문자열이어야 합니다.",
+            "string.max": "리뷰는 최대 300자 이내로 입력해 주세요.",
+            "any.required": "리뷰를 입력해 주세요."
         }
     }
 }
