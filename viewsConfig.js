@@ -17,4 +17,14 @@ module.exports = {
         title,
         subtitle: ' | 프로필',
     },
+    orderAdmin: {
+        title,
+        subtitle: ' | 주문관리',
+        css: 'orderAdmin',
+    },
+    menuAdmin: {
+        title,
+        subtitle: ' | 메뉴관리',
+        css: 'menuAdmin',
+    },
 };
