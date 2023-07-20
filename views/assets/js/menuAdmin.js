@@ -1,16 +1,17 @@
 const menuList = document.getElementById('menuList');
 
 const showmenuList = async () => {
-    await fetch('/member_info', { method: 'GET' }).then((response) => {
-        fetch('/restaurant/:1/menu', { method: 'GET' }).then((data) => {
-            console.log(data);
+    await fetch('/myrestaurant', { method: 'GET' }).then((data) => {
+        console.log(data);
+        fetchData(`/restaurant/${restaurant_id}/menu`, { method: 'GET' }).then((data) => {
+            const { menus } = data;
             menuList.innerHTML = '';
             menus.forEach((menu) => {
                 let menuImage = '';
                 if (menu.image) {
                     menuImage = `<img src="/${menu.image.replace(/\\/g, '/')}" alt="음식 이미지">`;
                 } else {
-                    menuImage = `<img src="../img/card.jpg" class="img-fluid rounded-start" alt="...">`;
+                    menuImage = `<img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">`;
                 }
                 const menuHtml = `<div class="card my-3 menuCard" data-bs-toggle="modal" data-bs-target="#largeModal">
                 <a herf="/restaurant/${menu.restaurant_id}/menu/${menu.menu_id}"
@@ -32,5 +33,18 @@ const showmenuList = async () => {
         });
     });
 };
+
+async function fetchData(url, options) {
+    try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.errorMessage);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 showmenuList();

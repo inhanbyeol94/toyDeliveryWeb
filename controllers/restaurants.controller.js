@@ -20,6 +20,17 @@ class RestaurantsController {
         }
     };
 
+    getMyrestaurant = async (req, res, next) => {
+        const { member_id } = req.session.user;
+
+        try {
+            const restaurant = await this.restaurantService.findMyrestaurant(member_id);
+            res.status(200).json({ restaurant });
+        } catch (error) {
+            res.status(400).json({ errorMessage: Error });
+        }
+    };
+
     createRestaurant = async (req, res, next) => {
         const { name, address, tel, category, desc, image } = req.body;
         const { member_id, group } = req.session.user;

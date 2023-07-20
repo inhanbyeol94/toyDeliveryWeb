@@ -38,6 +38,21 @@ class RestaurantService {
         };
     };
 
+    findMyrestaurant = async (member_id) => {
+        const myrestaurant = await this.restaurantRepository.findRestaurantId({ member_id: member_id });
+        return {
+            restaurant_id: myrestaurant.restaruant_id,
+            name: myrestaurant.name,
+            address: myrestaurant.address,
+            category: myrestaurant.category,
+            tel: myrestaurant.tel,
+            desc: myrestaurant.desc,
+            image: myrestaurant.image,
+            createdAt: myrestaurant.createdAt,
+            updatedAt: myrestaurant.updatedAt,
+        };
+    };
+
     createRestaurant = async (member_id, name, address, category, tel, desc, image) => {
         const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, category, tel, desc, image);
 
