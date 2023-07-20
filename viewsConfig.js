@@ -32,4 +32,8 @@ module.exports = {
         subtitle: ' | 매장목록',
         css: 'storeList',
     },
+    restaurant: {
+        title,
+        subtitle: ' | 식당',
+    },
 };
