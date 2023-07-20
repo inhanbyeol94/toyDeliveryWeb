@@ -102,7 +102,7 @@ const Membervalidations = {
         next();
     },
     updateValidation: async (req, res, next) => {
-        const { name, nickname, password, address, phone } = req.body;
+        const { name, nickname, address, phone } = req.body;
 
         const schema = Joi.object().keys({
             nickname: Joi.string()
@@ -127,17 +127,10 @@ const Membervalidations = {
                 .regex(/^\d{2,3}-?\d{3,4}-?\d{4}$/)
                 .messages(member.phone),
             address: Joi.string().empty().required().max(100).messages(member.address),
-            password: Joi.string()
-                .empty()
-                .min(8)
-                .max(20)
-                .regex(/^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])/)
-                .required()
-                .messages(member.password),
         });
 
         try {
-            await schema.validateAsync({ nickname, name, phone, address, password });
+            await schema.validateAsync({ nickname, name, phone, address });
         } catch (err) {
             return res.status(412).json({ result: err.message });
         }
