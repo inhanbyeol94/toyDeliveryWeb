@@ -11,5 +11,6 @@ router.get('/login', nonAuthMiddleware, viewController.login);
 router.get('/signup', nonAuthMiddleware, viewController.signUp);
 router.get('/orderAdmin', nonAuthMiddleware, viewController.orderAdmin); //나중에 매장관리자만 입장가능
 router.get('/profile', allAuthMiddleware, viewController.profile);
+router.get('/menuAdmin', nonAuthMiddleware, viewController.menuAdmin); //나중에 매장관리자만 입장가능
 
 module.exports = router;
