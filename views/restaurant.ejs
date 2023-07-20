@@ -4,171 +4,353 @@
     <main id="main" class="main">
 
       <section class="section dashboard">
-        <section class="row">
-
-          <div class="card">
-            <div class="card-body">
-              <!-- Slides with indicators -->
-              <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="assets/img/slides-1.png" class="d-block w-100" style="height: 500px; object-fit: cover;"
-                      alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="assets/img/slides-2.png" class="d-block w-100" style="height: 500px; object-fit: cover;"
-                      alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="assets/img/slides-3.png" class="d-block w-100" style="height: 500px; object-fit: cover;"
-                      alt="...">
-                  </div>
-                </div>
-
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-
-              </div><!-- End Slides with indicators -->
-
-
-
-            </div>
-          </div>
+        <div class="row">
 
           <!-- Left side columns -->
-          <div class="col-lg-12">
+          <div class="col-lg-5">
             <div class="row">
 
               <!-- Sales Card -->
-              <div class="col-xxl-3 col-md-6">
+              <div class="col-xxl-6 col-md-6">
                 <div class="card info-card sales-card">
 
-                  <div class="card-body card-button">
-                    <h5 class="card-title">분식 <span>| School food</span></h5>
-                    <a href="#">바로가기</a>
+                  <div class="card-body">
+                    <h5 class="card-title">업체명 <span>| 카테고리</span></h5>
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-star-fill"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>4.5</h6>
+                        <span class="text-success small pt-1 fw-bold">리뷰 평점</span>
+                      </div>
+                    </div>
+                    <p class="small pt-1" style="margin-left: 30px; margin-top: 20px;">서울특별시 동작구 대방동 12 업체</p>
+                    <p class="small pt-1" style="margin-left: 30px;">0504-1234-5678</p>
                   </div>
+
                 </div>
               </div><!-- End Sales Card -->
+            </div><!-- End Left side columns -->
+          </div>
 
-              <!-- Sales Card -->
-              <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card">
+          <!-- Right side columns -->
+          <div class="col-lg-7">
 
-                  <div class="card-body card-button">
-                    <h5 class="card-title">카페 & 디저트 <span>| Cafe & Dessert</span></h5>
-                    <a href="#">바로가기</a>
-                  </div>
+            <!-- Recent Activity -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">안내사항</h5>
+
+                <div class="activity">
+                  단무지도 시켜드셔야합니다<br>
+                  이 세상 공짜는 없단말이죠;<br><br>
+                  리뷰 이벤트 진행중입니다.<br>리뷰 착하게 써주시면, 단무지 서비스요~
                 </div>
-              </div><!-- End Sales Card -->
 
-              <!-- Sales Card -->
-              <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card">
+              </div>
+            </div><!-- End Recent Activity -->
 
-                  <div class="card-body card-button">
-                    <h5 class="card-title">치킨 <span>| Chicken</span></h5>
-                    <a href="#">바로가기</a>
+          </div><!-- End Right side columns -->
+
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body pt-3">
+                <!-- Bordered Tabs -->
+                <ul class="nav nav-tabs nav-tabs-bordered" role="tablist">
+
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
+                      aria-selected="true" role="tab">메뉴</button>
+                  </li>
+
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit" aria-selected="false"
+                      tabindex="-1" role="tab">리뷰</button>
+                  </li>
+
+                </ul>
+                <div class="tab-content pt-2">
+                  <div class="tab-pane fade show active profile-overview" id="profile-overview" role="tabpanel">
+
+                    <!-- 메뉴 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-2">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">후라이드 치킨</h5>
+                            <p class="card-text">9,000원</p>
+                            <div class="input-group mb-3" style="max-width: 190px;">
+                              <input type="number" class="form-control" style="width: 50px;" value="0">
+                              <button type="button" class="btn btn-dark">장바구니 담기</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 메뉴 아이템 종료 -->
+
+                    <!-- 메뉴 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-2">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">후라이드 치킨</h5>
+                            <p class="card-text">9,000원</p>
+                            <div class="input-group mb-3" style="max-width: 190px;">
+                              <input type="number" class="form-control" style="width: 50px;" value="0">
+                              <button type="button" class="btn btn-dark">장바구니 담기</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 메뉴 아이템 종료 -->
+
+                    <!-- 메뉴 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-2">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">후라이드 치킨</h5>
+                            <p class="card-text">9,000원</p>
+                            <div class="input-group mb-3" style="max-width: 190px;">
+                              <input type="number" class="form-control" style="width: 50px;" value="0">
+                              <button type="button" class="btn btn-dark">장바구니 담기</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 메뉴 아이템 종료 -->
+
+                    <!-- 메뉴 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-2">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">후라이드 치킨</h5>
+                            <p class="card-text">9,000원</p>
+                            <div class="input-group mb-3" style="max-width: 190px;">
+                              <input type="number" class="form-control" style="width: 50px;" value="0">
+                              <button type="button" class="btn btn-dark">장바구니 담기</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 메뉴 아이템 종료 -->
+
+                    <!-- 메뉴 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-2">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">후라이드 치킨</h5>
+                            <p class="card-text">9,000원</p>
+                            <div class="input-group mb-3" style="max-width: 190px;">
+                              <input type="number" class="form-control" style="width: 50px;" value="0">
+                              <button type="button" class="btn btn-dark">장바구니 담기</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 메뉴 아이템 종료 -->
+
+                    <!-- 메뉴 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-2">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">후라이드 치킨</h5>
+                            <p class="card-text">9,000원</p>
+                            <div class="input-group mb-3" style="max-width: 190px;">
+                              <input type="number" class="form-control" style="width: 50px;" value="0">
+                              <button type="button" class="btn btn-dark">장바구니 담기</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 메뉴 아이템 종료 -->
+
+                    <!-- 메뉴 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-2">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">후라이드 치킨</h5>
+                            <p class="card-text">9,000원</p>
+                            <div class="input-group mb-3" style="max-width: 190px;">
+                              <input type="number" class="form-control" style="width: 50px;" value="0">
+                              <button type="button" class="btn btn-dark">장바구니 담기</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 메뉴 아이템 종료 -->
+
+
+
+
+
+
                   </div>
-                </div>
-              </div><!-- End Sales Card -->
 
-              <!-- Sales Card -->
-              <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card">
+                  <div class="tab-pane fade profile-edit pt-3" id="profile-edit" role="tabpanel">
 
-                  <div class="card-body card-button">
-                    <h5 class="card-title">피자 <span>| Pizza</span></h5>
-                    <a href="#">바로가기</a>
+                    <!-- 리뷰 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-1" style="text-align: center;">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-circle"
+                            style="width: 100px; height: 100px; object-fit: cover;" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <p class="card-text">★☆☆☆☆</p>
+                            <a href="#">수정</a>
+                            <a href="#">삭제</a>
+                            <h5 class="card-title">홍길동</h5>
+                            <p class="card-text">여기 진짜 리얼로다가 맛없습니다. 1점 주기도 아깝네요</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 리뷰 아이템 종료 -->
+
+                    <!-- 리뷰 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-1" style="text-align: center;">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-circle"
+                            style="width: 100px; height: 100px; object-fit: cover;" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <p class="card-text">★☆☆☆☆</p>
+                            <a href="#">수정</a>
+                            <a href="#">삭제</a>
+                            <h5 class="card-title">홍길동</h5>
+                            <p class="card-text">여기 진짜 리얼로다가 맛없습니다. 1점 주기도 아깝네요</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 리뷰 아이템 종료 -->
+
+                    <!-- 리뷰 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-1" style="text-align: center;">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-circle"
+                            style="width: 100px; height: 100px; object-fit: cover;" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <p class="card-text">★☆☆☆☆</p>
+                            <a href="#">수정</a>
+                            <a href="#">삭제</a>
+                            <h5 class="card-title">홍길동</h5>
+                            <p class="card-text">여기 진짜 리얼로다가 맛없습니다. 1점 주기도 아깝네요</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 리뷰 아이템 종료 -->
+
+                    <!-- 리뷰 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-1" style="text-align: center;">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-circle"
+                            style="width: 100px; height: 100px; object-fit: cover;" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <p class="card-text">★☆☆☆☆</p>
+                            <a href="#">수정</a>
+                            <a href="#">삭제</a>
+                            <h5 class="card-title">홍길동</h5>
+                            <p class="card-text">여기 진짜 리얼로다가 맛없습니다. 1점 주기도 아깝네요</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 리뷰 아이템 종료 -->
+
+                    <!-- 리뷰 아이템 시작 -->
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-1" style="text-align: center;">
+                          <img src="/assets/img/card.jpg" class="img-fluid rounded-circle"
+                            style="width: 100px; height: 100px; object-fit: cover;" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <p class="card-text">★☆☆☆☆</p>
+                            <a href="#">수정</a>
+                            <a href="#">삭제</a>
+                            <h5 class="card-title">홍길동</h5>
+                            <p class="card-text">여기 진짜 리얼로다가 맛없습니다. 1점 주기도 아깝네요</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 리뷰 아이템 종료 -->
+
                   </div>
-                </div>
-              </div><!-- End Sales Card -->
 
-              <!-- Sales Card -->
-              <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card">
+                </div><!-- End Bordered Tabs -->
 
-                  <div class="card-body card-button">
-                    <h5 class="card-title">아시안 <span>| Asian Food</span></h5>
-                    <a href="#">바로가기</a>
-                  </div>
-                </div>
-              </div><!-- End Sales Card -->
-
-              <!-- Sales Card -->
-              <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card">
-
-                  <div class="card-body card-button">
-                    <h5 class="card-title">양식 <span>| Western food</span></h5>
-                    <a href="#">바로가기</a>
-                  </div>
-                </div>
-              </div><!-- End Sales Card -->
-
-              <!-- Sales Card -->
-              <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card">
-
-                  <div class="card-body card-button">
-                    <h5 class="card-title">일식 <span>| Japanese food</span></h5>
-                    <a href="#">바로가기</a>
-                  </div>
-                </div>
-              </div><!-- End Sales Card -->
-
-              <!-- Sales Card -->
-              <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card">
-
-                  <div class="card-body card-button">
-                    <h5 class="card-title">중국집 <span>| Chinese food</span></h5>
-                    <a href="#">바로가기</a>
-                  </div>
-                </div>
-              </div><!-- End Sales Card -->
-
-
-
+              </div>
             </div>
           </div>
-        </section>
 
-        <div>
         </div>
+      </section>
 
     </main><!-- End #main -->
 
     <%- include('includes/footer') %>
 
       <!-- Vendor JS Files -->
-      <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-      <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="assets/vendor/chart.js/chart.umd.js"></script>
-      <script src="assets/vendor/echarts/echarts.min.js"></script>
-      <script src="assets/vendor/quill/quill.min.js"></script>
-      <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-      <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-      <script src="assets/vendor/php-email-form/validate.js"></script>
+      <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+      <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/assets/vendor/chart.js/chart.umd.js"></script>
+      <script src="/assets/vendor/echarts/echarts.min.js"></script>
+      <script src="/assets/vendor/quill/quill.min.js"></script>
+      <script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+      <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+      <script src="/assets/vendor/php-email-form/validate.js"></script>
 
       <!-- Template Main JS File -->
-      <script src="assets/js/main.js"></script>
-      <script type="module" src="assets/js/index.js"></script>
+      <script src="/assets/js/main.js"></script>
+      <script type="module" src="/assets/js/index.js"></script>
       </body>
 
       </html>
