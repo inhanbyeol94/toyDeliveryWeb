@@ -4,7 +4,7 @@ class SearchController {
     searchService = new SearchService();
 
     keyword = async (req, res) => {
-        const { search } = req.body;
+        const { search } = req.params;
 
         try {
             const searchKeywords = await this.searchService.keyword(search);
@@ -16,7 +16,7 @@ class SearchController {
     };
 
     menu = async (req, res) => {
-        const { search } = req.body;
+        const { search } = req.params;
 
         try {
             const searchMenu = await this.searchService.menu(search);
@@ -28,7 +28,7 @@ class SearchController {
     };
 
     category = async (req, res) => {
-        const { search } = req.body;
+        const { search } = req.params;
 
         try {
             const searchCategory = await this.searchService.category(search);
