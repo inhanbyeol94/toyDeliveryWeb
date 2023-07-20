@@ -27,4 +27,9 @@ module.exports = {
         subtitle: ' | 메뉴관리',
         css: 'menuAdmin',
     },
+    storeList: {
+        title,
+        subtitle: ' | 매장목록',
+        css: 'storeList',
+    },
 };

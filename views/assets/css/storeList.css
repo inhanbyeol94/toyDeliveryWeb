@@ -1,0 +1,16 @@
+.card-back {
+    background-color: white;
+    padding: 2em;
+}
+.storeCard .card-title {
+    font-weight: 600;
+}
+.storeCard {
+    width: 20%;
+}
+.card-rate {
+    font-weight: 600;
+}
+.keyword-list span {
+    margin-left: 3px;
+}
