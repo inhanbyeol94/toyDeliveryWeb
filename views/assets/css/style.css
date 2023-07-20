@@ -14,7 +14,6 @@
 :root {
     scroll-behavior: smooth;
 }
-
 body {
     font-family: 'Nanum Gothic', sans-serif;
     background: #f6f9ff;
@@ -670,7 +669,7 @@ h6 {
 
 .sidebar-nav .nav-item {
     margin-bottom: 5px;
-    width: 2em;
+    width: 100%;
 }
 
 .sidebar-nav .nav-heading {
