@@ -27,4 +27,8 @@ module.exports = {
         subtitle: ' | 메뉴관리',
         css: 'menuAdmin',
     },
+    search: {
+        title,
+        subtitle: ' | 검색',
+    },
 };
