@@ -16,9 +16,6 @@ const authMiddlewares = {
     allAuthMiddleware: async (req, res, next) => {
         try {
             if (!req.session.user) throw new customError('로그인이 필요합니다.', 401);
-
-            // const findUser = await Member.findOne({ where: { email: req.session.user.email } });
-
             next();
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
@@ -30,15 +27,9 @@ const authMiddlewares = {
     userAuthMiddleware: async (req, res, next) => {
         try {
             if (!req.session.user) throw new customError('로그인이 필요합니다.', 401);
-            const findUser = await Member.findOne({ where: { email: req.session.user.email } });
+            const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
 
-            if (!findUser) {
-                await req.session.destroy(() => {
-                    throw new customError('로그인 정보가 변조되어 로그아웃 되었습니다.', 403);
-                });
-            }
-
-            if (req.session.user.group !== 0) throw new customError('고객 그룹만 접근이 가능합니다.', 401);
+            if (findUser.group !== 0) throw new customError('고객 그룹만 접근이 가능합니다.', 401);
 
             next();
         } catch (error) {
@@ -51,16 +42,9 @@ const authMiddlewares = {
     adminAuthMiddleware: async (req, res, next) => {
         try {
             if (!req.session.user) throw new customError('로그인이 필요합니다.', 401);
-            const findUser = await Member.findOne({ where: { email: req.session.user.email } });
+            const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
 
-            if (!findUser) {
-                await req.session.destroy(() => {
-                    throw new customError('로그인 정보가 변조되어 로그아웃 되었습니다.', 403);
-                });
-            }
-
-            if (req.session.user.group !== 0) throw new customError('사장 그룹만 접근이 가능합니다.', 401);
-
+            if (findUser.group !== 1) throw new customError('사장 그룹만 접근이 가능합니다.', 401);
             next();
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
