@@ -9,7 +9,7 @@ class PointsController {
         const { member_id } = req.session.user;
 
         try {
-            const { status, message } = await this.pointService.createPoint(member_id, url_member_id, point, point_status_code, reason);
+            const { status, message } = await this.pointService.postPoint(member_id, url_member_id, point, point_status_code, reason);
 
             res.status(status).json({ message });
         } catch (error) {

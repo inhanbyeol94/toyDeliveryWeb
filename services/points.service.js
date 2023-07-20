@@ -1,3 +1,4 @@
+const dayjs = require('dayjs');
 const PointRepository = require('../repositories/points.repository');
 const MemberRepository = require('../repositories/members.repository');
 class PointService {
@@ -29,7 +30,7 @@ class PointService {
     // };
 
     postPoint = async (member_id_session, member_id, point, point_status_code, reason) => {
-        const findMember = await this.memberRepository.findOne(member_id);
+        const findMember = await this.memberRepository.findOne({ member_id });
         const error = new Error();
         if (!findMember) {
             error.message = '회원 정보가 존재하지 않습니다.';
@@ -39,9 +40,32 @@ class PointService {
             error.message = '포인트를 변경할 권한이 없습니다.';
             error.status = 403;
             throw error;
+        } else if (point_status_code < 0 || point_status_code > 1) {
+            error.message = '포인트 상태 코드를 사용할 수 없습니다.';
+            error.status = 412;
+            throw error;
+        }
+        const findAllPoint = await this.pointRepository.findAllPoint(member_id);
+        let firstPoint = 0;
+        for (let i in findAllPoint) {
+            if (i == 0) {
+                firstPoint = findAllPoint[0].point;
+            } else if (findAllPoint[i].point_status_code == 0) {
+                firstPoint = firstPoint - findAllPoint[i].point;
+            } else if (findAllPoint[i].point_status_code == 1) {
+                firstPoint = firstPoint + findAllPoint[i].point;
+            }
+        }
+        if (point_status_code == 0) {
+            if (point > firstPoint) {
+                error.message = '소지하고 있는 포인트보다 높은 값은 사용 할 수 없습니다.';
+                error.status = 400;
+                throw error;
+            }
         }
 
-        await this.pointRepository.createPoint(member_id, point, point_status_code, reason);
+        const expiryDate = dayjs().add(1, 'year').endOf('day').$d;
+        await this.pointRepository.createPoint(member_id, point, point_status_code, reason, expiryDate);
 
         return { status: 201, message: '포인트를 변경하였습니다.' };
     };
@@ -50,24 +74,29 @@ class PointService {
         const findAllPoint = await this.pointRepository.findAllPoint(member_id);
         let firstPoint = 0;
         const error = new Error();
-        if (member_id_session != findAllPoint.member_id) {
+
+        if (member_id_session != findAllPoint[0].member_id) {
             error.message = '포인트 조회 권한이 없습니다.';
             error.status = 403;
             throw error;
         }
 
-        for (let point of findAllPoint) {
-            if (point[0]) {
-                firstPoint = point[0].point;
-            } else if (point.point_status_code == 0) {
-                firstPoint = firstPoint - point.point;
-            } else if (point.point_status_code == 1) {
-                firstPoint = firstPoint + point.point;
+        for (let i in findAllPoint) {
+            if (i == 0) {
+                firstPoint = findAllPoint[0].point;
+            } else if (findAllPoint[i].point_status_code == 0) {
+                firstPoint = firstPoint - findAllPoint[i].point;
+            } else if (findAllPoint[i].point_status_code == 1) {
+                firstPoint = firstPoint + findAllPoint[i].point;
             }
         }
+
+        const resultPoint = await this.memberRepository.findOne({ member_id });
+
         const result = {
-            member_id: findAllPoint.member.member_id,
-            nickname: findAllPoint.member.nickname,
+            member_id: resultPoint.member_id,
+            name: resultPoint.MemberInfos.name,
+            nickname: resultPoint.nickname,
             point: firstPoint,
         };
         return { status: 200, result: result };
