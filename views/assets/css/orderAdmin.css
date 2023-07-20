@@ -42,7 +42,7 @@
     margin-bottom: 3px;
     color: #444444;
 }
-.modal-close {
+.modal-header .modal-close {
     width: 8em;
     height: 8em;
 }

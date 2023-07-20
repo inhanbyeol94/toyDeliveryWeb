@@ -1,5 +1,7 @@
 <%- include('includes/header') %>
   <%- include('includes/sidebar') %>
+<!-- 주문확인모달 
+    주문 취소 api 연동-->
   <div class="modal fade" id="ExtralargeModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
@@ -29,12 +31,14 @@
             </ul><!-- End Clean list group -->
           </div>
         <div class="modal-footer d-flex justify-content-around">
-          <button type="button" class="btn modalBtn" style="background-color:#d62828 ;" data-bs-dismiss="modal">주문취소</button>
+          <button type="button" class="btn modalBtn" style="background-color:#d62828 ;">주문취소</button>
           <button type="button" class="btn modalBtn"style="background-color:#2a9d8f;"data-bs-toggle="modal" data-bs-target="#largeModal">주문접수</button>
         </div>
       </div>
     </div>
   </div>
+  <!-- 조리시작모달 
+    주문상태 변경 api연동-->
   <div class="modal fade" id="largeModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -54,15 +58,121 @@
         </div>
         <div class="modal-footer d-flex justify-content-around">
           <button type="button" class="btn modalBtn" style="background-color:#d62828 ;" data-bs-dismiss="modal">주문취소</button>
-          <button type="button" class="btn modalBtn"style="background-color:#2a9d8f;"data-bs-toggle="modal" data-bs-target="#largeModal">조리시작</button>
+          <button type="button" class="btn modalBtn"style="background-color:#2a9d8f;"data-bs-toggle="modal">조리시작</button>
         </div>
       </div>
     </div>
   </div><!-- End Large Modal-->
+  <!-- 배달시작모달
+    주문상태 변경 api연동-->
+  <div class="modal fade" id="cookingModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+          <h5 class="modal-title">메뉴 00개 00,000원</h5>
+          <h5 class="modal-sub-title">00시 00동 00000아파트 000동 000호</h5>
+          </div>
+          <button type="button" class="btn-close modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+          <div class="card-body">
+            <!-- List group with active and disabled items -->
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item my-2"><div class="d-flex justify-content-between"><h4>메뉴이름</h4><h4>00,000원</h4></div>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+              </li>
+              <li class="list-group-item my-2"><div class="d-flex justify-content-between"><h4>메뉴이름</h4><h4>00,000원</h4></div>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+              </li>
+              <li class="list-group-item my-2"><div class="d-flex justify-content-between"><h4>메뉴이름</h4><h4>00,000원</h4></div>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+              </li>
+              <li class="list-group-item" ><div class="d-flex justify-content-between"><h4 style="font-weight:600;">총 결제금액</h4><h4>00,000원</h4></div></li>
+            </ul><!-- End Clean list group -->
+          </div>
+        <div class="modal-footer d-flex justify-content-around">
+          <button type="button" class="btn modalBtn"style="background-color:#2a9d8f;"data-bs-toggle="modal">배달시작</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 배달완료모달
+    주문상태 변경 api연동-->
+  <div class="modal fade" id="deliveryModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+          <h5 class="modal-title">메뉴 00개 00,000원</h5>
+          <h5 class="modal-sub-title">00시 00동 00000아파트 000동 000호</h5>
+          </div>
+          <button type="button" class="btn-close modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+          <div class="card-body">
+            <!-- List group with active and disabled items -->
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item my-2"><div class="d-flex justify-content-between"><h4>메뉴이름</h4><h4>00,000원</h4></div>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+              </li>
+              <li class="list-group-item my-2"><div class="d-flex justify-content-between"><h4>메뉴이름</h4><h4>00,000원</h4></div>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+              </li>
+              <li class="list-group-item my-2"><div class="d-flex justify-content-between"><h4>메뉴이름</h4><h4>00,000원</h4></div>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+              </li>
+              <li class="list-group-item" ><div class="d-flex justify-content-between"><h4 style="font-weight:600;">총 결제금액</h4><h4>00,000원</h4></div></li>
+            </ul><!-- End Clean list group -->
+          </div>
+        <div class="modal-footer d-flex justify-content-around">
+          <button type="button" class="btn modalBtn"style="background-color:#2a9d8f;"data-bs-toggle="modal">배달완료</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 완료된 주문 상세보기 모달 -->
+  <div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+          <h5 class="modal-title">메뉴 00개 00,000원</h5>
+          <h5 class="modal-sub-title">00시 00동 00000아파트 000동 000호</h5>
+          </div>
+          <button type="button" class="btn-close modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+          <div class="card-body">
+            <!-- List group with active and disabled items -->
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item my-2"><div class="d-flex justify-content-between"><h4>메뉴이름</h4><h4>00,000원</h4></div>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+              </li>
+              <li class="list-group-item my-2"><div class="d-flex justify-content-between"><h4>메뉴이름</h4><h4>00,000원</h4></div>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+              </li>
+              <li class="list-group-item my-2"><div class="d-flex justify-content-between"><h4>메뉴이름</h4><h4>00,000원</h4></div>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+                <p class="mb-1 ps-3">메뉴 상세 내용</p>
+              </li>
+              <li class="list-group-item" ><div class="d-flex justify-content-between"><h4 style="font-weight:600;">총 결제금액</h4><h4>00,000원</h4></div></li>
+            </ul><!-- End Clean list group -->
+          </div>
+        <div class="modal-footer d-flex justify-content-around">
+          <button type="button" class="btn modalBtn"style="background-color:#d62828;"data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
     <main id="main" class="main">
       <div class="card">
         <div class="card-body">
-
           <!-- Pills Tabs -->
           <ul class="nav nav-pills my-4" id="pills-tab" role="tablist">
             <li class="nav-item orderNav" role="presentation">
@@ -79,7 +189,10 @@
             </li>
           </ul>
             <div class="tab-content  p-2 container-lg" id="myTabContent">
+            <!--tab-pane는 각 탭(대기,조리시작...)에 해당하는 주문목록을 가지고 있습니다 -->
               <div class="tab-pane fade show active" id="pills-pending" role="tabpanel" aria-labelledby="home-tab">
+            <!-- card body안 텍스트대신 변수를 할당하고 접수하기 버튼에 api연동해주세요 맨위의 card만 모달이 할당되어있습니다
+            맨위의 card를 복사해서 써주세요 나머지는 지워도 됨-->
                 <div class="card orderCard my-5 d-flex justify-content-between flex-row">
                     <div class="w-auto">
                       <div class="card-body p-3 ps-4">
@@ -135,9 +248,9 @@
                   </div>
                 </div>
                 <div class="w-auto">
-                  <button class="orderBtn">배달시작</button>
+                  <button class="orderBtn"data-bs-toggle="modal" data-bs-target="#cookingModal">배달시작</button>
                 </div>
-              </div>
+            </div>
               <div class="card orderCard my-5 d-flex justify-content-between flex-row">
                 <div class="w-auto">
                   <div class="card-body p-3 ps-4">
@@ -165,9 +278,9 @@
                   </div>
                 </div>
                 <div class="w-auto">
-                  <button class="orderBtn">배달완료</button>
+                  <button class="orderBtn"data-bs-toggle="modal" data-bs-target="#deliveryModal">배달완료</button>
                 </div>
-              </div>
+            </div>
               <div class="card orderCard my-5 d-flex justify-content-between flex-row">
                 <div class="w-auto">
                   <div class="card-body p-3 ps-4">
@@ -209,9 +322,9 @@
                   </div>
                 </div>
                 <div class="w-auto">
-                  <button class="orderBtn">상세보기</button>
+                  <button class="orderBtn"data-bs-toggle="modal" data-bs-target="#detailModal">상세보기</button>
                 </div>
-              </div>
+            </div>
               <div class="card orderCard my-5 d-flex justify-content-between flex-row">
                 <div class="w-auto">
                   <div class="card-body p-3 ps-4">

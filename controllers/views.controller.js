@@ -33,10 +33,9 @@ class ViewsController {
         const pageInfo = await this.viewService.authorization({ user, title, subtitle });
         return res.render('profile', pageInfo);
     };
-
-    restaurant = async (req, res) => {
-        const pageInfo = await this.viewService.restaurant();
-        return res.render('restaurant', pageInfo);
+    menuAdmin = async (req, res) => {
+        const pageInfo = await this.viewService.menuAdmin();
+        return res.render('menuAdmin', pageInfo);
     };
 }
 
