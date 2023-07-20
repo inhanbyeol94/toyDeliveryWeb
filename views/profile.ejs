@@ -21,8 +21,8 @@
             <div class="card">
               <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                <h2>Kevin Anderson</h2>
+                <img src="<%= image %>" alt="Profile" class="rounded-circle">
+                <h2><%= defaultName %></h2>
               </div>
             </div>
 
@@ -62,28 +62,35 @@
 
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                      <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                      <div class="col-lg-9 col-md-8"><%= defaultName %></div>
                     </div>
 
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Nick Name</div>
-                      <div class="col-lg-9 col-md-8">booob</div>
+                      <div class="col-lg-9 col-md-8"><%= nickname %></div>
                     </div>
 
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Address</div>
-                      <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                      <div class="col-lg-9 col-md-8"><%= defaultAddress %></div>
                     </div>
 
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Phone</div>
-                      <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                      <div class="col-lg-9 col-md-8"><%= defaultPhone %></div>
                     </div>
 
+                    <%if (group == 0) {%>
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Group</div>
-                      <div class="col-lg-9 col-md-8">guest</div>
+                      <div class="col-lg-9 col-md-8">고객</div>
                     </div>
+                    <% } else {%>
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Group</div>
+                        <div class="col-lg-9 col-md-8">사장</div>
+                      </div>
+                    <% } %>
 
                   </div>
 
@@ -94,7 +101,7 @@
                       <div class="row mb-3">
                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                         <div class="col-md-8 col-lg-9">
-                          <img src="assets/img/profile-img.jpg" alt="Profile">
+                          <img src="<%= image %>" alt="Profile">
                           <div class="pt-2">
                             <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i
                                 class="bi bi-upload"></i></a>
@@ -103,19 +110,26 @@
                           </div>
                         </div>
                       </div>
+                      
+                      <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">ID</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input class="form-control" type="text" id="memberId" value="<%= member_id %>" disabled>
+                        </div>
+                      </div>
 
                       <div class="row mb-3">
                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                         <div class="col-md-8 col-lg-9">
-                          <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                          <input name="fullName" type="text" class="form-control" id="fullName" value="<%= defaultName %>">
                         </div>
                       </div>
 
                       <div class="row mb-3">
                         <label for="company" class="col-md-4 col-lg-3 col-form-label">Nick Name</label>
                         <div class="col-md-8 col-lg-9">
-                          <input name="company" type="text" class="form-control" id="company"
-                            value="booob">
+                          <input name="company" type="text" class="form-control" id="nickname"
+                            value="<%= nickname %>">
                         </div>
                       </div>
 
@@ -123,19 +137,26 @@
                         <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                         <div class="col-md-8 col-lg-9">
                           <input name="address" type="text" class="form-control" id="Address"
-                            value="A108 Adam Street, New York, NY 535022">
+                            value="<%= defaultAddress %>">
                         </div>
                       </div>
 
                       <div class="row mb-3">
                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                         <div class="col-md-8 col-lg-9">
-                          <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
+                          <input name="phone" type="text" class="form-control" id="Phone" value="<%= defaultPhone %>">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="password" type="password" class="form-control" id="currentPassword">
                         </div>
                       </div>
 
                       <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-primary" id="SaveChanges">Save Changes</button>
                       </div>
                     </form><!-- End Profile Edit Form -->
 
@@ -210,7 +231,7 @@
                       </div>
 
                       <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Change Password</button>
+                        <button type="submit" class="btn btn-primary" id="changePwdBtn">Change Password</button>
                       </div>
                     </form><!-- End Change Password Form -->
 
@@ -241,7 +262,7 @@
 
       <!-- Template Main JS File -->
       <script src="assets/js/main.js"></script>
-      <script type="module" src="assets/js/index.js"></script>
+      <script type="module" src="assets/js/profile.js"></script>
       </body>
 
       </html>
