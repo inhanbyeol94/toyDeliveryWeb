@@ -56,7 +56,7 @@ class MembersController {
 
     getMember = async (req, res) => {
         try {
-            const { member_id } = req.session.user;
+            const member_id = req.session.user?.member_id || null;
             const { code, member } = await this.memberService.findMember(member_id);
 
             res.status(code).json({ member });
@@ -68,21 +68,10 @@ class MembersController {
 
     updateMember = async (req, res) => {
         try {
-            const url_member_id = req.params.member_id;
-            const { name, nickname, password, address, phone, image } = req.body;
+            const { name, nickname, address, phone, image } = req.body;
             const { member_id } = req.session.user;
             // await req.session.destroy();
-            const { code, result, payload } = await this.memberService.updateMember(
-                member_id,
-                url_member_id,
-                name,
-                nickname,
-                password,
-                address,
-                phone,
-                image
-            );
-            req.session.user = payload;
+            const { code, result } = await this.memberService.updateMember(member_id, name, nickname, address, phone, image);
             return res.status(code).json({ result });
         } catch (err) {
             if (err.status) return res.status(err.status).json({ message: err.message });
