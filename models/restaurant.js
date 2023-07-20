@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
                 targetKey: 'restaurant_id',
                 foreignKey: 'restaurant_id',
             });
+
+            this.hasMany(models.Cart, {
+                targetKey: 'restaurant_id',
+                foreignKey: 'restaurant_id',
+            });
         }
     }
     Restaurant.init(
@@ -61,6 +66,10 @@ module.exports = (sequelize, DataTypes) => {
             desc: {
                 allowNull: false,
                 type: DataTypes.TEXT,
+            },
+            category: {
+                allowNull: false,
+                type: DataTypes.INTEGER,
             },
             image: {
                 allowNull: true,

@@ -5,9 +5,9 @@ class RestaurantRepository {
         return await Restaurant.findAll();
     };
 
-    findRestaurantId = async (restaurant_id) => {
+    findRestaurantId = async (data) => {
         return await Restaurant.findOne({
-            where: { restaurant_id: restaurant_id },
+            where: data,
         });
     };
 

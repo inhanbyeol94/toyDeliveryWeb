@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'member_id',
             });
 
+            this.belongsTo(models.Restaurant, {
+                targetKey: 'restaurant_id',
+                foreignKey: 'restaurant_id',
+            });
+
             this.hasOne(models.Order, {
                 targetKey: 'cart_id',
                 foreignKey: 'cart_id',

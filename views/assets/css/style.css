@@ -1241,3 +1241,15 @@ h6 {
 .fs-12 {
     font-size: 12px;
 }
+
+.fal {
+    text-align: center;
+    vertical-align: middle;
+    width: 23px;
+}
+
+.far {
+    text-align: center;
+    vertical-align: middle;
+    width: 23px;
+}
