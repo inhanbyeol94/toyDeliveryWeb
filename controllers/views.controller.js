@@ -43,6 +43,14 @@ class ViewsController {
         pageInfo.css = css;
         return res.render('menuAdmin', pageInfo);
     };
+
+    restaurant = async (req, res) => {
+        const member_id = req.session.user?.member_id;
+        const restaurantId = req.params?.restaurantId;
+        const { title, subtitle } = pageConfig.restaurant;
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle, restaurantId });
+        return res.render('restaurant', pageInfo);
+    };
 }
 
 module.exports = ViewsController;

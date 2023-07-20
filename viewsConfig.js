@@ -27,4 +27,8 @@ module.exports = {
         subtitle: ' | 메뉴관리',
         css: 'menuAdmin',
     },
+    restaurant: {
+        title,
+        subtitle: ' | 식당',
+    },
 };
