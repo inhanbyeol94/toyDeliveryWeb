@@ -19,19 +19,6 @@ class KeywordRepository {
         return findAll;
     };
 
-    searchKeyword = async (keyword) => {
-        const search = await Keyword.findAll({
-            where: { keyword },
-            include: [
-                {
-                    model: Restaurant,
-                },
-            ],
-        });
-
-        return search;
-    };
-
     findOneKeyword = async (keyword) => {
         const findOne = await Keyword.findOne({ where: { keyword } });
 
