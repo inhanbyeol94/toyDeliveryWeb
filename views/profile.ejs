@@ -110,9 +110,11 @@
                           <img src="<%= image %>" alt="Profile">
                           <div class="pt-2">
                             <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i
-                                class="bi bi-upload"></i></a>
-                            <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i
-                                class="bi bi-trash"></i></a>
+                                class="bi bi-upload" id="imageBtn"></i></a>
+                            <input type="file" style="display:none" id="profileImage"
+                              accept="image/gif, image/png, image/jpg, image/jpeg">
+                            <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"
+                              id="imageDelBtn"><i class="bi bi-trash"></i></a>
                           </div>
                         </div>
                       </div>
