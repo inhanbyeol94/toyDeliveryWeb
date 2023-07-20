@@ -3,7 +3,6 @@ const { SECRET_KEY } = process.env;
 const crypto = require('crypto');
 const dayjs = require('dayjs');
 const sendMail = require('../mail');
-const customError = require('../errorClass');
 const MemberRepository = require('../repositories/members.repository');
 
 class MemberService {
@@ -84,25 +83,14 @@ class MemberService {
     updatePassword = async (member_id, password, changePwd, confirmPwd) => {
         let passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
 
-        const findUser = await this.memberRepository.findOne({ member_id });
-
         if (changePwd || confirmPwd) {
             if (changePwd == confirmPwd) {
                 const changePwdToCrypto = crypto.pbkdf2Sync(changePwd, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
                 passwordToCrypto = changePwdToCrypto;
             }
         }
-        await this.memberRepository.updateMember(
-            member_id,
-            findUser.nickname,
-            passwordToCrypto,
-            findUser.name,
-            findUser.phone,
-            findUser.address,
-            findUser.image
-        );
+        await this.memberRepository.updatePassword(member_id, passwordToCrypto);
 
-        console.log('+++++');
         return { code: 200, result: '비밀번호를 수정하였습니다.' };
     };
 
