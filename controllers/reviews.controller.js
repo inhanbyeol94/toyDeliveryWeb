@@ -25,11 +25,11 @@ class ReviewsController {
     // 리뷰 수정
     updateReview = async (req, res) => {
         try {
-            const { id } = req.params;
+            const { review_id } = req.params;
             const { review, image, star } = req.body;
 
-            // 해당 ID를 가진 리뷰 찾기
-            const existingReview = await Review.findByPk(id);
+            // 해당 review_id를 가진 리뷰 찾기
+            const existingReview = await Review.findByPk(review_id);
 
             if (!existingReview) {
                 return res.status(404).json({ error: '리뷰를 찾을 수 없습니다.' });
