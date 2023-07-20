@@ -14,10 +14,14 @@ class PointRepository {
         return findAllPointData;
     };
 
-    createPoint = async (member_id, point, point_status_code, reason) => {
-        const createPointData = await Point.create({ member_id, point, point_status_code, reason });
-
-        return createPointData;
+    createPoint = async (member_id, point, point_status_code, reason, expiryDate) => {
+        await Point.create({
+            member_id,
+            point_status_code,
+            point,
+            reason,
+            expiry_at: new Date(expiryDate),
+        });
     };
 }
 
