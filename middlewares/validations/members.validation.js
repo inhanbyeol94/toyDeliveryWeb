@@ -135,13 +135,11 @@ const Membervalidations = {
                 .required()
                 .messages(member.password),
             changePwd: Joi.string()
-                .empty()
                 .min(8)
                 .max(20)
                 .regex(/^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])/)
-                .required()
                 .messages(member.password),
-            confirmPwd: Joi.string().valid(Joi.ref('changePwd')).required().messages(member.confirmPassword),
+            confirmPwd: Joi.string().valid(Joi.ref('changePwd')).messages(member.confirmPassword),
         });
 
         try {

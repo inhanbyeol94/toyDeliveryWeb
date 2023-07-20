@@ -11,6 +11,14 @@ class RestaurantRepository {
         });
     };
 
+    searchCategory = async (category) => {
+        return await Restaurant.findAll({ where: { category } });
+    };
+
+    searchCategory = async (category) => {
+        return await Restaurant.findAll({ where: { category } });
+    };
+
     createRestaurant = async (member_id, name, address, category, tel, desc, image) => {
         return await Restaurant.create({ member_id, name, address, category, tel, desc, image });
     };

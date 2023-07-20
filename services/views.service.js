@@ -3,12 +3,11 @@ const RestaurantRepository = require('../repositories/restaurants.repository');
 class ViewService {
     restaurantRepository = new RestaurantRepository();
 
-    index = async ({ user }) => {
-        const pageInfo = { title: 'Toy Delivery Web', subtitle: '기본' };
-
+    authorization = async ({ user, title, subtitle }) => {
         switch (user?.group) {
             case 0:
                 return {
+                    //로그인 (고객)
                     member_id: user.member_id,
                     email: user.email,
                     nickname: user.nickname,
@@ -17,10 +16,12 @@ class ViewService {
                     defaultName: user.defaultName,
                     defaultPhone: user.defaultPhone,
                     defaultAddress: user.defaultAddress,
-                    ...pageInfo,
+                    title,
+                    subtitle,
                 };
 
             case 1: {
+                //로그인 (사장)
                 const findRestaurant = await this.restaurantRepository.findRestaurantId({ member_id: user.member_id });
 
                 return {
@@ -33,29 +34,33 @@ class ViewService {
                     defaultName: user.defaultName,
                     defaultPhone: user.defaultPhone,
                     defaultAddress: user.defaultAddress,
-                    ...pageInfo,
+                    title,
+                    subtitle,
                 };
             }
             case undefined:
+                //비 로그인
                 return {
                     member_id: null,
                     group: null,
-                    ...pageInfo,
+                    title,
+                    subtitle,
                 };
         }
     };
 
-    login = async () => {
-        return {
-            title: 'Toy Delivery Web',
-            subtitle: '로그인',
-        };
+    login = async ({ title, subtitle }) => {
+        return { title, subtitle };
     };
 
-    signup = async () => {
+    signup = async ({ title, subtitle }) => {
+        return { title, subtitle };
+    };
+    orderAdmin = async () => {
         return {
             title: 'Toy Delivery Web',
-            subtitle: '회원가입',
+            subtitle: '매장 주문관리',
+            css: 'orderAdmin',
         };
     };
 
@@ -81,13 +86,6 @@ class ViewService {
                 subtitle: '사용자 프로필',
             };
         }
-    };
-
-    restaurant = async () => {
-        return {
-            title: 'Toy Delivery Web',
-            subtitle: '레스토랑 정보',
-        };
     };
 }
 
