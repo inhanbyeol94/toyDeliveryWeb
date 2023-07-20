@@ -1,35 +1,42 @@
-const { Order, Cart, User, Menu, CartItem } = require('../models');
+const { Order, Cart, MemberInfo, Menu, CartItem } = require('../models');
 
 class OrderRepository {
-    findById = async (order_id) => {
-        const order = await Order.findByPk(order_id);
+    findById = async ({ order_id }) => {
+        const order = await Order.findByPk(order_id, { raw: true });
         return order;
     };
-    orderCheck = async (restaurant_id) => {
+    orderCheck = async ({ restaurant_id }) => {
+        console.log(restaurant_id);
         const order = await Order.findAll({
-            attributes: ['order_id', 'status', 'createdAt'],
-            order: [['createdAt']],
+            attributes: ['order_id', 'status', 'created_at'],
+            order: ['created_at'],
             where: { restaurant_id },
+            raw: true,
             include: [
                 {
-                    model: Cart,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['nickname'],
-                        },
-                    ],
+                    model: MemberInfo,
+                    attributes: ['name', 'phone', 'address'],
                 },
             ],
         });
         return order;
     };
-    orderUpdate = async (order) => {
-        const updatedOrder = await order.save();
-        return updatedOrder;
+    orderUpdate = async ({ order_id, status, addTime, arrival_at }) => {
+        const order = await Order.update(
+            {
+                status,
+                addTime,
+                arrival_at,
+            },
+            {
+                where: { order_id },
+            }
+        );
+        return order;
     };
-    pricePoint = async (cart_id) => {
+    pricePoint = async ({ cart_id }) => {
         const cart = await Cart.findByPk(cart_id, {
+            raw: true,
             attributes: ['restaurant_id'],
             include: {
                 model: CartItem,
