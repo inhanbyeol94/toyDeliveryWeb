@@ -5,7 +5,7 @@ class RestaurantsController {
 
     getRestaurantList = async (req, res, next) => {
         const restaurants = await this.restaurantService.findAllRestaurant();
-        res.status(200).json({ data: restaurants });
+        res.status(200).json({ restaurants });
     };
 
     getRestaurant = async (req, res, next) => {
@@ -14,7 +14,7 @@ class RestaurantsController {
             const restaurant = await this.restaurantService.findRestaurant(restaurant_id);
             if (!restaurant) throw new Error('존재하지 않는 매장입니다.');
 
-            res.status(200).json({ data: restaurant });
+            res.status(200).json({ restaurant });
         } catch (error) {
             res.status(400).json({ errorMessage: Error });
         }
@@ -37,9 +37,9 @@ class RestaurantsController {
     updateRestaurant = async (req, res, next) => {
         const { restaurant_id } = req.params;
         const { name, address, category, tel, desc, image } = req.body;
-        const { member_id } = req.session.user;
+        const { member_id, group } = req.session.user;
         try {
-            if (member_id !== 1) throw new Error('해당 권한이 없습니다.');
+            if (group !== 1) throw new Error('해당 권한이 없습니다.');
             const updateRestaurant = await this.restaurantService.updateRestaurant(
                 member_id,
                 restaurant_id,
@@ -58,9 +58,9 @@ class RestaurantsController {
 
     deleteRestaurant = async (req, res, next) => {
         const { restaurant_id } = req.params;
-        const { member_id } = req.session.user;
+        const { member_id, group } = req.session.user;
         try {
-            if (member_id !== 1) throw new Error('해당 권한이 없습니다.');
+            if (group !== 1) throw new Error('해당 권한이 없습니다.');
             const deleteRestaurant = await this.restaurantService.deleteRestaurant(restaurant_id, member_id);
             res.status(200).json({ data: deleteRestaurant });
         } catch (error) {

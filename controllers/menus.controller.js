@@ -6,13 +6,13 @@ class MenusController {
     getMenuList = async (req, res, next) => {
         const { restaurant_id } = req.params;
         const menus = await this.menuService.findAllMenu(restaurant_id);
-        res.status(200).json({ data: menus });
+        res.status(200).json({ menus });
     };
 
     getMenu = async (req, res, next) => {
         const { restaurant_id, menu_id } = req.params;
         const menu = await this.menuService.findMenu(restaurant_id, menu_id);
-        res.status(200).json({ data: menu });
+        res.status(200).json({ menu });
     };
 
     createMenu = async (req, res, next) => {

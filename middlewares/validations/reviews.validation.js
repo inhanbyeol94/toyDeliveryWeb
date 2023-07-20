@@ -11,7 +11,7 @@ const Reviewvalidations = {
         });
 
         try {
-            await schema.validateAsync({ star, review, image });
+            await schema.validateAsync({ star, review });
         } catch (err) {
             return res.status(412).json({ result: err.message });
         }

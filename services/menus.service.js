@@ -11,8 +11,7 @@ class MenuService {
         allMenu.sort((a, b) => {
             return b.createAt - a.createAt;
         });
-
-        return allMenu.map((menu) => {
+        const menus = allMenu.map((menu) => {
             return {
                 menu_id: menu.menu_id,
                 name: menu.name,
@@ -22,18 +21,21 @@ class MenuService {
                 updatedAt: menu.updatedAt,
             };
         });
+
+        return menus;
     };
 
     findMenu = async (restaurant_id, menu_id) => {
-        const menu = await this.menuRepository.findMenuId(restaurant_id, menu_id);
-        return {
-            menu_id: menu.menu_id,
-            name: menu.name,
-            price: menu.price,
-            image: menu.image,
-            createdAt: menu.createdAt,
-            updatedAt: menu.updatedAt,
+        const findmenu = await this.menuRepository.findMenuId(restaurant_id, menu_id);
+        const menu = {
+            menu_id: findmenu.menu_id,
+            name: findmenu.name,
+            price: findmenu.price,
+            image: findmenu.image,
+            createdAt: findmenu.createdAt,
+            updatedAt: findmenu.updatedAt,
         };
+        return menu;
     };
 
     createMenu = async (restaurant_id, name, price, image) => {

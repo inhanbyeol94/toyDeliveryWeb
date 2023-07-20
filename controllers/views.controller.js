@@ -16,7 +16,10 @@ class ViewsController {
     };
 
     orderAdmin = async (req, res) => {
-        const pageInfo = await this.viewService.orderAdmin();
+        const { user } = req.session;
+        const { title, subtitle, css } = pageConfig.orderAdmin;
+        const pageInfo = await this.viewService.authorization({ user, title, subtitle });
+        pageInfo.css = css;
         return res.render('orderAdmin', pageInfo);
     };
 
@@ -34,7 +37,10 @@ class ViewsController {
         return res.render('profile', pageInfo);
     };
     menuAdmin = async (req, res) => {
-        const pageInfo = await this.viewService.menuAdmin();
+        const { user } = req.session;
+        const { title, subtitle, css } = pageConfig.menuAdmin;
+        const pageInfo = await this.viewService.authorization({ user, title, subtitle });
+        pageInfo.css = css;
         return res.render('menuAdmin', pageInfo);
     };
 }

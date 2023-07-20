@@ -1,15 +1,11 @@
-const { response } = require('express');
-
 const menuList = document.getElementById('menuList');
 
 const showmenuList = async () => {
     await fetch('/member_info', { method: 'GET' }).then((response) => {
-        const { data } = response;
-        const restaurant_id = data.restaurant_id;
-        fetch(`'/restaurant/:${restaurant_id}/menu'`, { method: 'GET' }).then((response) => {
-            const { data } = response;
+        fetch('/restaurant/:1/menu', { method: 'GET' }).then((data) => {
+            console.log(data);
             menuList.innerHTML = '';
-            data.forEach((menu) => {
+            menus.forEach((menu) => {
                 let menuImage = '';
                 if (menu.image) {
                     menuImage = `<img src="/${menu.image.replace(/\\/g, '/')}" alt="음식 이미지">`;
