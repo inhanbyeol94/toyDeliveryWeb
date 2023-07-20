@@ -6,7 +6,6 @@ const currentPassword = document.getElementById('currentPassword');
 const SaveChangesBtn = document.getElementById('SaveChanges');
 const newPassword = document.getElementById('newPassword');
 const renewPassword = document.getElementById('renewPassword');
-const memberId = document.getElementById('memberId');
 const changePwdBtn = document.getElementById('changePwdBtn');
 
 SaveChangesBtn.addEventListener('click', async () => {
@@ -40,7 +39,7 @@ changePwdBtn.addEventListener('click', async () => {
     if (!newPassword.value) return alert('변경할 비밀번호를 입력해주세요.');
     if (!renewPassword.value) return alert('변경 확인 비밀번호를 입력해주세요.');
 
-    const api = await fetch(`/member_info/${memberId.value}/password`, {
+    const api = await fetch(`/member_info/password`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(new changePassword()),

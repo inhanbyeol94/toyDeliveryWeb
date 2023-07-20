@@ -21,7 +21,7 @@ router.post('/admin/login', nonAuthMiddleware, loginValidation, membersControlle
 router.get('/logout', allAuthMiddleware, membersController.logout);
 router.get('/member_info', allAuthMiddleware, membersController.getMember);
 router.put('/member_info', allAuthMiddleware, updateValidation, membersController.updateMember);
-router.put('/member_info/:member_id/password', allAuthMiddleware, updatePwdValidation, membersController.updatePassword);
+router.put('/member_info/password', allAuthMiddleware, updatePwdValidation, membersController.updatePassword);
 router.delete('/member_info/:member_id', allAuthMiddleware, membersController.deleteMember);
 
 module.exports = router;
