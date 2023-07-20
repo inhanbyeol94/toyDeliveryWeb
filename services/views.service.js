@@ -56,6 +56,13 @@ class ViewService {
     signup = async ({ title, subtitle }) => {
         return { title, subtitle };
     };
+    orderAdmin = async () => {
+        return {
+            title: 'Toy Delivery Web',
+            subtitle: '매장 주문관리',
+            css: 'orderAdmin',
+        };
+    };
 }
 
 module.exports = ViewService;
