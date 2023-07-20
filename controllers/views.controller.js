@@ -2,11 +2,6 @@ const ViewService = require('../services/views.service');
 
 class ViewsController {
     viewService = new ViewService();
-    index = async (req, res) => {
-        const pageInfo = await this.viewService.index();
-        return res.render('index', pageInfo);
-    };
-
     login = async (req, res) => {
         const pageInfo = await this.viewService.login();
         return res.render('login', pageInfo);
@@ -17,8 +12,15 @@ class ViewsController {
         return res.render('signup', pageInfo);
     };
 
+    index = async (req, res) => {
+        const { user } = req.session;
+        const pageInfo = await this.viewService.index({ user });
+        return res.render('index', pageInfo);
+    };
+
     profile = async (req, res) => {
-        const pageInfo = await this.viewService.profile();
+        const { user } = req.session;
+        const pageInfo = await this.viewService.profile({ user });
         return res.render('profile', pageInfo);
     };
 
