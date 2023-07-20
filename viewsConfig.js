@@ -37,4 +37,9 @@ module.exports = {
         subtitle: ' | 주문내역',
         css: 'orderHistory',
     },
+    storeInfo: {
+        title,
+        subtitle: ' | 매장관리',
+        css: 'storeInfo',
+    },
 };
