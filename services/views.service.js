@@ -1,9 +1,15 @@
 const RestaurantRepository = require('../repositories/restaurants.repository');
+const MemberRepository = require('../repositories/members.repository');
 
 class ViewService {
     restaurantRepository = new RestaurantRepository();
+    memberRepository = new MemberRepository();
 
-    authorization = async ({ user, title, subtitle }) => {
+    authorization = async ({ member_id, title, subtitle }) => {
+        const user = await this.memberRepository.findOne({ member_id: member_id || null });
+
+        console.log(user);
+
         switch (user?.group) {
             case 0:
                 return {
@@ -13,15 +19,16 @@ class ViewService {
                     nickname: user.nickname,
                     group: user.group,
                     image: user.image ?? 'https://img.freepik.com/free-icon/user_318-159711.jpg',
-                    defaultName: user.defaultName,
-                    defaultPhone: user.defaultPhone,
-                    defaultAddress: user.defaultAddress,
+                    defaultName: user.MemberInfos.name,
+                    defaultPhone: user.MemberInfos.phone,
+                    defaultAddress: user.MemberInfos.address,
                     title,
                     subtitle,
                 };
 
             case 1: {
                 //로그인 (사장)
+
                 const findRestaurant = await this.restaurantRepository.findRestaurantId({ member_id: user.member_id });
 
                 return {
@@ -31,9 +38,9 @@ class ViewService {
                     group: user.group,
                     restaurantId: findRestaurant?.restaurant_id,
                     image: user.image ?? 'https://img.freepik.com/free-icon/user_318-159711.jpg',
-                    defaultName: user.defaultName,
-                    defaultPhone: user.defaultPhone,
-                    defaultAddress: user.defaultAddress,
+                    defaultName: user.MemberInfos.name,
+                    defaultPhone: user.MemberInfos.phone,
+                    defaultAddress: user.MemberInfos.address,
                     title,
                     subtitle,
                 };
