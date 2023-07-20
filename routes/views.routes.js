@@ -13,5 +13,6 @@ router.get('/orderAdmin', adminAuthMiddleware, viewController.orderAdmin);
 router.get('/profile', allAuthMiddleware, viewController.profile);
 router.get('/menuAdmin', adminAuthMiddleware, viewController.menuAdmin);
 router.get('/storeList', allAuthMiddleware, viewController.storeList);
+router.get('/orderHistory', allAuthMiddleware, viewController.orderHistory);
 
 module.exports = router;

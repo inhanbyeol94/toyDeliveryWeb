@@ -32,4 +32,9 @@ module.exports = {
         subtitle: ' | 매장목록',
         css: 'storeList',
     },
+    orderHistory: {
+        title,
+        subtitle: ' | 주문내역',
+        css: 'orderHistory',
+    },
 };
