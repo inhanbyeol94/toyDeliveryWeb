@@ -35,21 +35,11 @@ class MemberRepository {
         });
     };
 
-    updateMember = async (member_id, nickname, passwordToCrypto, name, phone, address, image) => {
-        await Member.update(
-            { nickname, password: passwordToCrypto, image },
-            {
-                where: { member_id },
-            }
-        );
-        const updateMemberInfoData = await MemberInfo.update(
-            { name, address, phone },
-            {
-                where: { member_id },
-            }
-        );
-
-        return updateMemberInfoData;
+    updateMember = async (member_id, nickname, name, phone, address, image) => {
+        return await sequelize.transaction(async (transaction) => {
+            await Member.update({ nickname, image }, { where: { member_id } }, { transaction });
+            await MemberInfo.update({ name, address, phone }, { where: { member_id } }, { transaction });
+        });
     };
 
     deleteMember = async (member_id) => {
