@@ -3,6 +3,7 @@ const { SECRET_KEY } = process.env;
 const crypto = require('crypto');
 const dayjs = require('dayjs');
 const sendMail = require('../mail');
+const customError = require('../errorClass');
 const MemberRepository = require('../repositories/members.repository');
 
 class MemberService {
@@ -66,13 +67,6 @@ class MemberService {
 
         const payload = {
             member_id: findUser.member_id,
-            email: findUser.email,
-            nickname: findUser.nickname,
-            image: findUser.image,
-            defaultName: findUser.MemberInfos.name,
-            defaultPhone: findUser.MemberInfos.phone,
-            defaultAddress: findUser.MemberInfos.address,
-            group: findUser.group,
         };
 
         return { code: 200, result: '로그인 성공', payload };
@@ -82,45 +76,40 @@ class MemberService {
         return { code: 200, result: '로그아웃 성공' };
     };
 
-    updateMember = async (member_id_session, member_id, name, nickname, password, changePwd, confirmPwd, address, phone, image) => {
+    updateMember = async (member_id, name, nickname, address, phone, image) => {
+        await this.memberRepository.updateMember(member_id, nickname, name, phone, address, image);
+        return { code: 200, result: '회원 정보를 수정하였습니다.' };
+    };
+
+    updatePassword = async (member_id, password, changePwd, confirmPwd) => {
         let passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
 
         const findUser = await this.memberRepository.findOne({ member_id });
-        const error = new Error();
 
-        //이부분은 validation joi쪽에서 하겠지만 아직 잘 몰라서
-        if (member_id_session != findUser.member_id) {
-            error.message = '회원정보 수정권한이 존재하지 않습니다.';
-            error.status = 403;
-            throw error;
-        } else if (changePwd || confirmPwd) {
+        if (changePwd || confirmPwd) {
             if (changePwd == confirmPwd) {
                 const changePwdToCrypto = crypto.pbkdf2Sync(changePwd, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
                 passwordToCrypto = changePwdToCrypto;
             }
         }
+        await this.memberRepository.updateMember(
+            member_id,
+            findUser.nickname,
+            passwordToCrypto,
+            findUser.name,
+            findUser.phone,
+            findUser.address,
+            findUser.image
+        );
 
-        await this.memberRepository.updateMember(member_id, nickname, passwordToCrypto, name, phone, address, image);
-        const payload = {
-            member_id: findUser.member_id,
-            email: findUser.email,
-            nickname: findUser.nickname,
-            defaultName: findUser.MemberInfos.name,
-            defaultPhone: findUser.MemberInfos.phone,
-            defaultAddress: findUser.MemberInfos.address,
-            group: findUser.group,
-        };
-        return { code: 200, result: '회원 정보를 수정하였습니다.', payload };
+        console.log('+++++');
+        return { code: 200, result: '비밀번호를 수정하였습니다.' };
     };
 
-    findMember = async (member_id) => {
+    findMember = async ({ member_id }) => {
+        console.log(member_id);
         const findMember = await this.memberRepository.findOne({ member_id });
-        const error = new Error();
-        if (!findMember) {
-            error.message = '로그인 후 이용가능 합니다.';
-            error.status = 403;
-            throw error;
-        }
+
         const member = {
             member_id: findMember.member_id,
             email: findMember.email,

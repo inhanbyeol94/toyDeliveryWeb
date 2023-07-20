@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const { adminAuthMiddleware } = require('../middlewares/api.auth.middleware');
 const MenuController = require('../controllers/menus.controller');
 const menuController = new MenuController();
 
