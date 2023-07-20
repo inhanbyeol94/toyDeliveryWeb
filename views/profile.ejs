@@ -7,8 +7,7 @@
         <h1>Profile</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item">Users</li>
+            <li class="breadcrumb-item">Member</li>
             <li class="breadcrumb-item active">Profile</li>
           </ol>
         </nav>
@@ -20,8 +19,9 @@
 
             <div class="card">
               <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                <img src="<%= image %>" alt="Profile" class="rounded-circle">
+                <div class="imageBox">
+                  <img src="<%= image %>" alt="Profile" class="profileImage">
+                </div>
                 <h2>
                   <%= defaultName %>
                 </h2>
