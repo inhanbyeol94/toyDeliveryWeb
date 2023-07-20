@@ -16,13 +16,8 @@ const authMiddlewares = {
     allAuthMiddleware: async (req, res, next) => {
         try {
             if (!req.session.user) throw new customError('로그인이 필요합니다.', 401);
-            const findUser = await Member.findOne({ where: { email: req.session.user.email } });
 
-            if (!findUser) {
-                await req.session.destroy(() => {
-                    throw new customError('로그인 정보가 변조되어 로그아웃 되었습니다.', 403);
-                });
-            }
+            // const findUser = await Member.findOne({ where: { email: req.session.user.email } });
 
             next();
         } catch (error) {
