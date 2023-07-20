@@ -10,9 +10,7 @@ const memberId = document.getElementById('memberId');
 const changePwdBtn = document.getElementById('changePwdBtn');
 
 SaveChangesBtn.addEventListener('click', async () => {
-    if (!currentPassword.value) return alert('현재 비밀번호를 입력해주세요.');
-
-    const api = await fetch(`/member_info/${memberId.value}`, {
+    const api = await fetch(`/member_info`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(new updateUser()),
@@ -21,6 +19,7 @@ SaveChangesBtn.addEventListener('click', async () => {
     const { result } = await api.json();
 
     if (status == 200) {
+        alert(result);
         window.location.href = '/profile';
     } else {
         alert(result);
@@ -33,7 +32,6 @@ class updateUser {
         this.address = Address.value;
         this.nickname = nickname.value;
         this.phone = Phone.value;
-        this.password = currentPassword.value;
     }
 }
 
@@ -51,6 +49,7 @@ changePwdBtn.addEventListener('click', async () => {
     const { result } = await api.json();
 
     if (status == 200) {
+        alert(result);
         window.location.href = '/profile';
     } else {
         alert(result);
