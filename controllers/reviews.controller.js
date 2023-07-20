@@ -5,7 +5,7 @@ class ReviewsController {
 
     getReviewList = async (req, res, next) => {
         const reviews = await this.reviewService.findAllReview();
-        res.status(200).json({ data: review });
+        res.status(200).json({ data: reviews });
     };
 
     getReview = async (req, res, next) => {

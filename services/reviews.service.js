@@ -62,7 +62,7 @@ class ReviewService {
         if (!findReview) throw new Error("Review doesn't exist");
         if (findReview.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
 
-        await this.reviewRepository.updateReview(member_id, review_id, menu_id, menu_name, review, star, image);
+        await this.reviewRepository.updateReview(member_id, review_id, review, star, image);
         const updateReview = await this.reviewRepository.findReviewId(review_id);
 
         return {
@@ -76,7 +76,7 @@ class ReviewService {
         };
     };
 
-    deleteReview = async (review_id) => {
+    deleteReview = async (review_id, member_id) => {
         const findReview = await this.reviewRepository.findReviewId(review_id);
 
         if (!findReview) throw new Error("Review doesn't exist");
