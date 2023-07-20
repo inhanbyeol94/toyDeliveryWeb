@@ -20,7 +20,7 @@ router.post('/user/login', nonAuthMiddleware, loginValidation, membersController
 router.post('/admin/login', nonAuthMiddleware, loginValidation, membersController.login);
 router.get('/logout', allAuthMiddleware, membersController.logout);
 router.get('/member_info', allAuthMiddleware, membersController.getMember);
-router.put('/member_info/:member_id', allAuthMiddleware, updateValidation, membersController.updateMember);
+router.put('/member_info', allAuthMiddleware, updateValidation, membersController.updateMember);
 router.put('/member_info/:member_id/password', allAuthMiddleware, updatePwdValidation, membersController.updatePassword);
 router.delete('/member_info/:member_id', allAuthMiddleware, membersController.deleteMember);
 
