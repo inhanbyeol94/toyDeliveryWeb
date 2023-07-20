@@ -27,6 +27,7 @@ class ViewService {
         return {
             title: 'Toy Delivery Web',
             subtitle: '매장 주문관리',
+            css: 'orderAdmin',
         };
     };
 }

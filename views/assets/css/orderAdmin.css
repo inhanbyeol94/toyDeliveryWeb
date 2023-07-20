@@ -1,0 +1,71 @@
+/*--------------------------------------------------------------
+# order
+--------------------------------------------------------------*/
+.orderNav {
+    width: 18em;
+    height: 9em;
+    margin-left: 5px;
+}
+.orderNav button {
+    width: 100%;
+    height: 100%;
+    font-size: 2.4em;
+    font-weight: 600;
+}
+.orderNav > .nav-link.active {
+    background-color: #4895ef;
+}
+.orderNav > .nav-link {
+    color: #4895ef;
+    border: 2px solid #4896ef5d;
+}
+.orderCard {
+    height: 16em;
+    border: #3e4f6f52 1px solid;
+    box-sizing: border-box;
+}
+.orderCard .orderBtn {
+    width: 10em;
+    height: 100%;
+    background-color: #5f9de3;
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: 2em;
+}
+.orderCard h4 {
+    font-size: 1.8em;
+    font-weight: 600;
+}
+.orderCard p {
+    padding-left: 1em;
+    margin-bottom: 3px;
+    color: #444444;
+}
+.modal-close {
+    width: 8em;
+    height: 8em;
+}
+.modal-title {
+    font-size: 2em;
+    font-weight: 600;
+    padding-left: 8px;
+}
+.modal-sub-title {
+    font-size: 1.3em;
+    color: #525252;
+    padding-left: 10px;
+}
+
+.modalBtn {
+    width: 45%;
+    height: 4em;
+    font-weight: 600;
+    font-size: 2em;
+    color: white;
+}
+#timeInput {
+    width: 50%;
+    height: 3em;
+    font-size: 2em;
+}

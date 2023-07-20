@@ -28,6 +28,11 @@
 
         <!-- Template Main CSS File -->
         <link href="assets/css/style.css" rel="stylesheet" />
+        <!-- views/header.ejs-->
+        <!--페이지마다 추가적인 css파일을 넣을 수 있음-->
+        <% if(typeof css !== 'undefined'){ %>
+        <link href="assets/css/<%= css %>.css" rel="stylesheet" />
+        <% }%>
     </head>
 
     <body>
