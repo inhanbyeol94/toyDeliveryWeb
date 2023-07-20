@@ -16,30 +16,30 @@ class ViewsController {
     };
 
     orderAdmin = async (req, res) => {
-        const { user } = req.session;
+        const member_id = req.session.user?.member_id;
         const { title, subtitle, css } = pageConfig.orderAdmin;
-        const pageInfo = await this.viewService.authorization({ user, title, subtitle });
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle });
         pageInfo.css = css;
         return res.render('orderAdmin', pageInfo);
     };
 
     index = async (req, res) => {
-        const { user } = req.session;
+        const member_id = req.session.user?.member_id;
         const { title, subtitle } = pageConfig.index;
-        const pageInfo = await this.viewService.authorization({ user, title, subtitle });
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle });
         return res.render('index', pageInfo);
     };
 
     profile = async (req, res) => {
-        const { user } = req.session;
+        const member_id = req.session.user?.member_id;
         const { title, subtitle } = pageConfig.profile;
-        const pageInfo = await this.viewService.authorization({ user, title, subtitle });
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle });
         return res.render('profile', pageInfo);
     };
     menuAdmin = async (req, res) => {
-        const { user } = req.session;
+        const member_id = req.session.user?.member_id;
         const { title, subtitle, css } = pageConfig.menuAdmin;
-        const pageInfo = await this.viewService.authorization({ user, title, subtitle });
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle });
         pageInfo.css = css;
         return res.render('menuAdmin', pageInfo);
     };
