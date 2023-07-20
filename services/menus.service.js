@@ -54,8 +54,6 @@ class MenuService {
     updateMenu = async (restaurant_id, member_id, menu_id, name, price, image) => {
         const findMenu = await this.menuRepository.findMenuId(restaurant_id, menu_id);
         const findMember = await this.restaurantRepository.findMemberId(restaurant_id);
-        console.log(findMember.member_id);
-
         if (!findMenu) throw new Error("Menu doesn't exist");
         if (findMember.member_id !== member_id) throw new Error('권한이 없습니다.');
 

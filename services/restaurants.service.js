@@ -41,7 +41,7 @@ class RestaurantService {
     findMyrestaurant = async (member_id) => {
         const myrestaurant = await this.restaurantRepository.findRestaurantId({ member_id: member_id });
         return {
-            restaurant_id: myrestaurant.restaruant_id,
+            restaurant_id: myrestaurant.restaurant_id,
             name: myrestaurant.name,
             address: myrestaurant.address,
             category: myrestaurant.category,

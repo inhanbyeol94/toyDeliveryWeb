@@ -1,7 +1,7 @@
 const menuList = document.getElementById('menuList');
 
 const showmenuList = async () => {
-    await fetch('/myrestaurant', { method: 'GET' }).then((data) => {
+    await fetchData('/myrestaurant', { method: 'GET' }).then((data) => {
         const { restaurant } = data;
         const restaurant_id = restaurant.restaurant_id;
         fetchData(`/restaurant/${restaurant_id}/menu`, { method: 'GET' }).then((data) => {

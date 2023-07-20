@@ -5,11 +5,13 @@ class RestaurantsController {
 
     getRestaurantList = async (req, res, next) => {
         const restaurants = await this.restaurantService.findAllRestaurant();
+
         res.status(200).json({ restaurants });
     };
 
     getRestaurant = async (req, res, next) => {
         const { restaurant_id } = req.params;
+        c;
         try {
             const restaurant = await this.restaurantService.findRestaurant(restaurant_id);
             if (!restaurant) throw new Error('존재하지 않는 매장입니다.');
@@ -33,11 +35,9 @@ class RestaurantsController {
 
     createRestaurant = async (req, res, next) => {
         const { name, address, tel, category, desc, image } = req.body;
-        const { member_id, group } = req.session.user;
+        const { member_id } = req.session.user;
 
         try {
-            if (group !== 1) throw new Error('해당 권한이 없습니다.');
-
             const createRestaurant = await this.restaurantService.createRestaurant(member_id, name, address, category, tel, desc, image);
             res.status(201).json({ data: createRestaurant });
         } catch (error) {
@@ -48,9 +48,8 @@ class RestaurantsController {
     updateRestaurant = async (req, res, next) => {
         const { restaurant_id } = req.params;
         const { name, address, category, tel, desc, image } = req.body;
-        const { member_id, group } = req.session.user;
+        const { member_id } = req.session.user;
         try {
-            if (group !== 1) throw new Error('해당 권한이 없습니다.');
             const updateRestaurant = await this.restaurantService.updateRestaurant(
                 member_id,
                 restaurant_id,
