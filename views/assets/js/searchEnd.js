@@ -26,7 +26,7 @@ function getRestaurant(restaurants, searchType, keyword) {
                 `<div class="card storeCard m-3">
                                     <img src="${r.image}" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                    <a  href="/restaurant/page/126?page=${r.restaurant_id}">
+                                    <a  href="/restaurant/page/${r.restaurant_id}">
                                     <h5 class="card-title">${r.restaurant_name}</h5>
                                     </a>
                                     <div class="d-flex">

@@ -34,7 +34,7 @@ class ViewService {
                 //로그인 (사장)
 
                 const findRestaurant = await this.restaurantRepository.findRestaurantId({ member_id: user.member_id });
-                const findKeyword = await this.keywordRepository.findAllKeyword(Number(restaurantId));
+                const findKeyword = await this.keywordRepository.findAllKeyword(restaurantId);
                 const keywordList = findKeyword.map((keyword) => {
                     return {
                         keyword: keyword.keyword,
