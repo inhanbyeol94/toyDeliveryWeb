@@ -43,7 +43,7 @@ class MenusController {
         const { member_id } = req.session.user;
         try {
             const { code, result } = await this.menuService.deleteMenu(member_id, menu_id);
-            res.status(code).json(result);
+            res.status(code).json({ result });
         } catch (error) {
             res.status(400).json({ errorMessage: Error });
         }

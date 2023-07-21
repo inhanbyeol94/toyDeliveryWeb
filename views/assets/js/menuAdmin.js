@@ -63,11 +63,10 @@ const showmenuList = async () => {
                         });
                         const { status } = await api;
                         const { result } = await api.json();
+
                         if (status == 200) {
                             alert(result);
                             window.location.href = '/menuAdmin';
-                        } else {
-                            alert(result);
                         }
                     });
 
