@@ -72,6 +72,7 @@ class ViewsController {
         const restaurantId = req.params?.restaurantId;
         const { title, subtitle } = pageConfig.restaurant;
         const pageInfo = await this.viewService.authorization({ member_id, title, subtitle, restaurantId });
+        console.log('여기', restaurantId);
         return res.render('restaurant', pageInfo);
     };
 }

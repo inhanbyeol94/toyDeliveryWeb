@@ -68,23 +68,21 @@
         <li class="nav-heading">관리</li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="/storeInfo">
+            <% if(restaurantId) { %>
+            <a class="nav-link collapsed" href="/storeInfo/page/<%= restaurantId %>">
                 <i class="fal fa-hat-chef"></i>
                 <span>레스토랑 관리</span>
             </a>
-        </li>
-        <!-- End Profile Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="users-profile.html">
-                <i class="fal fa-comments-alt"></i>
-                <span>리뷰 관리</span>
+            <% } else {%>
+            <a class="nav-link collapsed" href="/storeInfo/page/null">
+                <i class="fal fa-hat-chef"></i>
+                <span>레스토랑 관리</span>
             </a>
+            <% } %>
         </li>
-        <!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="/orderAdmin">
                 <i class="fal fa-file-invoice-dollar"></i>
                 <span> 주문 관리</span>
             </a>
@@ -92,7 +90,7 @@
         <!-- End F.A.Q Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="/menuAdmin">
                 <i class="fal fa-utensils-alt"></i>
                 <span>메뉴 관리</span>
             </a>
