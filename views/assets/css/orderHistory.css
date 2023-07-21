@@ -1,0 +1,55 @@
+.card-back {
+    background-color: white;
+    padding: 2em;
+}
+.orderCard {
+    width: 45%;
+}
+.btnList {
+    margin-top: 2em;
+}
+.card-body .card-title {
+    font-weight: 600;
+    font-size: 1.5em;
+}
+.modal-header .btn-close {
+    width: 20%;
+}
+.card-body {
+    font-size: 1em;
+}
+.titleList .modal-title {
+    font-size: 2em;
+    font-weight: 600;
+}
+.titleList p {
+    font-size: 0.8em;
+}
+.file-label {
+    margin-top: 3px;
+    background-color: #5b975b;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    width: 65%;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.file {
+    display: none;
+}
+.file-label:hover {
+    background-color: #4d824d;
+    color: #444444;
+}
+
+.modal-footer .modalBtn {
+    width: 20%;
+    color: #fff;
+    font-weight: 600;
+}
+#floatingTextarea2 {
+    font-size: 1.5em;
+    width: 100%;
+    margin: 0;
+}

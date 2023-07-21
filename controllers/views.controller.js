@@ -43,12 +43,35 @@ class ViewsController {
         pageInfo.css = css;
         return res.render('menuAdmin', pageInfo);
     };
+
     storeList = async (req, res) => {
         const member_id = req.session.user?.member_id;
         const { title, subtitle, css } = pageConfig.storeList;
         const pageInfo = await this.viewService.authorization({ member_id, title, subtitle });
         pageInfo.css = css;
         return res.render('storeList', pageInfo);
+    };
+    orderHistory = async (req, res) => {
+        const member_id = req.session.user?.member_id;
+        const { title, subtitle, css } = pageConfig.orderHistory;
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle });
+        pageInfo.css = css;
+        return res.render('orderHistory', pageInfo);
+    };
+    storeInfo = async (req, res) => {
+        const member_id = req.session.user?.member_id;
+        const { title, subtitle, css } = pageConfig.storeInfo;
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle });
+        pageInfo.css = css;
+        return res.render('storeInfo', pageInfo);
+    };
+
+    restaurant = async (req, res) => {
+        const member_id = req.session.user?.member_id;
+        const restaurantId = req.params?.restaurantId;
+        const { title, subtitle } = pageConfig.restaurant;
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle, restaurantId });
+        return res.render('restaurant', pageInfo);
     };
 }
 
