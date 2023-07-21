@@ -40,7 +40,7 @@ const authMiddlewares = {
                 });
             }
 
-            if (req.session.user.group !== 0) return res.render('403');
+            if (findUser.group !== 0) return res.render('403');
 
             next();
         } catch (error) {
@@ -60,7 +60,7 @@ const authMiddlewares = {
                 });
             }
 
-            if (req.session.user.group !== 1) return res.render('403');
+            if (findUser.group !== 1) return res.render('403');
 
             next();
         } catch (error) {
