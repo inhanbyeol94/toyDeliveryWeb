@@ -1,4 +1,4 @@
-const { Restaurant } = require('../models');
+const { Restaurant, Menu, Review } = require('../models');
 
 class RestaurantRepository {
     findAllRestaurant = async () => {
@@ -6,9 +6,7 @@ class RestaurantRepository {
     };
 
     findRestaurantId = async (data) => {
-        return await Restaurant.findOne({
-            where: data,
-        });
+        return await Restaurant.findOne({ where: data, include: [{ model: Menu }, { model: Review }] });
     };
 
     searchCategory = async (category) => {
