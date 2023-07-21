@@ -19,6 +19,7 @@ window.addEventListener('load', async () => {
                               <span>${info.Menu.name}</span>
                               <span>${info.count}개</span>
                               <span>${info.Menu.price.toLocaleString()}원</span>
+                              <span>${(info.Menu.price * info.count).toLocaleString()}원</span>
                               <a href="#" onclick="delItems(${info.cart_item_id})">X</a>
                           </div>`;
         });
