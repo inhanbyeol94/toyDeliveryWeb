@@ -8,6 +8,8 @@ const largeModal = document.getElementById('largeModal');
 const modalImage = document.getElementById('modalImage');
 const modalName = document.getElementById('modalName');
 const modalPrice = document.getElementById('modalPrice');
+const deleteBtn = document.getElementById('deleteBtn');
+const updateBtn = document.getElementById('updateBtn');
 
 const showmenuList = async () => {
     await fetchData('/myrestaurant', { method: 'GET' }).then((data) => {
@@ -25,12 +27,12 @@ const showmenuList = async () => {
                 }
                 const menuHtml = `<div class="card my-3 menuCard" data-bs-toggle="modal" data-bs-target="#largeModal">
                                         <div >
-                                        <div class="row g-0">
-                                        <div class="col-md-4" id="menuImage">
+                                        <div class="row g-0"  id="cards" value="${menu.menu_id}">
+                                        <div class="col-md-4" id="menuImage" alt="">
                                             ${menuImage}
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="card-body" id="cards">
+                                            <div class="card-body">
                                             <h5 class="card-title menuTitle" id="menuname">${menu.name}</h5>
                                             <p class="card-text">메뉴상세내용 완전 맛있는 00맛 00000</p>
                                             <h5 class="card-sub-title" id="menuprice">가격: ${menu.price}</h5>
@@ -49,11 +51,51 @@ const showmenuList = async () => {
                     const price = element.querySelector('#menuprice').innerHTML;
                     document.getElementById('modalName').placeholder = name;
                     document.getElementById('modalPrice').placeholder = price;
+
+                    updateBtn.addEventListener('click', async () => {
+                        const menu_id = card.getAttribute('value');
+                        if (!modalName.value) return alert('이름을 작성해 주세요.');
+                        if (!modalPrice.value) return alert('가격을 입력해주세요.');
+                        const api = await fetch(`/restaurant/menu/${menu_id}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(new updateMenu()),
+                        });
+                        const { status } = await api;
+                        const { result } = await api.json();
+                        if (status == 200) {
+                            alert(result);
+                            window.location.href = '/menuAdmin';
+                        } else {
+                            alert(result);
+                        }
+                    });
+
+                    deleteBtn.addEventListener('click', async () => {
+                        const menu_id = card.getAttribute('value');
+                        const api = await fetch(`/restaurant/menu/${menu_id}`, {
+                            method: 'DELETE',
+                        });
+                        const { status } = await api;
+                        const { result } = await api.json();
+
+                        if (status == 200) {
+                            alert(result);
+                            window.location.reload();
+                        }
+                    });
                 });
             });
         });
     });
 };
+
+class updateMenu {
+    constructor() {
+        this.name = modalName.value;
+        this.price = modalPrice.value;
+    }
+}
 
 createBtn.addEventListener('click', async () => {
     if (!menuName.value) return alert('이름을 작성해 주세요.');

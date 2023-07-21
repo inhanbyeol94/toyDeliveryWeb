@@ -27,23 +27,23 @@ class MenusController {
     };
 
     updateMenu = async (req, res, next) => {
-        const { restaurant_id, menu_id } = req.params;
+        const { menu_id } = req.params;
         const { name, price, image } = req.body;
         const { member_id } = req.session.user;
         try {
-            const updateMenu = await this.menuService.updateMenu(restaurant_id, member_id, menu_id, name, price, image);
-            res.status(200).json({ data: updateMenu });
+            const { code, result } = await this.menuService.updateMenu(member_id, menu_id, name, price, image);
+            res.status(code).json({ result });
         } catch (error) {
             res.status(400).json({ errorMessage: Error });
         }
     };
 
     deleteMenu = async (req, res, next) => {
-        const { restaurant_id, menu_id } = req.params;
+        const { menu_id } = req.params;
         const { member_id } = req.session.user;
         try {
-            const deleteMenu = await this.menuService.deleteMenu(restaurant_id, member_id, menu_id);
-            res.status(200).json({ data: deleteMenu });
+            const { code, result } = await this.menuService.deleteMenu(member_id, menu_id);
+            res.status(code).json(result);
         } catch (error) {
             res.status(400).json({ errorMessage: Error });
         }

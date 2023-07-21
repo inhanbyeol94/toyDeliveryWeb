@@ -45,39 +45,27 @@ class MenuService {
         return { code: 201, result: '메뉴의 추가가 완료되었습니다.' };
     };
 
-    updateMenu = async (restaurant_id, member_id, menu_id, name, price, image) => {
+    updateMenu = async (member_id, menu_id, name, price, image) => {
+        const findMyrestaurant = await this.restaurantRepository.findRestaurantId({ member_id: member_id });
+        const restaurant_id = findMyrestaurant.restaurant_id;
+
         const findMenu = await this.menuRepository.findMenuId(restaurant_id, menu_id);
-        const findMember = await this.restaurantRepository.findMemberId(restaurant_id);
         if (!findMenu) throw new Error("Menu doesn't exist");
-        if (findMember.member_id !== member_id) throw new Error('권한이 없습니다.');
 
         await this.menuRepository.updateMenu(restaurant_id, menu_id, name, price, image);
-
-        const updateMenu = await this.menuRepository.findMenuId(restaurant_id, menu_id);
-
-        return {
-            menu_id: updateMenu.menu_id,
-            name: updateMenu.name,
-            price: updateMenu.price,
-            image: updateMenu.image,
-            createdAt: updateMenu.createdAt,
-            updatedAt: updateMenu.updatedAt,
-        };
+        return { code: 200, result: '메뉴의 수정이 완료되었습니다.' };
     };
 
-    deleteMenu = async (restaurant_id, member_id, menu_id) => {
+    deleteMenu = async (member_id, menu_id) => {
+        const findMyrestaurant = await this.restaurantRepository.findRestaurantId({ member_id: member_id });
+        const restaurant_id = findMyrestaurant.restaurant_id;
         const findMenu = await this.menuRepository.findMenuId(restaurant_id, menu_id);
-        const findMember = await this.restaurantRepository.findMemberId(restaurant_id);
 
         if (!findMenu) throw new Error("Menu doesn't exist");
-        if (findMember.member_id !== member_id) throw new Error('권한이 없습니다.');
 
         await this.menuRepository.deleteMenu(restaurant_id, menu_id);
 
-        return {
-            menu_id: findMenu.menu_id,
-            name: findMenu.name,
-        };
+        return { code: 200, result: '메뉴의 삭제가 완료되었습니다.' };
     };
 }
 
