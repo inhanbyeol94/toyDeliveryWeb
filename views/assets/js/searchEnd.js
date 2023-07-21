@@ -15,17 +15,18 @@ function getRestaurant(restaurants, searchType, keyword) {
             for (let i in r.restaurant_keyword[allRestaurant]) {
                 keywordHtml += `<span class="badge rounded-pill text-bg-secondary">${r.restaurant_keyword[allRestaurant][i].keyword}</span>`;
                 count++;
-                allStar += r.restaurant_star.star;
+                //star를 가져올 수 없음
+                // allStar += r.restaurant_star[allRestaurant][i].star;
             }
             if (allStar > 0) allStar = Math.round((allStar / count) * 10) / 10;
             else allStar = 0;
-            console.log(r.restaurant_star);
-            console.log(r.restaurant_star.length);
+            // console.log(r.restaurant_star);
+            // console.log(r.restaurant_star.length);
             let createHTML =
                 `<div class="card storeCard m-3">
                                     <img src="${r.image}" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                    <a  href="/restaurant/page/${r.restaurant_id}">
+                                    <a  href="/restaurant/page/126?page=${r.restaurant_id}">
                                     <h5 class="card-title">${r.restaurant_name}</h5>
                                     </a>
                                     <div class="d-flex">
