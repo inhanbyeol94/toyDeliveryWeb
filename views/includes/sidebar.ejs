@@ -68,10 +68,14 @@
             <li class="nav-heading">관리</li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/storeInfo/page/<%= restaurantId %>">
-                    <i class="fal fa-hat-chef"></i>
-                    <span>레스토랑 관리</span>
-                </a>
+                <% if(restaurantId) { %>
+                    <a class="nav-link collapsed" href="/storeInfo/page/<%= restaurantId %>"></a>
+                    <% } else {%>
+                        <a class="nav-link collapsed" href="/storeInfo/page/null"></a>
+                        <% } %>
+                            <i class="fal fa-hat-chef"></i>
+                            <span>레스토랑 관리</span>
+                            </a>
             </li>
 
             <li class="nav-item">
