@@ -1,12 +1,12 @@
 <%- include('includes/header') %>
   <%- include('includes/sidebar') %>
     <!-- modal안의 텍스트대신 변수를 할당하고 메뉴삭게, 수정 버튼에 api연동해주세요-->
-  <div class="modal fade" id="largeModal" tabindex="-1">
+<div class="modal fade" id="largeModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <div class="d-flex flex-column align-items-center">
-            <img src="assets/img/card.jpg" class="img-fluid rounded-start modal-image" alt="...">
+            <img src="<%= image %>" class="img-fluid rounded-start modal-image" alt="...">
             <label class="file-label" for="chooseFile">이미지 선택</label>
             <input class="file" id="chooseFile"
             type="file"
@@ -15,9 +15,9 @@
             </div>
           </div>
         <div class="modal-body d-flex flex-column w-75">
-            <input class="modalEdit" placeholder="메뉴이름"/>
+            <input class="modalEdit" placeholder=""/>
             <input class="modalEdit" placeholder="메뉴상세내용 완전 맛있는 00맛 00000"/>
-            <input class="modalEdit" type="number"placeholder="가격: 00,000원"/>
+            <input class="modalEdit" type="number"placeholder="가격:"/>
         </div>
         <div class="modal-footer d-flex justify-content-around">
           <button type="button" class="btn modalBtn" style="background-color:#d62828;">메뉴삭제</button>
