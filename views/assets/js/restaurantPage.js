@@ -15,13 +15,13 @@ async function addCart(menuId) {
     });
 
     const { status } = await api;
-    const { data } = await api.json();
+    const { message } = await api.json();
 
     if (status == 200) {
-        alert(data.message);
+        alert(message);
         window.location.reload();
     } else {
-        alert(data.message);
+        alert(message);
     }
 }
 
