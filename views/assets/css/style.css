@@ -1291,6 +1291,7 @@ h6 {
     background-color: rgba(0, 0, 0, 0);
     border: none;
     color: none;
+    cursor: pointer;
 }
 #modal-close {
     width: 4em;
