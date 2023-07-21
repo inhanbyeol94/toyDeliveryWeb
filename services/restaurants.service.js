@@ -25,17 +25,7 @@ class RestaurantService {
 
     findRestaurant = async (restaurant_id) => {
         const restaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-        return {
-            restaurant_id: restaurant.restaurant_id,
-            name: restaurant.name,
-            address: restaurant.address,
-            category: restaurant.category,
-            tel: restaurant.tel,
-            desc: restaurant.desc,
-            image: restaurant.image,
-            createdAt: restaurant.createdAt,
-            updatedAt: restaurant.updatedAt,
-        };
+        return restaurant;
     };
 
     createRestaurant = async (member_id, name, address, tel, desc, category, image) => {
