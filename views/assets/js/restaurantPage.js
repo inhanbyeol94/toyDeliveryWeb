@@ -5,6 +5,24 @@ const reviewOverview = document.getElementById('profile-edit');
 
 // /restaurant/:restaurant_id/cart
 
+async function addCart(menuId) {
+    const countInput = document.getElementById(`countInput${menuId}`);
+
+    const api = await fetch(`/restaurant/${window.location.pathname.split('/')[3]}/cart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ menu_id: menuId, count: countInput.value }),
+    });
+
+    const { status } = await api;
+
+    if (status == 200) {
+        alert('장바구니에 담겼습니다.');
+    } else {
+        alert('오류가 발생하였습니다.');
+    }
+}
+
 window.addEventListener('load', async () => {
     const api = await fetch(`/restaurant/${window.location.pathname.split('/')[3]}`, {
         method: 'GET',
@@ -93,8 +111,8 @@ const menuPageHtml = async (menus) => {
                                         <h5 class="card-title">${menu.name}</h5>
                                         <p class="card-text">${menu.price}원</p>
                                         <div class="input-group mb-3" style="max-width: 190px;">
-                                            <input type="number" class="form-control" style="width: 50px;" value="0">
-                                            <button type="button" class="btn btn-dark">장바구니 담기</button>
+                                            <input type="number" class="form-control" style="width: 50px;" value="0" id="countInput${menu.menu_id}">
+                                            <button type="button" class="btn btn-dark" onclick="addCart(${menu.menu_id})">장바구니 담기</button>
                                         </div>
                                         </div>
                                     </div>
