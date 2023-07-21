@@ -11,8 +11,12 @@ class ReviewRepository {
         });
     };
 
+    findOneRestaurantReviews = async (restaurant_id) => {
+        return await Review.findAll({ where: { restaurant_id } });
+    };
+
     createReview = async (member_id, menu_id, menu_name, star, review, image) => {
-        return await Review.create({ member_id, menu_id, menu_name, star, review, image })
+        return await Review.create({ member_id, menu_id, menu_name, star, review, image });
     };
 
     updateReview = async (review_id, star, review, image) => {
@@ -22,11 +26,11 @@ class ReviewRepository {
                 where: { review_id },
             }
         );
-        return updateReview; 
+        return updateReview;
     };
 
     deleteReview = async (review_id) => {
-        return await Review.destroy({ where: { review_id } })
+        return await Review.destroy({ where: { review_id } });
     };
 
     findMemberId = async (review_id) => {

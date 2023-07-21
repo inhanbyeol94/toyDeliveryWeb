@@ -1,10 +1,12 @@
 const MenuRepository = require('../repositories/menus.repository');
 const KeywordRepository = require('../repositories/keywords.repository');
 const RestaurantRepository = require('../repositories/restaurants.repository');
+const ReviewRepository = require('../repositories/reviews.repository');
 class RestaurantService {
     menuRepository = new MenuRepository();
     keywordRepository = new KeywordRepository();
     restaurantRepository = new RestaurantRepository();
+    reviewRepository = new ReviewRepository();
 
     keyword = async (keyword) => {
         const findAll = await this.keywordRepository.findAll();
@@ -21,9 +23,12 @@ class RestaurantService {
         }
 
         let findAllKeyword = [];
+        let findStar = [];
         for (let r of restaurants) {
             const restaurantFindAllKeyword = await this.keywordRepository.findAllKeyword(r.restaurant_id);
             findAllKeyword.push(restaurantFindAllKeyword);
+            const restaurantFindAllReview = await this.reviewRepository.findOneRestaurantReviews(r.restaurant_id);
+            findStar.push(restaurantFindAllReview);
         }
 
         return restaurants.map((restaurant) => {
@@ -33,6 +38,7 @@ class RestaurantService {
                 restaurant_number: restaurant.tel,
                 restaurant_address: restaurant.address,
                 restaurant_keyword: findAllKeyword,
+                restaurant_star: findStar,
                 desc: restaurant.desc,
                 created_at: restaurant.created_at,
                 updated_at: restaurant.updated_at,
