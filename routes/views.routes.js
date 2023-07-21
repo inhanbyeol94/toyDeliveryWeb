@@ -16,7 +16,6 @@ router.get('/storeList', allAuthMiddleware, viewController.storeList);
 // router.get('/storeList', nonAuthMiddleware, viewController.storeList); // 로그인 없이 테스트 중
 router.get('/orderHistory', allAuthMiddleware, viewController.orderHistory);
 router.get('/storeInfo', allAuthMiddleware, viewController.storeInfo);
-router.get('/menuAdmin', adminAuthMiddleware, viewController.menuAdmin); //나중에 매장관리자만 입장가능
 router.get('/restaurant/page/:restaurantId', allAuthMiddleware, viewController.restaurant);
 
 module.exports = router;

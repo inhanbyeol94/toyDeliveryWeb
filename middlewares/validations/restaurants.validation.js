@@ -10,7 +10,7 @@ const Restaurantvalidations = {
                 .empty()
                 .required()
                 .max(30)
-                .regex(/^[가-힣a-zA-Z]+$/)
+                .regex(/^(?! )[가-힣a-zA-Z\s]*(?<! )$/)
                 .messages(restaurant.name),
             address: Joi.string().empty().required().max(100).messages(restaurant.address),
             tel: Joi.string()
@@ -25,6 +25,7 @@ const Restaurantvalidations = {
         try {
             await schema.validateAsync({ name, address, tel, desc });
         } catch (err) {
+            console.log(err);
             return res.status(412).json({ result: err.message });
         }
         next();
