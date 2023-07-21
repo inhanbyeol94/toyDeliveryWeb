@@ -63,7 +63,7 @@ class CartRepository {
     findItemsCount = async (target) => {
         return await sequelize.transaction(async (transaction) => {
             const { cart_id } = await CartItem.findOne({ where: { [Op.and]: target } }, { transaction });
-            return Cart.count({ where: { cart_id } });
+            return CartItem.count({ where: { cart_id } }, { transaction });
         });
     };
 
