@@ -42,7 +42,9 @@
 <!-- Template Main CSS File -->
 <link href="/assets/css/style.css" rel="stylesheet" />
 
-<script src="/assets/js/logout.js" defer></script>
+    <script src="assets/js/logout.js" defer></script>
+    <script type="module" src="assets/js/search.js"></script>
+      
 </head>
 
 <body>
@@ -58,10 +60,15 @@
         <!-- End Logo -->
 
         <div class="search-bar">
-            <form class="search-form d-flex align-items-center" method="POST" action="#">
-                <input type="text" name="query" placeholder="Search" title="Enter search keyword" />
-                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-            </form>
+            <div class="search-form d-flex align-items-center" method="POST" action="#">
+                <select class="form-select" style="width: 20%;" id='search_type'>
+                    <option value="keyword">키워드</option>
+                    <option value="menuName">메뉴</option>
+                    <option value="category">카테고리</option>
+                </select>
+                <input type="text" name="query" placeholder="Search" title="Enter search keyword" id="searchKeyword" />
+                <button title="Search" id="searchBtn"><i class="bi bi-search"></i></button>
+            </div>
         </div>
         <!-- End Search Bar -->
 
