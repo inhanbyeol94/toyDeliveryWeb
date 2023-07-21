@@ -20,11 +20,10 @@ class RestaurantService {
             restaurants.push(restaurant);
         }
 
-        let findAllKeyword = restaurants.map(async (data) => {
-            await this.keywordRepository.findAllKeyword(data.restaurant_id);
-        });
-        for (let i of findAllKeyword) {
-            console.log(i);
+        let findAllKeyword = [];
+        for (let r of restaurants) {
+            const restaurantFindAllKeyword = await this.keywordRepository.findAllKeyword(r.restaurant_id);
+            findAllKeyword.push(restaurantFindAllKeyword);
         }
 
         return restaurants.map((restaurant) => {
@@ -56,12 +55,18 @@ class RestaurantService {
             restaurants.push(restaurant);
         }
 
+        let findAllKeyword = [];
+        for (let r of restaurants) {
+            const restaurantFindAllKeyword = await this.keywordRepository.findAllKeyword(r.restaurant_id);
+            findAllKeyword.push(restaurantFindAllKeyword);
+        }
         return restaurants.map((restaurant) => {
             return {
                 restaurant_id: restaurant.restaurant_id,
                 restaurant_name: restaurant.name,
                 restaurant_number: restaurant.tel,
                 restaurant_address: restaurant.address,
+                restaurant_keyword: findAllKeyword,
                 desc: restaurant.desc,
                 created_at: restaurant.created_at,
                 updated_at: restaurant.updated_at,
@@ -86,12 +91,18 @@ class RestaurantService {
 
         const findCategory = await findAll.filter((n) => n.category == num);
 
+        let findAllKeyword = [];
+        for (let r of findCategory) {
+            const restaurantFindAllKeyword = await this.keywordRepository.findAllKeyword(r.restaurant_id);
+            findAllKeyword.push(restaurantFindAllKeyword);
+        }
         return findCategory.map((restaurant) => {
             return {
                 restaurant_id: restaurant.restaurant_id,
                 restaurant_name: restaurant.name,
                 restaurant_number: restaurant.tel,
                 restaurant_address: restaurant.address,
+                restaurant_keyword: findAllKeyword,
                 desc: restaurant.desc,
                 created_at: restaurant.created_at,
                 updated_at: restaurant.updated_at,

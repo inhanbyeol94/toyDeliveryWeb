@@ -17,7 +17,6 @@ searchBtn.addEventListener('click', async () => {
     console.log([search].length);
     console.log([search][0][0]);
     if (status == 200) {
-        alert('search', search);
         window.location.href = `/storeList?value=${selectType} ${searchKeyword.value}`;
     } else {
         alert(errorMessage);
