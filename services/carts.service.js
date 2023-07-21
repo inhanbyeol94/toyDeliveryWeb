@@ -28,10 +28,23 @@ class CartService {
         return cart;
     };
 
-    deleteItem = async ({ restaurant_id, member_id, menu_id }) => {
-        const checkCart = await this.cartRepository.findOne({ restaurant_id, member_id });
-        await this.cartRepository.deleteItem([{ cart_id: checkCart.cart_id, menu_id }]);
-        return { message: '메뉴가 정상 삭제되었습니다.' };
+    deleteItem = async ({ itemId, member_id }) => {
+        const findItem = await this.cartRepository.findItem({ cart_item_id: itemId });
+        const authToValid = findItem.Cart.member_id == member_id;
+        if (!authToValid)
+            // await this.cartRepository.deleteItem([{ cart_id: checkCart.cart_id, menu_id }]);
+            return { status: 200, result: '테스트중 입니다.' };
+    };
+
+    getRecentCart = async ({ member_id }) => {
+        let sumPrice = 0;
+
+        const result = await this.cartRepository.getRecentCart({ member_id });
+
+        result.CartItems.forEach((x) => {
+            sumPrice += x.Menu.price;
+        });
+        return { status: 200, result: [result, sumPrice] };
     };
 }
 

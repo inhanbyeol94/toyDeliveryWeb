@@ -42,6 +42,12 @@ class ReviewRepository {
     updateReviewImage = async ({ image, member_id }) => {
         await Review.update({ image }, { where: { member_id } });
     };
+    addReviewByOrder = async (order_id, member_id) => {
+        return await Review.findOne({ where: { order_id, member_id } });
+    };
+    deleteReviewByOrder = async (order_id, member_id) => {
+        return await Review.destroy({ where: { order_id, member_id } });
+    };
 }
 
 module.exports = ReviewRepository;

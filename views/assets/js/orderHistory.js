@@ -1,4 +1,8 @@
 window.onload = async () => {
+    //문제
+    // 이미지가 올라간다고 팝업이 뜨는데 바뀌지 않음 서버에 저장도 안됨
+    //리뷰 저장, 삭제 파트의 레포지토리를 수정해야힘
+    // 상세보기는 저는 버렸지만 누군가 좋은 아이디어가 떠오른다면 해주십샤.........
     const cardBox = document.querySelector('.cardBox');
     const imageBtn = document.getElementById('imageBtn');
     const profileImage = document.getElementById('profileImage');
@@ -6,6 +10,9 @@ window.onload = async () => {
     const reviewDelBtn = document.querySelector('.reviewDelBtn');
     const reviewSaveBtn = document.querySelector('.reviewSaveBtn');
     const reviewText = document.querySelector('#floatingTextarea2');
+    // const restaurantNames = document.getElementById('restaurantNames');
+    // const itemLists = document.getElementById('itemLists');
+    // const sumPrices = document.getElementById('sumPrices');
     const rate = document.querySelector('#rate');
     let rateValue;
 
@@ -25,14 +32,13 @@ window.onload = async () => {
                   </div>
                   <div class="col-md-8">
                     <div class="card-body pb-2">
-                    <h5 class="card-title data-id="${shop.restaurant_id}">${shop.Restaurant.name}</h5>
-                      <p class="card-text">${shop.Cart.CartItems.map((a) => {
-                          return a.Menu.name;
-                      }).join(',')}
+                    <h5 id="restaurantId"class="card-title data-id="${shop.restaurant_id}">${shop.Restaurant.name}</h5>
+                      <p class="card-text" id="orderId" data-id="${shop.order_id}">${shop.Cart.CartItems.map((a) => {
+                    return a.Menu.name;
+                }).join(',')}
                       </p>
                       <div class="btnList">
                           <button type="button" class="btn btn-success btn-lg" data-bs-target="#modal"data-bs-toggle="modal">리뷰 수정</button>
-                          <button type="button" class="btn btn-secondary btn-lg" data-bs-target="#exampleModal"data-bs-toggle="modal" >상세보기</button>
                       </div>
                     </div>
                   </div>
@@ -83,7 +89,10 @@ window.onload = async () => {
         }
     });
     reviewDelBtn.addEventListener('click', async () => {
-        const api = await fetch(`/restaurant/:${re}/review/:review_id`, {
+        const orderBox = document.querySelector('#orderBox');
+        const order_id = orderBox.data.id;
+
+        const api = await fetch(`/review/order/${order_id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         });
@@ -98,7 +107,10 @@ window.onload = async () => {
         }
     });
     reviewSaveBtn.addEventListener('click', async () => {
-        const api = await fetch(`/restaurant/${restaurant_id}/review/order/${order_id}`, {
+        const orderBox = document.querySelector('#orderBox');
+        const order_id = orderBox.data.id;
+
+        const api = await fetch(`/review/order/${order_id}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(new addReview()),
@@ -119,4 +131,18 @@ window.onload = async () => {
             this.rate = Number(rateValue);
         }
     }
+    // const api = await fetch('/getRecentCart');
+    // const { result } = await api.json();
+    // const [data, price] = result;
+
+    // restaurantNames.innerText = data.Restaurant.name;
+    // sumPrices.innerText = `${price.toLocaleString()}원`;
+
+    // data.CartItems.forEach((info) => {
+    //     itemLists.innerHTML += `<div class="d-flex justify-content-between">
+    //                           <span>${info.Menu.name}</span>
+    //                           <span>${info.count}개</span>
+    //                           <span>${info.Menu.price.toLocaleString()}원</span>
+    //                       </div>`;
+    // });
 };

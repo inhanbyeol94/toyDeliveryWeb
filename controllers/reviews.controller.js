@@ -78,6 +78,18 @@ class ReviewsController {
             res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
+    addReviewByOrder = async (req, res) => {
+        const { member_id } = req.session.user;
+        const { order_id } = req.params;
+        const reviews = await this.reviewService.addReviewByOrder(order_id, member_id);
+        res.status(200).json({ data: reviews });
+    };
+    deleteReviewByOrder = async (req, res) => {
+        const { member_id } = req.session.user;
+        const { order_id } = req.params;
+        const reviews = await this.reviewService.deleteReviewByOrder(order_id, member_id);
+        res.status(200).json({ data: reviews });
+    };
 }
 
 module.exports = ReviewsController;

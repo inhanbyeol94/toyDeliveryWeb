@@ -125,6 +125,14 @@ class ReviewService {
 
         return { code: 200, result: '정상적으로 삭제되었습니다.' };
     };
+    addReviewByOrder = async (order_id, member_id) => {
+        await this.reviewRepository.addReviewByOrder(order_id, member_id);
+        return { code: 200, result: '추가되었습니다' };
+    };
+    deleteReviewByOrder = async (order_id, member_id) => {
+        await this.reviewRepository.deleteReviewByOrder(order_id, member_id);
+        return { code: 200, result: '추가되었습니다' };
+    };
 }
 
 module.exports = ReviewService;
