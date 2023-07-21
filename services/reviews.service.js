@@ -18,7 +18,7 @@ class ReviewService {
                 member_id: review.member_id,
                 menu_id: review.menu_id,
                 menu_name: review.menu_name,
-                star: review.name,
+                star: review.star,
                 review: review.review,
                 image: review.image,
                 createdAt: review.createdAt,
@@ -48,7 +48,7 @@ class ReviewService {
             review_id: review.review_id,
             menu_id: review.menu_id,
             menu_name: review.menu_name,
-            star: review.name,
+            star: review.star,
             review: review.review,
             image: review.image,
             createdAt: review.createdAt,
@@ -103,7 +103,7 @@ class ReviewService {
 
         return {
             review_id: findReview.review_id,
-            member_id: findReview.member_id
+            member_id: findReview.member_id,
         };
     };
 }

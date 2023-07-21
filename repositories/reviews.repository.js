@@ -22,6 +22,10 @@ class ReviewRepository {
         });
     };
 
+    findOneRestaurantReviews = async (restaurant_id) => {
+        return await Review.findAll({ where: { restaurant_id } });
+    };
+
     createReview = async ({ restaurant_id, member_id, menu_id, menu_name, star, review, image }) => {
         return await Review.create({ restaurant_id, member_id, menu_id, menu_name, star, review, image });
     };
