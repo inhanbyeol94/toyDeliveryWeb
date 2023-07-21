@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
                 targetKey: 'member_id',
                 foreignKey: 'member_id',
             });
+
+            this.belongsTo(models.Order, {
+                targetKey: 'order_id',
+                foreignKey: 'order_id',
+            });
         }
     }
     Review.init(

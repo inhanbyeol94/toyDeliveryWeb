@@ -27,6 +27,15 @@ module.exports = {
                 },
                 onDelete: 'CASCADE',
             },
+            order_id: {
+                allowNull: false,
+                type: Sequelize.BIGINT,
+                references: {
+                    model: 'Orders',
+                    key: 'order_id',
+                },
+                onDelete: 'CASCADE',
+            },
             star: {
                 allowNull: false,
                 type: Sequelize.INTEGER,

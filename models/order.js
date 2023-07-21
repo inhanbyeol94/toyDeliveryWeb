@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
                 targetKey: 'restaurant_id',
                 foreignKey: 'restaurant_id',
             });
+
+            this.hasOne(models.Review, {
+                targetKey: 'order_id',
+                foreignKey: 'order_id',
+            });
         }
     }
     Order.init(
