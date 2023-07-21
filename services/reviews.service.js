@@ -1,10 +1,12 @@
 const ReviewRepository = require('../repositories/reviews.repository');
+const RestaurantRepository = require('../repositories/restaurants.repository');
 
 class ReviewService {
     reviewRepository = new ReviewRepository();
+    restaurantRepository = new RestaurantRepository();
 
-    findAllReview = async () => {
-        const allReview = await this.reviewRepository.findAllReview();
+    findAllReview = async (restaurant_id) => {
+        const allReview = await this.reviewRepository.findAllReview(restaurant_id);
 
         allReview.sort((a, b) => {
             return b.createdAt - a.createdAt;
@@ -25,11 +27,25 @@ class ReviewService {
         });
     };
 
+    //
+    findReviewsByMember = async (member_id) => {
+        const review = await this.reviewRepository.findReviewsByMember(member_id);
+        return {
+            member_id: review.member_id,
+            menu_id: review.menu_id,
+            menu_name: review.menu_name,
+            star: review.name,
+            review: review.review,
+            image: review.image,
+            createdAt: review.createdAt,
+            updatedAt: review.updatedAt,
+        }
+    };
+
     findReview = async (review_id) => {
         const review = await this.reviewRepository.findReviewId(review_id);
         return {
             review_id: review.review_id,
-            member_id: review.member_id,
             menu_id: review.menu_id,
             menu_name: review.menu_name,
             star: review.star,
@@ -40,10 +56,11 @@ class ReviewService {
         };
     };
 
-    createReview = async (review_id, member_id, menu_id, menu_name, star, review, image) => {
-        const createdReview = await this.reviewRepository.createReview(review_id, member_id, menu_id, menu_name, star, review, image);
+    createReview = async ({ restaurant_id, review_id, member_id, menu_id, menu_name, star, review, image }) => {
+        const createdReview = await this.reviewRepository.createReview({ restaurant_id, review_id, member_id, menu_id, menu_name, star, review, image });
 
         return {
+            restaurant_id: createdReview.restaurant_id,
             review_id: createdReview.review_id,
             member_id: createdReview.member_id,
             menu_id: createdReview.menu_id,
