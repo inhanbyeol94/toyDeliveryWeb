@@ -108,7 +108,7 @@
             "string.empty": "검색어를 입력해 주세요."
         }
     },
-    "review": {
+    "reviews": {
         "star": {
             "number.base": "별점은 숫자여야 합니다.",
             "number.integer": "별점은 정수여야 합니다.",
