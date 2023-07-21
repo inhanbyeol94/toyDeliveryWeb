@@ -4,10 +4,11 @@ class CartsController {
     cartService = new CartService();
     addCart = async (req, res) => {
         try {
-            const { restaurant_id } = req.params;
+            let { restaurant_id } = req.params;
             const { menu_id, count } = req.body;
             const user = req.session.user;
-            const data = await this.cartService.addCart(restaurant_id, user, menu_id, count);
+            restaurant_id = Number(restaurant_id);
+            const data = await this.cartService.addCart({ restaurant_id, user, menu_id, count });
             res.status(200).json({ data });
         } catch (err) {
             if (err.code) return res.status(err.code).json({ message: err.result });
@@ -17,8 +18,8 @@ class CartsController {
     };
     getCart = async (req, res) => {
         const { restaurant_id } = req.params;
-        const user = req.session.user;
-        const data = await this.cartService.addCart(restaurant_id, user);
+        const member_id = req.session.user.member_id;
+        const data = await this.cartService.getCart({ restaurant_id, member_id });
         res.status(200).json({ data });
     };
 }

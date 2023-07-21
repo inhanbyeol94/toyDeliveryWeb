@@ -3,8 +3,9 @@ const { SECRET_KEY } = process.env;
 const crypto = require('crypto');
 const dayjs = require('dayjs');
 const sendMail = require('../mail');
-const customError = require('../errorClass');
 const MemberRepository = require('../repositories/members.repository');
+const AWS = require('aws-sdk');
+const customError = require('../errorClass');
 
 class MemberService {
     memberRepository = new MemberRepository();
@@ -84,25 +85,14 @@ class MemberService {
     updatePassword = async (member_id, password, changePwd, confirmPwd) => {
         let passwordToCrypto = crypto.pbkdf2Sync(password, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
 
-        const findUser = await this.memberRepository.findOne({ member_id });
-
         if (changePwd || confirmPwd) {
             if (changePwd == confirmPwd) {
                 const changePwdToCrypto = crypto.pbkdf2Sync(changePwd, SECRET_KEY.toString('hex'), 11524, 64, 'sha512').toString('hex');
                 passwordToCrypto = changePwdToCrypto;
             }
         }
-        await this.memberRepository.updateMember(
-            member_id,
-            findUser.nickname,
-            passwordToCrypto,
-            findUser.name,
-            findUser.phone,
-            findUser.address,
-            findUser.image
-        );
+        await this.memberRepository.updatePassword(member_id, passwordToCrypto);
 
-        console.log('+++++');
         return { code: 200, result: '비밀번호를 수정하였습니다.' };
     };
 
@@ -142,6 +132,31 @@ class MemberService {
         await this.memberRepository.deleteMember(member_id);
 
         return { code: 200, result: '회원 탈퇴에 성공하였습니다.' };
+    };
+
+    updateProfileImage = async ({ member_id, image }) => {
+        await this.memberRepository.updateProfileImage({ member_id, image });
+        return { code: 200, result: '프로필 사진이 정상 저장되었습니다.' };
+    };
+
+    deleteProfileImage = async ({ member_id }) => {
+        const findUser = await this.memberRepository.findOne({ member_id: member_id });
+        const imageKey = findUser.image.replace('https://toydeliverycloud.s3.ap-northeast-2.amazonaws.com/', '');
+
+        const s3 = new AWS.S3();
+
+        s3.deleteObject(
+            {
+                Bucket: 'toydeliverycloud',
+                Key: imageKey,
+            },
+            async (err) => {
+                if (err) throw new customError('삭제에 실패하였습니다.', 406);
+                await this.memberRepository.updateProfileImage({ member_id, image: null });
+            }
+        );
+
+        return { code: 200, result: '정상적으로 삭제되었습니다.' };
     };
 }
 

@@ -6,8 +6,49 @@ const currentPassword = document.getElementById('currentPassword');
 const SaveChangesBtn = document.getElementById('SaveChanges');
 const newPassword = document.getElementById('newPassword');
 const renewPassword = document.getElementById('renewPassword');
-const memberId = document.getElementById('memberId');
 const changePwdBtn = document.getElementById('changePwdBtn');
+const imageBtn = document.getElementById('imageBtn');
+const profileImage = document.getElementById('profileImage');
+const imageDelBtn = document.getElementById('imageDelBtn');
+
+imageBtn.addEventListener('click', () => {
+    profileImage.click();
+});
+
+imageDelBtn.addEventListener('click', async () => {
+    const api = await fetch('/member_info/image', {
+        method: 'DELETE',
+    });
+    const { status } = await api;
+    const { result } = await api.json();
+
+    alert(result);
+
+    if (status == 200) {
+        window.location.reload();
+    }
+});
+
+profileImage.addEventListener('change', async (e) => {
+    const image = e.target.files[0];
+    const form = new FormData();
+    form.append('image', image);
+
+    const api = await fetch('/member_info/image', {
+        method: 'POST',
+        body: form,
+    });
+
+    const { status } = await api;
+    const { result } = await api.json();
+
+    if (status == 200) {
+        alert(result);
+        window.location.reload();
+    } else {
+        alert(result);
+    }
+});
 
 SaveChangesBtn.addEventListener('click', async () => {
     const api = await fetch(`/member_info`, {
@@ -40,7 +81,7 @@ changePwdBtn.addEventListener('click', async () => {
     if (!newPassword.value) return alert('변경할 비밀번호를 입력해주세요.');
     if (!renewPassword.value) return alert('변경 확인 비밀번호를 입력해주세요.');
 
-    const api = await fetch(`/member_info/${memberId.value}/password`, {
+    const api = await fetch(`/member_info/password`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(new changePassword()),

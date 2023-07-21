@@ -110,6 +110,29 @@ class MembersController {
             return res.status(500).json({ message: '회원 탈퇴에 실패하였습니다.' });
         }
     };
+
+    updateMemberImage = async (req, res) => {
+        try {
+            const image = req.file.location;
+            const { member_id } = req.session.user;
+            const { code, result } = await this.memberService.updateProfileImage({ image, member_id });
+            res.status(code).json({ result });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+
+    deleteProfileImage = async (req, res) => {
+        try {
+            const { member_id } = req.session.user;
+            const { code, result } = await this.memberService.deleteProfileImage({ member_id });
+            res.status(code).json({ result });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
 }
 
 module.exports = MembersController;

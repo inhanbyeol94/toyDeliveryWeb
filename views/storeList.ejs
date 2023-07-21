@@ -1,0 +1,68 @@
+<%- include('includes/header') %>
+  <%- include('includes/sidebar') %>
+
+    <main id="main" class="main">
+      <div class="container-xg card-back">
+        <h3 class="title ps-5">000에 대한 검색 결과입니다</h3>
+        <div class="cardBox d-flex flex-wrap justify-content-around">
+          <!-- card안 텍스트대신 변수를 할당하고 storeCard누르면 가게 상세페이지로 갈 수 있게 해주세요
+            맨위의 card를 복사해서 써주세요 나머지는 지워도 됨
+          pill안에는 키워드를 넣어주세요 너무 많으면 카드 밖으로 나갈 수도있슴니다 -->
+          <div class="card storeCard m-3">
+            <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">맛있는 맛집입니다 00점</h5>
+              <div class="d-flex">
+              <p class="card-rate">⭐️ 5.0</p>
+              <div class="keyword-list ms-3">
+                <span class="badge rounded-pill text-bg-secondary">짜장면</span>
+                <span class="badge rounded-pill text-bg-secondary">짬뽕</span>
+                <span class="badge rounded-pill text-bg-secondary">탕수육</span>
+              </div>
+            </div>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+          <div class="card storeCard m-3">
+            <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Card with an image on top</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+          <div class="card storeCard m-3">
+            <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Card with an image on top</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+          <div class="card storeCard m-3">
+            <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Card with an image on top</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+        </div>
+    </div>
+    </main><!-- End #main -->
+
+    <%- include('includes/footer') %>
+
+      <!-- Vendor JS Files -->
+      <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+      <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="assets/vendor/chart.js/chart.umd.js"></script>
+      <script src="assets/vendor/echarts/echarts.min.js"></script>
+      <script src="assets/vendor/quill/quill.min.js"></script>
+      <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+      <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+      <script src="assets/vendor/php-email-form/validate.js"></script>
+
+      <!-- Template Main JS File -->
+      <script src="assets/js/main.js"></script>
+      <script type="module" src="assets/js/index.js"></script>
+      </body>
+
+      </html>

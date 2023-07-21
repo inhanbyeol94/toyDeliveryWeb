@@ -42,6 +42,14 @@ class MemberRepository {
         });
     };
 
+    updateProfileImage = async ({ image, member_id }) => {
+        await Member.update({ image }, { where: { member_id } });
+    };
+
+    updatePassword = async (member_id, passwordToCrypto) => {
+        return await Member.update({ password: passwordToCrypto }, { where: { member_id } });
+    };
+
     deleteMember = async (member_id) => {
         const deleteMemberData = await Member.destroy({ where: { member_id } });
 
