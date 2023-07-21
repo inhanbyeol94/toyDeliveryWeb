@@ -22,6 +22,14 @@ class CartsController {
         const data = await this.cartService.getCart({ restaurant_id, member_id });
         res.status(200).json({ data });
     };
+
+    deleteItem = async (req, res) => {
+        const { menu_id } = req.body;
+        const { restaurant_id } = req.params;
+        const member_id = req.session.user?.member_id;
+        const data = await this.cartService.deleteItem({ restaurant_id, member_id, menu_id });
+        res.status(200).json({ data });
+    };
 }
 
 module.exports = CartsController;
