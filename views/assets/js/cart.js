@@ -1,7 +1,7 @@
 const restaurantName = document.getElementById('restaurantName');
 const itemList = document.getElementById('itemList');
 const sumPrice = document.getElementById('sumPrice');
-const footer = document.getElementById('footer');
+const footerModal = document.getElementById('footerModal');
 
 window.addEventListener('load', async () => {
     const api = await fetch('/getCurrentCart');
@@ -25,7 +25,7 @@ window.addEventListener('load', async () => {
     } else {
         restaurantName.innerText = '장바구니';
         itemList.innerHTML = '장바구니가 비어있습니다.';
-        footer.remove();
+        footerModal.remove();
     }
 });
 
