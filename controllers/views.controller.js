@@ -61,7 +61,8 @@ class ViewsController {
     storeInfo = async (req, res) => {
         const member_id = req.session.user?.member_id;
         const { title, subtitle, css } = pageConfig.storeInfo;
-        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle });
+        const restaurantId = req.params?.restaurantId;
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle, restaurantId });
         pageInfo.css = css;
         return res.render('storeInfo', pageInfo);
     };

@@ -15,20 +15,22 @@ class RestaurantRepository {
         return await Restaurant.findAll({ where: { category } });
     };
 
-    createRestaurant = async (member_id, name, address, tel, desc, image) => {
-        return await Restaurant.create({ member_id, name, address, tel, desc, image });
+    createRestaurant = async (member_id, name, address, tel, desc, category, image) => {
+        return await Restaurant.create({ member_id, name, address, tel, desc, category, image });
     };
 
-    updateRestaurant = async (restaurant_id, name, address, tel, desc, image) => {
+    updateRestaurant = async ({ restaurant_id, name, address, tel, desc, category }) => {
         const updateRestaurant = await Restaurant.update(
-            { name, address, tel, desc, image },
+            { name, address, tel, desc, category },
             {
                 where: { restaurant_id },
             }
         );
         return updateRestaurant;
     };
-
+    updateRestaurantImg = async ({ image, restaurant_id }) => {
+        await Restaurant.update({ image }, { where: { restaurant_id } });
+    };
     deleteRestaurant = async (restaurant_id) => {
         return await Restaurant.destroy({ where: { restaurant_id } });
     };
