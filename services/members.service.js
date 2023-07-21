@@ -5,7 +5,7 @@ const dayjs = require('dayjs');
 const sendMail = require('../mail');
 const MemberRepository = require('../repositories/members.repository');
 const AWS = require('aws-sdk');
-const customError = require('../errorClass');
+const { CustomError } = require('../customClass');
 
 class MemberService {
     memberRepository = new MemberRepository();
@@ -151,7 +151,7 @@ class MemberService {
                 Key: imageKey,
             },
             async (err) => {
-                if (err) throw new customError('삭제에 실패하였습니다.', 406);
+                if (err) throw new CustomError('삭제에 실패하였습니다.', 406);
                 await this.memberRepository.updateProfileImage({ member_id, image: null });
             }
         );

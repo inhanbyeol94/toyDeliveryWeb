@@ -6,9 +6,9 @@ const cartController = new CartController();
 
 const { allAuthMiddleware, nonAuthMiddleware } = require('../middlewares/api.auth.middleware');
 
-router.post('/restaurant/:restaurant_id/cart', allAuthMiddleware, cartController.addCart);
+router.post('/restaurant/:restaurant_id/cart', allAuthMiddleware, cartController.addItem);
 router.get('/restaurant/:restaurant_id/cart', allAuthMiddleware, cartController.getCart);
 router.delete('/restaurant/:itemId/cart', allAuthMiddleware, cartController.deleteItem);
-router.get('/getRecentCart', allAuthMiddleware, cartController.getRecentCart);
+router.get('/getCurrentCart', allAuthMiddleware, cartController.getCurrentCart);
 
 module.exports = router;
