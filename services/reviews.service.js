@@ -39,7 +39,7 @@ class ReviewService {
             image: review.image,
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
-        }
+        };
     };
 
     findReview = async (review_id) => {
@@ -57,7 +57,16 @@ class ReviewService {
     };
 
     createReview = async ({ restaurant_id, review_id, member_id, menu_id, menu_name, star, review, image }) => {
-        const createdReview = await this.reviewRepository.createReview({ restaurant_id, review_id, member_id, menu_id, menu_name, star, review, image });
+        const createdReview = await this.reviewRepository.createReview({
+            restaurant_id,
+            review_id,
+            member_id,
+            menu_id,
+            menu_name,
+            star,
+            review,
+            image,
+        });
 
         return {
             restaurant_id: createdReview.restaurant_id,
