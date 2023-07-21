@@ -20,6 +20,17 @@ class OrdersController {
             return res.status(500).json({ message: err });
         }
     };
+    findMemberOrder = async (req, res) => {
+        try {
+            const { member_id } = req.session.user;
+            const data = await this.orderService.findMemberOrder({ member_id });
+            res.status(200).json({ data });
+        } catch (err) {
+            if (err.code) return res.status(err.code).json({ message: err.message });
+            console.error(err);
+            return res.status(500).json({ message: err });
+        }
+    };
     orderUpdate = async (req, res) => {
         try {
             let { order_id } = req.params;
