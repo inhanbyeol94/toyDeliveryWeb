@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { Cart, CartItem, sequelize } = require('../models');
+const { Cart, CartItem, Menu, Restaurant, Member, sequelize } = require('../models');
 class CartRepository {
     addCart = async ({ restaurant_id, member_id, menu_id, count }) => {
         try {
@@ -36,6 +36,11 @@ class CartRepository {
         });
         return cart;
     };
+
+    findItem = async (target) => {
+        return await CartItem.findOne({ where: { [Op.and]: target }, include: [{ model: Cart }] });
+    };
+
     updateItem = async ({ cart_id, menu_id, count }) => {
         const updateCart = await CartItem.update(
             { count },
@@ -47,9 +52,6 @@ class CartRepository {
             }
         );
         return updateCart;
-    };
-    findItem = async (target) => {
-        return await CartItem.findOne({ where: { [Op.and]: target } });
     };
 
     addItem = async (data) => {
@@ -66,6 +68,15 @@ class CartRepository {
 
     memberCartitems = async (data) => {
         return Cart.findOne({ where: data, include: [{ model: CartItem }] });
+    };
+
+    getRecentCart = async ({ member_id }) => {
+        return Cart.findOne({
+            where: { member_id },
+            limit: 1,
+            order: [['created_at', 'DESC']],
+            include: [{ model: CartItem, include: [{ model: Menu }] }, { model: Restaurant }],
+        });
     };
 }
 
