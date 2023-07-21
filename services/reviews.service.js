@@ -1,7 +1,7 @@
 const ReviewRepository = require('../repositories/reviews.repository');
 const RestaurantRepository = require('../repositories/restaurants.repository');
 const AWS = require('aws-sdk');
-const customError = require('../errorClass');
+const { CustomError } = require('../customClass');
 class ReviewService {
     reviewRepository = new ReviewRepository();
     restaurantRepository = new RestaurantRepository();
@@ -118,7 +118,7 @@ class ReviewService {
                 Key: imageKey,
             },
             async (err) => {
-                if (err) throw new customError('삭제에 실패하였습니다.', 406);
+                if (err) throw new CustomError('삭제에 실패하였습니다.', 406);
                 await this.memberRepository.updateProfileImage({ member_id, image: null });
             }
         );
