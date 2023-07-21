@@ -38,17 +38,11 @@ class MenuService {
         return menu;
     };
 
-    createMenu = async (restaurant_id, name, price, image) => {
-        const createMenu = await this.menuRepository.createMenu(restaurant_id, name, price, image);
-        return {
-            menu_id: createMenu.menu_id,
-            restaurant_id: createMenu.restaurant_id,
-            name: createMenu.name,
-            price: createMenu.price,
-            image: createMenu.image,
-            createdAt: createMenu.createdAt,
-            updatedAt: createMenu.updatedAt,
-        };
+    createMenu = async (member_id, name, price, image) => {
+        const findMyrestaurant = await this.restaurantRepository.findRestaurantId({ member_id: member_id });
+        const restaurant_id = findMyrestaurant.restaurant_id;
+        await this.menuRepository.createMenu(restaurant_id, member_id, name, price, image);
+        return { code: 201, result: '메뉴의 추가가 완료되었습니다.' };
     };
 
     updateMenu = async (restaurant_id, member_id, menu_id, name, price, image) => {

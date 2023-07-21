@@ -54,6 +54,10 @@ class RestaurantService {
     };
 
     createRestaurant = async (member_id, name, address, category, tel, desc, image) => {
+        const findMyrestaurant = await this.restaurantRepository.findMyrestaurant({ member_id: member_id });
+
+        if (findMyrestaurant) throw new Error('이미 자신의 식당이 존재합니다.');
+
         const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, category, tel, desc, image);
 
         return {

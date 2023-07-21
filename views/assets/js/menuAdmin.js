@@ -1,5 +1,8 @@
 const menuList = document.getElementById('menuList');
-
+const menuName = document.getElementById('menuName');
+const menuPrice = document.getElementById('menuPrice');
+const menuDesc = document.getElementById('menuDesc');
+const createBtn = document.getElementById('createBtn');
 const showmenuList = async () => {
     await fetchData('/myrestaurant', { method: 'GET' }).then((data) => {
         const { restaurant } = data;
@@ -35,6 +38,22 @@ const showmenuList = async () => {
     });
 };
 
+createBtn.addEventListener('click', async () => {
+    if (!menuName.value) return alert('이름을 작성해 주세요.');
+    if (!menuPrice.value) return alert('가격을 입력해주세요.');
+
+    const api = await fetch('/restaurant/menu', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(new createMenu()),
+    });
+
+    const { result } = await api.json();
+    alert(result);
+
+    if (result == '메뉴의 추가가 완료되었습니다.') return (window.location.href = '/menuAdmin');
+});
+
 async function fetchData(url, options) {
     try {
         const response = await fetch(url, options);
@@ -45,6 +64,13 @@ async function fetchData(url, options) {
         return await response.json();
     } catch (error) {
         console.error(error);
+    }
+}
+
+class createMenu {
+    constructor() {
+        this.name = menuName.value.trim();
+        this.price = menuPrice.value.trim();
     }
 }
 

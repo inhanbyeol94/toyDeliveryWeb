@@ -16,12 +16,11 @@ class MenusController {
     };
 
     createMenu = async (req, res, next) => {
-        const { restaurant_id } = req.params;
         const { member_id } = req.session.user;
         const { name, price, image } = req.body;
         try {
-            const createMenu = await this.menuService.createMenu(restaurant_id, member_id, name, price, image);
-            res.status(201).json({ data: createMenu });
+            const { code, result } = await this.menuService.createMenu(member_id, name, price, image);
+            res.status(code).json({ result });
         } catch (error) {
             res.status(400).json({ errorMessage: Error });
         }

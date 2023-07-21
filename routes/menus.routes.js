@@ -7,8 +7,8 @@ const menuController = new MenuController();
 
 router.get('/restaurant/:restaurant_id/menu/:menu_id', menuController.getMenu);
 router.get('/restaurant/:restaurant_id/menu', menuController.getMenuList);
-router.post('/restaurant/:restaurant_id/menu', menuController.createMenu);
-router.put('/restaurant/:restaurant_id/menu/:menu_id', menuController.updateMenu);
-router.delete('/restaurant/:restaurant_id/menu/:menu_id', menuController.deleteMenu);
+router.post('/restaurant/menu', adminAuthMiddleware, menuController.createMenu);
+router.put('/restaurant/:restaurant_id/menu/:menu_id', adminAuthMiddleware, menuController.updateMenu);
+router.delete('/restaurant/:restaurant_id/menu/:menu_id', adminAuthMiddleware, menuController.deleteMenu);
 
 module.exports = router;
