@@ -3,6 +3,12 @@ const menuName = document.getElementById('menuName');
 const menuPrice = document.getElementById('menuPrice');
 const menuDesc = document.getElementById('menuDesc');
 const createBtn = document.getElementById('createBtn');
+const menuImage = document.getElementById('menuImage');
+const largeModal = document.getElementById('largeModal');
+const modalImage = document.getElementById('modalImage');
+const modalName = document.getElementById('modalName');
+const modalPrice = document.getElementById('modalPrice');
+
 const showmenuList = async () => {
     await fetchData('/myrestaurant', { method: 'GET' }).then((data) => {
         const { restaurant } = data;
@@ -18,21 +24,32 @@ const showmenuList = async () => {
                     menuImage = `<img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">`;
                 }
                 const menuHtml = `<div class="card my-3 menuCard" data-bs-toggle="modal" data-bs-target="#largeModal">
-                <a herf="/restaurant/${menu.restaurant_id}/menu/${menu.menu_id}"
+                                        <div >
                                         <div class="row g-0">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4" id="menuImage">
                                             ${menuImage}
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="card-body">
-                                            <h5 class="card-title menuTitle">${menu.name}</h5>
+                                            <div class="card-body" id="cards">
+                                            <h5 class="card-title menuTitle" id="menuname">${menu.name}</h5>
                                             <p class="card-text">메뉴상세내용 완전 맛있는 00맛 00000</p>
-                                            <h5 class="card-sub-title">가격: ${menu.price}</h5>
+                                            <h5 class="card-sub-title" id="menuprice">가격: ${menu.price}</h5>
                                             </div>
+                                        </div>
                                         </div>
                                         </div>
                                     </div>`;
                 menuList.innerHTML += menuHtml;
+            });
+            const menuCards = document.querySelectorAll('#cards');
+            menuCards.forEach((card) => {
+                card.addEventListener('click', (event) => {
+                    const element = event.currentTarget;
+                    const name = element.querySelector('#menuname').innerHTML;
+                    const price = element.querySelector('#menuprice').innerHTML;
+                    document.getElementById('modalName').placeholder = name;
+                    document.getElementById('modalPrice').placeholder = price;
+                });
             });
         });
     });
