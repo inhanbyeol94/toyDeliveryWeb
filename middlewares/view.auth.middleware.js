@@ -52,6 +52,7 @@ const authMiddlewares = {
     adminAuthMiddleware: async (req, res, next) => {
         try {
             if (!req.session.user) return res.redirect('/login');
+
             const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
 
             if (!findUser) {

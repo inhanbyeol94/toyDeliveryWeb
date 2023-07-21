@@ -96,8 +96,7 @@ class MemberService {
         return { code: 200, result: '비밀번호를 수정하였습니다.' };
     };
 
-    findMember = async ({ member_id }) => {
-        console.log(member_id);
+    findMember = async (member_id) => {
         const findMember = await this.memberRepository.findOne({ member_id });
 
         const member = {

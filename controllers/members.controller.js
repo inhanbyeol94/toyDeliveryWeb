@@ -56,9 +56,9 @@ class MembersController {
 
     getMember = async (req, res) => {
         try {
+            console.log(req.session.user);
             const member_id = req.session.user?.member_id || null;
             const { code, member } = await this.memberService.findMember(member_id);
-
             res.status(code).json({ member });
         } catch (err) {
             if (err.status) return res.status(err.status).json({ message: err.message });

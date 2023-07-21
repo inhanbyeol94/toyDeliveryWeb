@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { menu } = require('./message.json');
 
-const Menuvalidations = {
+const Menuvalidation = {
     menuValidation: async (req, res, next) => {
         const { name, price } = req.body;
 
@@ -19,4 +19,4 @@ const Menuvalidations = {
     },
 };
 
-module.exports = Menuvalidations;
+module.exports = Menuvalidation;
