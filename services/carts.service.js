@@ -50,7 +50,7 @@ class CartService {
         const getCurrentCartData = await this.cartRepository.getCurrentCart({ member_id });
         if (!getCurrentCartData) throw new CustomError('현재 사용중인 장바구니가 없습니다.', 404, false);
 
-        const sumPrice = getCurrentCartData.CartItems.map((x) => x.Menu.price).reduce((acc, cur) => acc + cur, 0);
+        const sumPrice = getCurrentCartData.CartItems.map((x) => x.Menu.price * x.count).reduce((acc, cur) => acc + cur, 0);
         return new ServiceReturn('정상 반환되었습니다.', 200, [getCurrentCartData, sumPrice]);
     };
 
