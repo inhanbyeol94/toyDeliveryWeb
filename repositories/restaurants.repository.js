@@ -22,6 +22,7 @@ class RestaurantRepository {
     updateRestaurant = async ({ restaurant_id, name, address, tel, desc, category }) => {
         const updateRestaurant = await Restaurant.update(
             { name, address, tel, desc, category },
+
             {
                 where: { restaurant_id },
             }

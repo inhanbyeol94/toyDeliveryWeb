@@ -14,6 +14,7 @@ class RestaurantService {
             return {
                 restaurant_id: restaurant.restaurant_id,
                 name: restaurant.name,
+                category: restaurant.category,
                 tel: restaurant.tel,
                 image: restaurant.image,
                 createdAt: restaurant.createdAt,
@@ -28,6 +29,7 @@ class RestaurantService {
             restaurant_id: restaurant.restaurant_id,
             name: restaurant.name,
             address: restaurant.address,
+            category: restaurant.category,
             tel: restaurant.tel,
             desc: restaurant.desc,
             image: restaurant.image,
@@ -44,6 +46,7 @@ class RestaurantService {
             member_id: createRestaurant.member_id,
             name: createRestaurant.name,
             address: createRestaurant.address,
+            category: createRestaurant.category,
             tel: createRestaurant.tel,
             desc: createRestaurant.desc,
             image: createRestaurant.image,
@@ -63,8 +66,8 @@ class RestaurantService {
             name: updateRestaurant.name,
             address: updateRestaurant.address,
             tel: updateRestaurant.tel,
-            desc: updateRestaurant.desc,
             category: updateRestaurant.category,
+            desc: updateRestaurant.desc,
             createdAt: updateRestaurant.createdAt,
             updatedAt: updateRestaurant.updatedAt,
         };

@@ -107,6 +107,44 @@ class ViewService {
     signup = async ({ title, subtitle }) => {
         return { title, subtitle };
     };
+    orderAdmin = async () => {
+        return {
+            title: 'Toy Delivery Web',
+            subtitle: '매장 주문관리',
+            css: 'orderAdmin',
+        };
+    };
+    menuAdmin = async () => {
+        return {
+            title: 'Toy Delivery Web',
+            subtitle: '메뉴관리',
+            css: 'menuAdmin',
+        };
+    };
+
+    profile = async ({ user }) => {
+        if (user) {
+            return {
+                member_id: user.member_id,
+                email: user.email,
+                nickname: user.nickname,
+                image: user.image ?? 'https://img.freepik.com/free-icon/user_318-159711.jpg',
+                group: user.group,
+                defaultName: user.defaultName,
+                defaultPhone: user.defaultPhone,
+                defaultAddress: user.defaultAddress,
+                title: 'Toy Delivery Web',
+                subtitle: '사용자 프로필',
+            };
+        } else {
+            return {
+                member_id: null,
+                group: null,
+                title: 'Toy Delivery Web',
+                subtitle: '사용자 프로필',
+            };
+        }
+    };
 }
 
 module.exports = ViewService;

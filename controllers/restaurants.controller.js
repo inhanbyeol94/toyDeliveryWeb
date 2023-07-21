@@ -5,7 +5,8 @@ class RestaurantsController {
 
     getRestaurantList = async (req, res, next) => {
         const restaurants = await this.restaurantService.findAllRestaurant();
-        res.status(200).json({ data: restaurants });
+
+        res.status(200).json({ restaurants });
     };
 
     getRestaurant = async (req, res, next) => {
@@ -14,7 +15,18 @@ class RestaurantsController {
             const restaurant = await this.restaurantService.findRestaurant(restaurant_id);
             if (!restaurant) throw new Error('존재하지 않는 매장입니다.');
 
-            res.status(200).json({ data: restaurant });
+            res.status(200).json({ restaurant });
+        } catch (error) {
+            res.status(400).json({ errorMessage: Error });
+        }
+    };
+
+    getMyrestaurant = async (req, res, next) => {
+        const { member_id } = req.session.user;
+
+        try {
+            const restaurant = await this.restaurantService.findMyrestaurant(member_id);
+            res.status(200).json({ restaurant });
         } catch (error) {
             res.status(400).json({ errorMessage: Error });
         }

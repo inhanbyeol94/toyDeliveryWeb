@@ -40,7 +40,7 @@ const authMiddlewares = {
                 });
             }
 
-            if (req.session.user.group !== 0) return res.render('403');
+            if (findUser.group !== 0) return res.render('403');
 
             next();
         } catch (error) {
@@ -52,6 +52,7 @@ const authMiddlewares = {
     adminAuthMiddleware: async (req, res, next) => {
         try {
             if (!req.session.user) return res.redirect('/login');
+
             const findUser = await Member.findOne({ where: { member_id: req.session.user.member_id } });
 
             if (!findUser) {
@@ -60,7 +61,7 @@ const authMiddlewares = {
                 });
             }
 
-            if (req.session.user.group !== 1) return res.render('403');
+            if (findUser.group !== 1) return res.render('403');
 
             next();
         } catch (error) {
