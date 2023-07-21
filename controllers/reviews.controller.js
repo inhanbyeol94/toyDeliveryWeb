@@ -3,38 +3,38 @@ const ReviewService = require('../services/reviews.service');
 class ReviewsController {
     reviewService = new ReviewService();
 
-    getReviewList = async (req, res, next) => {
+    getReviewList = async (req, res) => {
         const { restaurant_id } = req.params;
         const reviews = await this.reviewService.findAllReview(restaurant_id);
         res.status(200).json({ data: reviews });
     };
 
-    getReviewsByMember = async (req, res, next) => {
+    getReviewsByMember = async (req, res) => {
         const { member_id } = req.session.user;
         const reviews = await this.reviewService.findReviewsByMember(member_id);
         res.status(200).json({ data: reviews });
     };
 
-    getReview = async (req, res, next) => {
+    getReview = async (req, res) => {
         const { review_id } = req.params;
-        const review = await this.reviewService.findReview(review_id);
+        const review = await this.reviewService.findOneReview(review_id);
         res.status(200).json({ data: review });
     };
 
-    createReview = async (req, res, next) => {
-        const { restaurant_id } = req.params;
+    createReview = async (req, res) => {
+        const { restaurant_id, order_id } = req.params;
         const { member_id } = req.session.user;
         const { star, review, image } = req.body;
         try {
-            const createReview = await this.reviewService.createReview({ restaurant_id, member_id, star, review, image });
-            res.status(201).json({ data: createReview });
+            const { code, message } = await this.reviewService.createReview(restaurant_id, member_id, order_id, star, review, image);
+            res.status(code).json({ message: message });
         } catch (error) {
             res.status(400).json({ Error });
         }
     };
 
-    updateReview = async (req, res, next) => {
-        const { review_id } = req.params;
+    updateReview = async (req, res) => {
+        const review_id = req.params.review_id;
         const { review, image, star } = req.body;
         const { member_id } = req.session.user;
         try {
@@ -46,8 +46,8 @@ class ReviewsController {
         }
     };
 
-    deleteReview = async (req, res, next) => {
-        const { review_id } = req.params;
+    deleteReview = async (req, res) => {
+        const review_id = req.params.review_id;
         const { member_id } = req.session.user;
         try {
             if (member_id !== 1) throw new Error('해당 권한이 없습니다.');

@@ -1,33 +1,25 @@
-const { Review } = require('../models');
-const { Op } = require('sequelize');
+const { Review, Member } = require('../models');
 
 class ReviewRepository {
     findAllReview = async (restaurant_id) => {
-        return await Review.findAll({
-            where: {
-                restaurant_id: restaurant_id,
-            },
-        });
+        return await Review.findAll({ where: { restaurant_id }, include: [{ model: Member }] });
     };
 
-    findReviewId = async (restaurant_id, review_id) => {
+    findReviewId = async (review_id) => {
         return await Review.findOne({
-            where: { [Op.and]: [{ restaurant_id }, { review_id }] },
+            where: { review_id },
         });
     };
 
     findReviewsByMember = async (member_id) => {
-        return await Review.findAll({
+        return await Review.findOne({
             where: { member_id },
+            include: [{ model: Member }],
         });
     };
 
-    findOneRestaurantReviews = async (restaurant_id) => {
-        return await Review.findAll({ where: { restaurant_id } });
-    };
-
-    createReview = async ({ restaurant_id, member_id, menu_id, menu_name, star, review, image }) => {
-        return await Review.create({ restaurant_id, member_id, menu_id, menu_name, star, review, image });
+    createReview = async (restaurant_id, member_id, order_id, star, review, image) => {
+        await Review.create({ restaurant_id, member_id, order_id, star, review, image });
     };
 
     updateReview = async (review_id, star, review, image) => {
