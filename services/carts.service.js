@@ -3,6 +3,7 @@ const CartRepository = require('../repositories/carts.repository');
 class CartService {
     cartRepository = new CartRepository();
     addCart = async ({ restaurant_id, user, menu_id, count }) => {
+        if (count <= 0) return { message: '수량은 0개 미만일 수 없습니다.' };
         const member_id = user.member_id;
         const checkCart = await this.cartRepository.findOne({ restaurant_id, member_id });
         if (!checkCart) {
