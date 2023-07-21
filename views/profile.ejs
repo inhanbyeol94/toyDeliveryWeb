@@ -20,10 +20,10 @@
             <div class="card">
               <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                 <div class="imageBox">
-                  <img src="<%= image %>" alt="Profile" class="profileImage">
+                  <img src="<%= pageInfo.image %>" alt="Profile" class="profileImage">
                 </div>
                 <h2>
-                  <%= defaultName %>
+                  <%= pageInfo.defaultName %>
                 </h2>
               </div>
             </div>
@@ -61,32 +61,32 @@
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label ">Name</div>
                       <div class="col-lg-9 col-md-8">
-                        <%= defaultName %>
+                        <%= pageInfo.defaultName %>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Nick Name</div>
                       <div class="col-lg-9 col-md-8">
-                        <%= nickname %>
+                        <%= pageInfo.nickname %>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Address</div>
                       <div class="col-lg-9 col-md-8">
-                        <%= defaultAddress %>
+                        <%= pageInfo.defaultAddress %>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Phone</div>
                       <div class="col-lg-9 col-md-8">
-                        <%= defaultPhone %>
+                        <%= pageInfo.defaultPhone %>
                       </div>
                     </div>
 
-                    <%if (group==0) {%>
+                    <%if (pageInfo.group==0) {%>
                       <div class="row">
                         <div class="col-lg-3 col-md-4 label">Group</div>
                         <div class="col-lg-9 col-md-8">고객</div>
@@ -107,7 +107,7 @@
                       <div class="row mb-3">
                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                         <div class="col-md-8 col-lg-9">
-                          <img src="<%= image %>" alt="Profile">
+                          <img src="<%= pageInfo.image %>" alt="Profile">
                           <div class="pt-2">
                             <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i
                                 class="bi bi-upload" id="imageBtn"></i></a>
@@ -123,14 +123,15 @@
                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Name</label>
                         <div class="col-md-8 col-lg-9">
                           <input name="fullName" type="text" class="form-control" id="fullName"
-                            value="<%= defaultName %>">
+                            value="<%= pageInfo.defaultName %>">
                         </div>
                       </div>
 
                       <div class="row mb-3">
                         <label for="company" class="col-md-4 col-lg-3 col-form-label">Nick Name</label>
                         <div class="col-md-8 col-lg-9">
-                          <input name="company" type="text" class="form-control" id="nickname" value="<%= nickname %>">
+                          <input name="company" type="text" class="form-control" id="nickname"
+                            value="<%= pageInfo.nickname %>">
                         </div>
                       </div>
 
@@ -138,14 +139,15 @@
                         <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                         <div class="col-md-8 col-lg-9">
                           <input name="address" type="text" class="form-control" id="Address"
-                            value="<%= defaultAddress %>">
+                            value="<%= pageInfo.defaultAddress %>">
                         </div>
                       </div>
 
                       <div class="row mb-3">
                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                         <div class="col-md-8 col-lg-9">
-                          <input name="phone" type="text" class="form-control" id="Phone" value="<%= defaultPhone %>">
+                          <input name="phone" type="text" class="form-control" id="Phone"
+                            value="<%= pageInfo.defaultPhone %>">
                         </div>
                       </div>
 
