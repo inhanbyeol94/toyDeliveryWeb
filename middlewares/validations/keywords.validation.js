@@ -23,7 +23,7 @@ const keywordValidations = {
         next();
     },
     searchValidation: async (req, res, next) => {
-        const { search } = req.body;
+        const { search } = req.params;
 
         const schema = Joi.object().keys({
             search: Joi.string()

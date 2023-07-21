@@ -3,8 +3,10 @@
 
     <main id="main" class="main">
       <div class="container-xg card-back">
-        <h3 class="title ps-5">000에 대한 검색 결과입니다</h3>
-        <div class="cardBox d-flex flex-wrap justify-content-around">
+        <div  id="searchKeywordBtn">
+          <h3 class="title ps-5">000에 대한 검색 결과입니다</h3>
+        </div>
+        <div class="cardBox d-flex flex-wrap justify-content-around" id="cards">
           <!-- card안 텍스트대신 변수를 할당하고 storeCard누르면 가게 상세페이지로 갈 수 있게 해주세요
             맨위의 card를 복사해서 써주세요 나머지는 지워도 됨
           pill안에는 키워드를 넣어주세요 너무 많으면 카드 밖으로 나갈 수도있슴니다 -->
@@ -63,6 +65,7 @@
       <!-- Template Main JS File -->
       <script src="assets/js/main.js"></script>
       <script type="module" src="assets/js/index.js"></script>
+      <script type="module" src="assets/js/searchEnd.js"></script>
       </body>
 
       </html>
