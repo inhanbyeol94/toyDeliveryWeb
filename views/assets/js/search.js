@@ -6,8 +6,7 @@ searchBtn.addEventListener('click', async () => {
     let selectType = '';
     if (searchType.value == 'keyword') selectType = 'keyword';
     else if (searchType.value == 'menuName') selectType = 'menu';
-    else if (searchType.value == 'category') selectType = 'category';
-    //searchKeyword 한글 깨짐
+
     const api = await fetch(`/search/${selectType}/${searchKeyword.value}`, {
         method: 'GET',
     });

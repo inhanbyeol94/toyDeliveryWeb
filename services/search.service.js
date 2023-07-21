@@ -62,10 +62,14 @@ class RestaurantService {
         }
 
         let findAllKeyword = [];
+        let findStar = [];
         for (let r of restaurants) {
             const restaurantFindAllKeyword = await this.keywordRepository.findAllKeyword(r.restaurant_id);
             findAllKeyword.push(restaurantFindAllKeyword);
+            const restaurantFindAllReview = await this.reviewRepository.findOneRestaurantReviews(r.restaurant_id);
+            findStar.push(restaurantFindAllReview);
         }
+
         return restaurants.map((restaurant) => {
             return {
                 restaurant_id: restaurant.restaurant_id,
@@ -73,6 +77,7 @@ class RestaurantService {
                 restaurant_number: restaurant.tel,
                 restaurant_address: restaurant.address,
                 restaurant_keyword: findAllKeyword,
+                restaurant_star: findStar,
                 desc: restaurant.desc,
                 created_at: restaurant.created_at,
                 updated_at: restaurant.updated_at,
@@ -98,10 +103,14 @@ class RestaurantService {
         const findCategory = await findAll.filter((n) => n.category == num);
 
         let findAllKeyword = [];
+        let findStar = [];
         for (let r of findCategory) {
             const restaurantFindAllKeyword = await this.keywordRepository.findAllKeyword(r.restaurant_id);
+            const restaurantFindAllReview = await this.reviewRepository.findOneRestaurantReviews(r.restaurant_id);
+            findStar.push(restaurantFindAllReview);
             findAllKeyword.push(restaurantFindAllKeyword);
         }
+
         return findCategory.map((restaurant) => {
             return {
                 restaurant_id: restaurant.restaurant_id,
@@ -109,6 +118,7 @@ class RestaurantService {
                 restaurant_number: restaurant.tel,
                 restaurant_address: restaurant.address,
                 restaurant_keyword: findAllKeyword,
+                restaurant_star: findStar,
                 desc: restaurant.desc,
                 created_at: restaurant.created_at,
                 updated_at: restaurant.updated_at,
