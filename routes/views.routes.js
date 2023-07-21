@@ -14,7 +14,7 @@ router.get('/profile', allAuthMiddleware, viewController.profile);
 router.get('/menuAdmin', adminAuthMiddleware, viewController.menuAdmin);
 router.get('/storeList', allAuthMiddleware, viewController.storeList);
 router.get('/orderHistory', allAuthMiddleware, viewController.orderHistory);
-router.get('/storeInfo/page/:restaurantId', adminAuthMiddleware, viewController.storeInfo);
+router.get('/storeInfo', adminAuthMiddleware, viewController.storeInfo);
 router.get('/restaurant/page/:restaurantId', allAuthMiddleware, viewController.restaurant);
 
 module.exports = router;
