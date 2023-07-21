@@ -1,14 +1,17 @@
 const RestaurantRepository = require('../repositories/restaurants.repository');
 const MemberRepository = require('../repositories/members.repository');
 const KeywordRepository = require('../repositories/keywords.repository');
+const CartRepository = require('../repositories/carts.repository');
 
 class ViewService {
     restaurantRepository = new RestaurantRepository();
     memberRepository = new MemberRepository();
     keywordRepository = new KeywordRepository();
+    cartRepository = new CartRepository();
 
     authorization = async ({ member_id, title, subtitle, restaurantId = null }) => {
         const user = await this.memberRepository.findOne({ member_id: member_id || null });
+        const cartItems = await this.cartRepository.memberCartitems({ member_id: member_id || null });
 
         switch (user?.group) {
             case 0:
@@ -24,6 +27,7 @@ class ViewService {
                     defaultAddress: user.MemberInfos.address,
                     title,
                     subtitle,
+                    cartItems,
                 };
 
             case 1: {
@@ -87,6 +91,7 @@ class ViewService {
                     defaultAddress: user.MemberInfos.address,
                     title,
                     subtitle,
+                    cartItems,
                 };
             }
             case undefined:
