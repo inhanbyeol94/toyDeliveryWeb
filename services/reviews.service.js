@@ -1,6 +1,7 @@
 const ReviewRepository = require('../repositories/reviews.repository');
 const RestaurantRepository = require('../repositories/restaurants.repository');
-
+const AWS = require('aws-sdk');
+const customError = require('../errorClass');
 class ReviewService {
     reviewRepository = new ReviewRepository();
     restaurantRepository = new RestaurantRepository();
@@ -100,6 +101,29 @@ class ReviewService {
             createdAt: findReview.created_at,
             updatedAt: findReview.updated_at,
         };
+    };
+    updateReviewImage = async ({ member_id, image }) => {
+        await this.reviewRepository.updateReviewImage({ member_id, image });
+        return { code: 200, result: '프로필 사진이 정상 저장되었습니다.' };
+    };
+    deleteReviewImage = async ({ member_id }) => {
+        const findUser = await this.reviewRepository.findReviewsByMember({ member_id: member_id });
+        const imageKey = findUser.image.replace('https://toydeliverycloud.s3.ap-northeast-2.amazonaws.com/', '');
+
+        const s3 = new AWS.S3();
+
+        s3.deleteObject(
+            {
+                Bucket: 'toydeliverycloud',
+                Key: imageKey,
+            },
+            async (err) => {
+                if (err) throw new customError('삭제에 실패하였습니다.', 406);
+                await this.memberRepository.updateProfileImage({ member_id, image: null });
+            }
+        );
+
+        return { code: 200, result: '정상적으로 삭제되었습니다.' };
     };
 }
 

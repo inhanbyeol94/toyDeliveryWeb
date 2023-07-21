@@ -8,14 +8,13 @@ class OrderRepository {
     findByMember = async (member_info_id) => {
         const order = await Order.findAll({
             where: { member_info_id },
-            raw: true,
             include: [
                 {
                     model: MemberInfo,
                 },
                 {
                     model: Restaurant,
-                    attributes: ['name'],
+                    attributes: ['name', 'image'],
                 },
                 {
                     model: Cart,

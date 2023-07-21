@@ -5,7 +5,6 @@ class OrdersController {
     orderCart = async (req, res) => {
         const { cart_id } = req.params;
         const { member_id } = req.session.user;
-        console.log(2);
         const data = await this.orderService.orderCart({ cart_id, member_id });
         res.status(200).json({ data });
     };
