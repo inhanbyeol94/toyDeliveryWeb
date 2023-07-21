@@ -15,11 +15,13 @@ async function addCart(menuId) {
     });
 
     const { status } = await api;
+    const { message } = await api.json();
 
     if (status == 200) {
-        alert('장바구니에 담겼습니다.');
+        alert(message);
+        window.location.reload();
     } else {
-        alert('오류가 발생하였습니다.');
+        alert(message);
     }
 }
 
