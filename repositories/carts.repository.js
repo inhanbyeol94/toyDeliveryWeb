@@ -50,6 +50,10 @@ class CartRepository {
             },
         });
     };
+
+    memberCartitems = async (data) => {
+        return Cart.findOne({ where: data, include: [{ model: CartItem }] });
+    };
 }
 
 module.exports = CartRepository;
