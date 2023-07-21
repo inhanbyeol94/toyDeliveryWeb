@@ -65,39 +65,38 @@
         </li>
 
         <% if(group==1) { %>
-            <li class="nav-heading">관리</li>
+        <li class="nav-heading">관리</li>
 
-            <li class="nav-item">
-                <% if(restaurantId) { %>
-                    <a class="nav-link collapsed" href="/storeInfo/page/<%= restaurantId %>">
-                        <i class="fal fa-hat-chef"></i>
-                        <span>레스토랑 관리</span>
-                    </a>
-                    <% } else {%>
-                        <a class="nav-link collapsed" href="/storeInfo/page/null">
-                            <i class="fal fa-hat-chef"></i>
-                            <span>레스토랑 관리</span>
-                        </a>
-                        <% } %>
-
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/orderAdmin">
-                    <i class="fal fa-file-invoice-dollar"></i>
-                    <span> 주문 관리</span>
-                </a>
-            </li>
-            <!-- End F.A.Q Page Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/menuAdmin">
-                    <i class="fal fa-utensils-alt"></i>
-                    <span>메뉴 관리</span>
-                </a>
-            </li>
-            <!-- End F.A.Q Page Nav -->
+        <li class="nav-item">
+            <% if(restaurantId) { %>
+            <a class="nav-link collapsed" href="/storeInfo/page/<%= restaurantId %>">
+                <i class="fal fa-hat-chef"></i>
+                <span>레스토랑 관리</span>
+            </a>
+            <% } else {%>
+            <a class="nav-link collapsed" href="/storeInfo/page/null">
+                <i class="fal fa-hat-chef"></i>
+                <span>레스토랑 관리</span>
+            </a>
             <% } %>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/orderAdmin">
+                <i class="fal fa-file-invoice-dollar"></i>
+                <span> 주문 관리</span>
+            </a>
+        </li>
+        <!-- End F.A.Q Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/menuAdmin">
+                <i class="fal fa-utensils-alt"></i>
+                <span>메뉴 관리</span>
+            </a>
+        </li>
+        <!-- End F.A.Q Page Nav -->
+        <% } %>
     </ul>
 </aside>
 <!-- End Sidebar-->

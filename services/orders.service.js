@@ -28,6 +28,14 @@ class OrderService {
         }
         return order;
     };
+    findMemberOrder = async ({ member_id }) => {
+        const userInfo = await this.memberRepository.findOne({ member_id });
+        const order = await this.orderRepository.findByMember(userInfo.MemberInfos.member_info_id);
+        if (!order) {
+            throw { code: 404, message: '주문 목록을 불러오는중 오류가 생겼습니다' };
+        }
+        return order;
+    };
     orderUpdate = async ({ order_id, status, addTime, user }) => {
         try {
             const order = await this.orderRepository.findById({ order_id });

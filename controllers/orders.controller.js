@@ -5,7 +5,6 @@ class OrdersController {
     orderCart = async (req, res) => {
         const { cart_id } = req.params;
         const { member_id } = req.session.user;
-        console.log(2);
         const data = await this.orderService.orderCart({ cart_id, member_id });
         res.status(200).json({ data });
     };
@@ -13,6 +12,17 @@ class OrdersController {
         try {
             const { restaurant_id } = req.params;
             const data = await this.orderService.orderCheck({ restaurant_id });
+            res.status(200).json({ data });
+        } catch (err) {
+            if (err.code) return res.status(err.code).json({ message: err.message });
+            console.error(err);
+            return res.status(500).json({ message: err });
+        }
+    };
+    findMemberOrder = async (req, res) => {
+        try {
+            const { member_id } = req.session.user;
+            const data = await this.orderService.findMemberOrder({ member_id });
             res.status(200).json({ data });
         } catch (err) {
             if (err.code) return res.status(err.code).json({ message: err.message });

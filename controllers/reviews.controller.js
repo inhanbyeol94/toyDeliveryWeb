@@ -57,6 +57,39 @@ class ReviewsController {
             res.status(400).json({ errorMessage: Error });
         }
     };
+    updateReviewImage = async (req, res) => {
+        try {
+            const image = req.file.location;
+            const { member_id } = req.session.user;
+            const { code, result } = await this.reviewService.updateReviewImage({ image, member_id });
+            res.status(code).json({ result });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+    deleteReviewImage = async (req, res) => {
+        try {
+            const { member_id } = req.session.user;
+            const { code, result } = await this.reviewService.deleteReviewImage({ member_id });
+            res.status(code).json({ result });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+    addReviewByOrder = async (req, res) => {
+        const { member_id } = req.session.user;
+        const { order_id } = req.params;
+        const reviews = await this.reviewService.addReviewByOrder(order_id, member_id);
+        res.status(200).json({ data: reviews });
+    };
+    deleteReviewByOrder = async (req, res) => {
+        const { member_id } = req.session.user;
+        const { order_id } = req.params;
+        const reviews = await this.reviewService.deleteReviewByOrder(order_id, member_id);
+        res.status(200).json({ data: reviews });
+    };
 }
 
 module.exports = ReviewsController;

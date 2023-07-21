@@ -1,12 +1,41 @@
-const { Order, Cart, MemberInfo, Menu, CartItem } = require('../models');
+const { Order, Cart, MemberInfo, Menu, CartItem, Restaurant } = require('../models');
 
 class OrderRepository {
     findById = async ({ order_id }) => {
         const order = await Order.findByPk(order_id, { raw: true });
         return order;
     };
+    findByMember = async (member_info_id) => {
+        const order = await Order.findAll({
+            where: { member_info_id },
+            include: [
+                {
+                    model: MemberInfo,
+                },
+                {
+                    model: Restaurant,
+                    attributes: ['name', 'image'],
+                },
+                {
+                    model: Cart,
+                    include: [
+                        {
+                            model: CartItem,
+                            attributes: ['count'],
+                            include: [
+                                {
+                                    model: Menu,
+                                    attributes: ['name'],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        });
+        return order;
+    };
     orderCheck = async ({ restaurant_id }) => {
-        console.log(restaurant_id);
         const order = await Order.findAll({
             attributes: ['order_id', 'status', 'created_at'],
             order: ['created_at'],
