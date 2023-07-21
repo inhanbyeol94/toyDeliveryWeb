@@ -1276,3 +1276,34 @@ h6 {
     border: 1px solid #b2b2b2;
     border-radius: 8px;
 }
+/*--------------------------------------------------------------
+#  cart modal
+--------------------------------------------------------------*/
+
+#cartModalBtn {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: none;
+}
+#cartModalBtn2 {
+    padding: none;
+    margin: none;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: none;
+}
+#modal-close {
+    width: 4em;
+    margin-left: 2em;
+}
+#payBtn {
+    background-color: rgb(44, 145, 98);
+    font-weight: 600;
+}
+#payBtn:hover {
+    background-color: rgb(23, 116, 73);
+}
+.cart-title {
+    font-weight: 600;
+    font-size: 2em;
+}
