@@ -13,12 +13,12 @@ loginBtn.addEventListener('click', async () => {
         body: JSON.stringify(new loginUser()),
     });
     const { status } = await api;
-    const { result } = await api.json();
+    const { message } = await api.json();
 
     if (status == 200) {
         window.location.href = '/';
     } else {
-        alert(result);
+        alert(message);
     }
 });
 
