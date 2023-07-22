@@ -47,7 +47,7 @@ const Membervalidations = {
         try {
             await schema.validateAsync({ email, nickname, name, phone, address, password, confirmPassword });
         } catch (err) {
-            return res.status(412).json({ result: err.message });
+            return res.status(412).json({ message: err.message });
         }
 
         next();
@@ -75,7 +75,7 @@ const Membervalidations = {
         try {
             await schema.validateAsync({ email, password });
         } catch (err) {
-            return res.status(412).json({ result: err.message });
+            return res.status(412).json({ message: err.message });
         }
 
         next();
@@ -96,7 +96,7 @@ const Membervalidations = {
         try {
             await schema.validateAsync({ email });
         } catch (err) {
-            return res.status(412).json({ result: err.message });
+            return res.status(412).json({ message: err.message });
         }
 
         next();
@@ -132,7 +132,7 @@ const Membervalidations = {
         try {
             await schema.validateAsync({ nickname, name, phone, address });
         } catch (err) {
-            return res.status(412).json({ result: err.message });
+            return res.status(412).json({ message: err.message });
         }
 
         next();
@@ -159,7 +159,7 @@ const Membervalidations = {
         try {
             await schema.validateAsync({ password, changePwd, confirmPwd });
         } catch (err) {
-            return res.status(412).json({ result: err.message });
+            return res.status(412).json({ message: err.message });
         }
 
         next();

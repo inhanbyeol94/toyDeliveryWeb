@@ -13,7 +13,7 @@ const Reviewvalidations = {
         try {
             await schema.validateAsync({ star, review });
         } catch (err) {
-            return res.status(412).json({ result: err.message });
+            return res.status(412).json({ message: err.message });
         }
         next();
     },
