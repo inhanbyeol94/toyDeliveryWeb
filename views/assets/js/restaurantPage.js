@@ -11,7 +11,7 @@ async function addCart(menuId) {
     const api = await fetch(`/restaurant/${window.location.pathname.split('/')[3]}/cart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ menu_id: menuId, count: countInput.value }),
+        body: JSON.stringify({ menu_id: menuId, count: Number(countInput.value) }),
     });
 
     const { status } = await api;
@@ -93,6 +93,7 @@ const getMenuPage = async (restaurant) => {
     if (status == 200) {
         // console.log(menus);
         menuPageHtml(result);
+        addCart(result.menu_id);
     } else {
         alert(message);
     }
@@ -112,8 +113,8 @@ const menuPageHtml = async (menus) => {
                                         <h5 class="card-title">${menu.name}</h5>
                                         <p class="card-text">${menu.price}원</p>
                                         <div class="input-group mb-3" style="max-width: 190px;">
-                                            <input type="number" class="form-control" style="width: 50px;" value="0" id="countInput${menu.menu_id}">
-                                            <button type="button" class="btn btn-dark" onclick="addCart(${menu.menuId})">장바구니 담기</button>
+                                            <input type="number" class="form-control" style="width: 50px;" id="countInput${menu.menu_id}">
+                                            <button type="button" class="btn btn-dark" onclick="addCart(${menu.menu_id})">장바구니 담기</button>
                                         </div>
                                         </div>
                                     </div>
@@ -148,11 +149,11 @@ const reviewPageHtml = (reviews) => {
     for (let review of reviews) {
         let starHtml = '';
 
-        if (review.star == 1) starHtml = '★☆☆☆☆';
-        else if (review.star == 2) starHtml = '★★☆☆☆';
-        else if (review.star == 3) starHtml = '★★★☆☆';
-        else if (review.star == 4) starHtml = '★★★★☆';
-        else if (review.star == 5) starHtml = '★★★★';
+        if (review.star == 1) starHtml = '⭐';
+        else if (review.star == 2) starHtml = '⭐⭐';
+        else if (review.star == 3) starHtml = '⭐⭐⭐';
+        else if (review.star == 4) starHtml = '⭐⭐⭐⭐';
+        else if (review.star == 5) starHtml = '⭐⭐⭐⭐⭐';
         const createReviewHtml = `<div class="card mb-3">
                                         <div class="row g-0">
                                         <div class="col-md-1" style="text-align: center;">
@@ -162,8 +163,6 @@ const reviewPageHtml = (reviews) => {
                                         <div class="col-md-8">
                                             <div class="card-body">
                                             <p class="card-text">${starHtml}</p>
-                                            <a href="#">수정</a>
-                                            <a href="#">삭제</a>
                                             <h5 class="card-title">리뷰평</h5>
                                             <p class="card-text">${review.review}</p>
                                             </div>
