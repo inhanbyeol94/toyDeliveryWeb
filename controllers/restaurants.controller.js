@@ -34,7 +34,7 @@ class RestaurantsController {
     getMyrestaurant = async (req, res) => {
         try {
             const { member_id } = req.session.user;
-            const { status, message, result } = await this.restaurantService.findRestaurant(member_id);
+            const { status, message, result } = await this.restaurantService.findMyrestaurant(member_id);
 
             res.status(status).json({ message, result });
         } catch (error) {

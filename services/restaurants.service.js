@@ -36,6 +36,13 @@ class RestaurantService {
         return new ServiceReturn('정상 반환되었습니다.', 200, findRestaurant);
     };
 
+    findMyrestaurant = async (member_id) => {
+        const findRestaurant = await this.restaurantRepository.findRestaurantId({ member_id });
+        if (!findRestaurant) throw new CustomError('레스토랑을 찾을 수 없습니다.', 404);
+
+        return new ServiceReturn('정상 반환되었습니다.', 200, findRestaurant);
+    };
+
     //** 레스토랑 생성 */
     createRestaurant = async (member_id, name, address, tel, desc, category, image) => {
         const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, tel, desc, category, image);
