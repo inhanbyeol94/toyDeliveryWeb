@@ -2,12 +2,14 @@ const MenuRepository = require('../repositories/menus.repository');
 const KeywordRepository = require('../repositories/keywords.repository');
 const RestaurantRepository = require('../repositories/restaurants.repository');
 const ReviewRepository = require('../repositories/reviews.repository');
+const { ServiceReturn } = require('../customClass');
 class RestaurantService {
     menuRepository = new MenuRepository();
     keywordRepository = new KeywordRepository();
     restaurantRepository = new RestaurantRepository();
     reviewRepository = new ReviewRepository();
 
+    /** 키워드 검색시 해당 레스토랑 전체 조회 */
     keyword = async (keyword) => {
         const findAll = await this.keywordRepository.findAll();
 
@@ -31,7 +33,7 @@ class RestaurantService {
             findStar.push(restaurantFindAllReview);
         }
 
-        return restaurants.map((restaurant) => {
+        const result = restaurants.map((restaurant) => {
             return {
                 restaurant_id: restaurant.restaurant_id,
                 restaurant_name: restaurant.name,
@@ -44,11 +46,15 @@ class RestaurantService {
                 updated_at: restaurant.updated_at,
             };
         });
+
+        return new ServiceReturn('키워드로 레스토랑을 조회했습니다.', 200, result);
     };
 
+    /** 메뉴 검색시 해당 레스토랑 전체 조회 */
     menu = async (menu) => {
         const findAll = await this.menuRepository.findAll();
 
+        //전체 메뉴 중 검색한 메뉴가 포함된 경우
         const findMenu = await findAll.filter((m) => {
             if (m.name.search(menu) > -1) {
                 return m.restaurant_id;
@@ -70,7 +76,7 @@ class RestaurantService {
             findStar.push(restaurantFindAllReview);
         }
 
-        return restaurants.map((restaurant) => {
+        const result = restaurants.map((restaurant) => {
             return {
                 restaurant_id: restaurant.restaurant_id,
                 restaurant_name: restaurant.name,
@@ -83,9 +89,11 @@ class RestaurantService {
                 updated_at: restaurant.updated_at,
             };
         });
+
+        return new ServiceReturn('메뉴로 레스토랑을 조회했습니다.', 200, result);
     };
 
-    //일단 카테고리는 키워드에 저장해서 그걸 가져다 쓰기로 함.
+    /** 카테고리 검색(선택)시 해당 레스토랑 전체 조회 */
     category = async (category) => {
         //0:한식, 1:분식, 2:카페&디저트, 3:치킨, 4:피자, 5:아시안, 6:양식, 7:일식, 8:중식
         const findAll = await this.restaurantRepository.findAllRestaurant();
@@ -111,7 +119,7 @@ class RestaurantService {
             findAllKeyword.push(restaurantFindAllKeyword);
         }
 
-        return findCategory.map((restaurant) => {
+        const result = findCategory.map((restaurant) => {
             return {
                 restaurant_id: restaurant.restaurant_id,
                 restaurant_name: restaurant.name,
@@ -124,6 +132,8 @@ class RestaurantService {
                 updated_at: restaurant.updated_at,
             };
         });
+
+        return new ServiceReturn('카테고리로 레스토랑을 조회했습니다.', 200, result);
     };
 }
 
