@@ -5,6 +5,7 @@ const AWS = require('aws-sdk');
 class RestaurantService {
     restaurantRepository = new RestaurantRepository();
 
+    //** 전체 레스토랑 불러오기 */
     findAllRestaurant = async () => {
         const allRestaurant = await this.restaurantRepository.findAllRestaurant();
 
@@ -12,7 +13,7 @@ class RestaurantService {
             return b.createAt - a.createAt;
         });
 
-        return allRestaurant.map((restaurant) => {
+        const allRestaurantData = allRestaurant.map((restaurant) => {
             return {
                 restaurant_id: restaurant.restaurant_id,
                 name: restaurant.name,
@@ -23,69 +24,86 @@ class RestaurantService {
                 updatedAt: restaurant.updatedAt,
             };
         });
+
+        return new ServiceReturn('정상 반환되었습니다.', 200, allRestaurantData);
     };
 
+    //** 특정 레스토랑 불러오기 */
     findRestaurant = async (restaurant_id) => {
-        const restaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-        return restaurant;
+        const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
+        if (!findRestaurant) throw new CustomError('레스토랑을 찾을 수 없습니다.', 404);
+
+        return new ServiceReturn('정상 반환되었습니다.', 200, findRestaurant);
     };
 
-    createRestaurant = async ({ member_id, name, address, tel, desc, category, image }) => {
-        const overlapName = await this.restaurantRepository.findRestaurantId({ name: name });
-        if (overlapName) throw new CustomError('이미 사용중인 매장의 이름입니다.', 403);
+    //** 레스토랑 생성 */
+    createRestaurant = async (member_id, name, address, tel, desc, category, image) => {
+        const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, tel, desc, category, image);
+        const createRestaurantData = {
+            restaurant_id: createRestaurant.restaurant_id,
+            member_id: createRestaurant.member_id,
+            name: createRestaurant.name,
+            address: createRestaurant.address,
+            category: createRestaurant.category,
+            tel: createRestaurant.tel,
+            desc: createRestaurant.desc,
+            image: createRestaurant.image,
+            createdAt: createRestaurant.createdAt,
+            updatedAt: createRestaurant.updatedAt,
+        };
 
-        const overlapAdmin = await this.restaurantRepository.findRestaurantId({ member_id: member_id });
-        if (overlapAdmin) throw new CustomError('해당 아이디에는 이미 매장이 존재합니다.', 403);
-
-        await this.restaurantRepository.createRestaurant({ member_id, name, address, tel, desc, category, image });
-
-        return new ServiceReturn('매장 생성이 완료되었습니다.', 201, true);
+        return new ServiceReturn('레스토랑이 정상 생성되었습니다.', 201, createRestaurantData);
     };
 
+    //** 레스토랑 수정 */
     updateRestaurant = async (member_id, restaurant_id, name, address, tel, desc, category) => {
-        const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id: restaurant_id });
-        if (!findRestaurant) throw new CustomError('존재하지 않는 매장입니다.', 404);
-        if (findRestaurant.member_id !== member_id) throw new CustomError('작성한 유저가 아닙니다.', 404);
+        const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
+        if (!findRestaurant) throw new CustomError('레스토랑이 존재하지 않습니다.', 404);
+        if (findRestaurant.member_id !== member_id) throw new CustomError('레스터랑 정보 수정은 본인이 개설한 레스토랑만 가능합니다.', 403);
+
         await this.restaurantRepository.updateRestaurant({ restaurant_id, name, address, tel, desc, category });
 
         return ServiceReturn('매장 수정에 성공하였습니다.', 200, true);
     };
+
+    //** 레스토랑 대표 이미지 수정 */
     updateRestaurantImg = async ({ image, restaurant_id }) => {
         await this.restaurantRepository.updateRestaurantImg({ image, restaurant_id });
-        return { result: '매장 사진이 정상 저장되었습니다.' };
+        return new ServiceReturn('매장 사진이 정상 저장되었습니다.', 200, true);
     };
 
+    //** 레스토랑 삭제 */
     deleteRestaurant = async (restaurant_id, member_id) => {
         const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-        if (!findRestaurant) throw new CustomError('존재하지 않는 매장입니다.', 404);
-        if (findRestaurant.member_id !== member_id) throw new CustomError('작성한 유저가 아닙니다.', 404);
+        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
+        if (findRestaurant.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
 
         await this.restaurantRepository.deleteRestaurant(restaurant_id);
-        return ServiceReturn('매장 삭제에 성공하였습니다.', 200, true);
+        return {
+            restaurant_id: findRestaurant.restaurant_id,
+            name: findRestaurant.name,
+        };
     };
+
+    //** 레스토랑 대표 이미지 삭제 */
     deleteProfileImage = async ({ restaurant_id }) => {
-        try {
-            const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-            const imageKey = findRestaurant.image.replace('https://toydeliverycloud.s3.ap-northeast-2.amazonaws.com/', '');
+        const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
+        const imageKey = findRestaurant.image.replace('https://toydeliverycloud.s3.ap-northeast-2.amazonaws.com/', '');
 
-            const s3 = new AWS.S3();
+        const s3 = new AWS.S3();
 
-            s3.deleteObject(
-                {
-                    Bucket: 'toydeliverycloud',
-                    Key: imageKey,
-                },
-                async (err) => {
-                    if (err) throw { result: '이미지를 삭제하는 중 오류가 발생했습니다' };
-                    await this.restaurantRepository.updateRestaurantImg({ image: null, restaurant_id });
-                }
-            );
+        s3.deleteObject(
+            {
+                Bucket: 'toydeliverycloud',
+                Key: imageKey,
+            },
+            async (err) => {
+                if (err) throw new CustomError('이미지를 삭제하는 중 오류가 발생하였습니다.', 500);
+                await this.restaurantRepository.updateRestaurantImg({ image: null, restaurant_id });
+            }
+        );
 
-            return { result: '정상적으로 삭제되었습니다.' };
-        } catch (err) {
-            console.log(err.message);
-            return { result: '오류가 발생했습니다' };
-        }
+        return new ServiceReturn('정상 삭제되었습니다.', 200, true);
     };
 }
 

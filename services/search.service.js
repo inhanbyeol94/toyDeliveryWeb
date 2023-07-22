@@ -2,12 +2,14 @@ const MenuRepository = require('../repositories/menus.repository');
 const KeywordRepository = require('../repositories/keywords.repository');
 const RestaurantRepository = require('../repositories/restaurants.repository');
 const ReviewRepository = require('../repositories/reviews.repository');
+const { ServiceReturn } = require('../customClass');
 class RestaurantService {
     menuRepository = new MenuRepository();
     keywordRepository = new KeywordRepository();
     restaurantRepository = new RestaurantRepository();
     reviewRepository = new ReviewRepository();
 
+    /** 키워드 검색시 해당 레스토랑 전체 조회 */
     keyword = async (keyword) => {
         const findAll = await this.keywordRepository.findAll();
 
@@ -16,76 +18,136 @@ class RestaurantService {
             if (key.keyword.search(keyword) > -1) return key.restaurant_id;
         });
 
+        //같은 레스토랑이 여러개 들어감. 수정함.
         let restaurants = [];
         for (let key of findKeyword) {
             const restaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id: key.restaurant_id });
-            restaurants.push(restaurant);
+
+            if (restaurants.length > 0) {
+                for (let i in restaurants) {
+                    if (restaurant.restaurant_id != restaurants[i].restaurant_id) restaurants.push(restaurant);
+                }
+            } else restaurants.push(restaurant);
         }
 
+        //여기가 문제인걸로 보임.
         let findAllKeyword = [];
         let findStar = [];
         for (let r of restaurants) {
+            //각 레스토랑의 키워드들 [[{restaurant_id:1},{restaurant_id:1}],[{restaurant_id:2}]]로
             const restaurantFindAllKeyword = await this.keywordRepository.findAllKeyword(r.restaurant_id);
-            findAllKeyword.push(restaurantFindAllKeyword);
-            const restaurantFindAllReview = await this.reviewRepository.findOneRestaurantReviews(r.restaurant_id);
-            findStar.push(restaurantFindAllReview);
+            let findKey = [];
+            for (let key in restaurantFindAllKeyword) {
+                findKey[key] = {
+                    restaurantId: restaurantFindAllKeyword[key].restaurant_id,
+                    keywordId: restaurantFindAllKeyword[key].keyword_id,
+                    keyword: restaurantFindAllKeyword[key].keyword,
+                };
+            }
+            findAllKeyword.push(findKey);
+
+            //각 레스토랑의 리뷰들 [[{restaurant_id:1},{restaurant_id:1}],[{restaurant_id:2}]]로
+            const restaurantFindAllReview = await this.reviewRepository.findAllReview(r.restaurant_id);
+            let findReview = [];
+            for (let review in restaurantFindAllReview) {
+                findReview[review] = {
+                    restaurantId: restaurantFindAllReview[review].restaurant_id,
+                    reviewId: restaurantFindAllReview[review].review_id,
+                    star: restaurantFindAllReview[review].star,
+                };
+            }
+            findStar.push(findReview);
         }
 
-        return restaurants.map((restaurant) => {
+        const result = restaurants.map((restaurant) => {
             return {
-                restaurant_id: restaurant.restaurant_id,
-                restaurant_name: restaurant.name,
-                restaurant_number: restaurant.tel,
-                restaurant_address: restaurant.address,
-                restaurant_keyword: findAllKeyword,
-                restaurant_star: findStar,
+                restaurantId: restaurant.restaurant_id,
+                restaurantName: restaurant.name,
+                restaurantNumber: restaurant.tel,
+                restaurantAddress: restaurant.address,
+                restaurantKeyword: findAllKeyword,
+                restaurantStar: findStar,
+                restaurantImage: restaurant.image,
                 desc: restaurant.desc,
-                created_at: restaurant.created_at,
-                updated_at: restaurant.updated_at,
+                createdAt: restaurant.created_at,
+                updatedAt: restaurant.updated_at,
             };
         });
+
+        return new ServiceReturn('키워드로 레스토랑을 조회했습니다.', 200, result);
     };
 
+    /** 메뉴 검색시 해당 레스토랑 전체 조회 */
     menu = async (menu) => {
         const findAll = await this.menuRepository.findAll();
 
+        //전체 메뉴 중 검색한 메뉴가 포함된 경우
         const findMenu = await findAll.filter((m) => {
             if (m.name.search(menu) > -1) {
                 return m.restaurant_id;
             }
         });
 
+        //같은 레스토랑이 여러개 들어감. 수정함.
         let restaurants = [];
         for (let key of findMenu) {
             const restaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id: key.restaurant_id });
-            restaurants.push(restaurant);
+
+            if (restaurants.length > 0) {
+                for (let i in restaurants) {
+                    if (restaurant.restaurant_id != restaurants[i].restaurant_id) restaurants.push(restaurant);
+                }
+            } else restaurants.push(restaurant);
         }
 
+        //여기가 문제인걸로 보임.
         let findAllKeyword = [];
         let findStar = [];
         for (let r of restaurants) {
+            //각 레스토랑의 키워드들 [[{restaurant_id:1},{restaurant_id:1}],[{restaurant_id:2}]]로
             const restaurantFindAllKeyword = await this.keywordRepository.findAllKeyword(r.restaurant_id);
-            findAllKeyword.push(restaurantFindAllKeyword);
-            const restaurantFindAllReview = await this.reviewRepository.findOneRestaurantReviews(r.restaurant_id);
-            findStar.push(restaurantFindAllReview);
+            let findKey = [];
+            for (let key in restaurantFindAllKeyword) {
+                findKey[key] = {
+                    restaurantId: restaurantFindAllKeyword[key].restaurant_id,
+                    keywordId: restaurantFindAllKeyword[key].keyword_id,
+                    keyword: restaurantFindAllKeyword[key].keyword,
+                };
+            }
+            findAllKeyword.push(findKey);
+
+            //각 레스토랑의 리뷰들 [[{restaurant_id:1},{restaurant_id:1}],[{restaurant_id:2}]]로
+            const restaurantFindAllReview = await this.reviewRepository.findAllReview(r.restaurant_id);
+            let findReview = [];
+            for (let review in restaurantFindAllReview) {
+                findReview[review] = {
+                    restaurantId: restaurantFindAllReview[review].restaurant_id,
+                    reviewId: restaurantFindAllReview[review].review_id,
+                    star: restaurantFindAllReview[review].star,
+                };
+            }
+            findStar.push(findReview);
         }
 
-        return restaurants.map((restaurant) => {
+        const result = restaurants.map((restaurant) => {
             return {
-                restaurant_id: restaurant.restaurant_id,
-                restaurant_name: restaurant.name,
-                restaurant_number: restaurant.tel,
-                restaurant_address: restaurant.address,
-                restaurant_keyword: findAllKeyword,
-                restaurant_star: findStar,
+                restaurantId: restaurant.restaurant_id,
+                restaurantName: restaurant.name,
+                restaurantNumber: restaurant.tel,
+                restaurantAddress: restaurant.address,
+                restaurantKeyword: findAllKeyword,
+                restaurantStar: findStar,
+                restaurantImage: restaurant.image,
                 desc: restaurant.desc,
-                created_at: restaurant.created_at,
-                updated_at: restaurant.updated_at,
+                createdAt: restaurant.created_at,
+                updatedAt: restaurant.updated_at,
             };
         });
+
+        return new ServiceReturn('메뉴로 레스토랑을 조회했습니다.', 200, result);
     };
 
-    //일단 카테고리는 키워드에 저장해서 그걸 가져다 쓰기로 함.
+    /** 카테고리 검색(선택)시 해당 레스토랑 전체 조회 */
     category = async (category) => {
         //0:한식, 1:분식, 2:카페&디저트, 3:치킨, 4:피자, 5:아시안, 6:양식, 7:일식, 8:중식
         const findAll = await this.restaurantRepository.findAllRestaurant();
@@ -102,28 +164,51 @@ class RestaurantService {
 
         const findCategory = await findAll.filter((n) => n.category == num);
 
+        //여기가 문제인걸로 보임.
         let findAllKeyword = [];
         let findStar = [];
         for (let r of findCategory) {
+            //각 레스토랑의 키워드들 [[{restaurant_id:1},{restaurant_id:1}],[{restaurant_id:2}]]로
             const restaurantFindAllKeyword = await this.keywordRepository.findAllKeyword(r.restaurant_id);
-            const restaurantFindAllReview = await this.reviewRepository.findOneRestaurantReviews(r.restaurant_id);
-            findStar.push(restaurantFindAllReview);
-            findAllKeyword.push(restaurantFindAllKeyword);
+            let findKey = [];
+            for (let key in restaurantFindAllKeyword) {
+                findKey[key] = {
+                    restaurantId: restaurantFindAllKeyword[key].restaurant_id,
+                    keywordId: restaurantFindAllKeyword[key].keyword_id,
+                    keyword: restaurantFindAllKeyword[key].keyword,
+                };
+            }
+            findAllKeyword.push(findKey);
+
+            //각 레스토랑의 리뷰들 [[{restaurant_id:1},{restaurant_id:1}],[{restaurant_id:2}]]로
+            const restaurantFindAllReview = await this.reviewRepository.findAllReview(r.restaurant_id);
+            let findReview = [];
+            for (let review in restaurantFindAllReview) {
+                findReview[review] = {
+                    restaurantId: restaurantFindAllReview[review].restaurant_id,
+                    reviewId: restaurantFindAllReview[review].review_id,
+                    star: restaurantFindAllReview[review].star,
+                };
+            }
+            findStar.push(findReview);
         }
 
-        return findCategory.map((restaurant) => {
+        const result = findCategory.map((restaurant) => {
             return {
-                restaurant_id: restaurant.restaurant_id,
-                restaurant_name: restaurant.name,
-                restaurant_number: restaurant.tel,
-                restaurant_address: restaurant.address,
-                restaurant_keyword: findAllKeyword,
-                restaurant_star: findStar,
+                restaurantId: restaurant.restaurant_id,
+                restaurantName: restaurant.name,
+                restaurantNumber: restaurant.tel,
+                restaurantAddress: restaurant.address,
+                restaurantKeyword: findAllKeyword,
+                restaurantStar: findStar,
+                restaurantImage: restaurant.image,
                 desc: restaurant.desc,
-                created_at: restaurant.created_at,
-                updated_at: restaurant.updated_at,
+                createdAt: restaurant.created_at,
+                updatedAt: restaurant.updated_at,
             };
         });
+
+        return new ServiceReturn('카테고리로 레스토랑을 조회했습니다.', 200, result);
     };
 }
 

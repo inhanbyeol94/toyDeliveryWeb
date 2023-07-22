@@ -2,45 +2,63 @@ const OrderService = require('../services/orders.service');
 
 class OrdersController {
     orderService = new OrderService();
+
+    //** 장바구니 주문 */
     orderCart = async (req, res) => {
-        const { cart_id } = req.params;
-        const { member_id } = req.session.user;
-        const data = await this.orderService.orderCart({ cart_id, member_id });
-        res.status(200).json({ data });
+        try {
+            const { cart_id } = req.params;
+            const { member_id } = req.session.user;
+            const { status, message, result } = await this.orderService.orderCart({ cart_id, member_id });
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
     };
+
+    //** 특정 레스토랑 전체 주문 불러오기 */
     orderCheck = async (req, res) => {
         try {
             const { restaurant_id } = req.params;
-            const data = await this.orderService.orderCheck({ restaurant_id });
-            res.status(200).json({ data });
-        } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.message });
-            console.error(err);
-            return res.status(500).json({ message: err });
+            const { status, message, result } = await this.orderService.orderCheck({ restaurant_id });
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
+
+    //** 특정 회원의 전체 주문 불러오기 */
     findMemberOrder = async (req, res) => {
         try {
             const { member_id } = req.session.user;
-            const data = await this.orderService.findMemberOrder({ member_id });
-            res.status(200).json({ data });
-        } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.message });
-            console.error(err);
-            return res.status(500).json({ message: err });
+            const { status, message, result } = await this.orderService.findMemberOrder({ member_id });
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
+
+    //** 특정 주문 수정 */
     orderUpdate = async (req, res) => {
         try {
-            let { order_id } = req.params;
-            order_id = Number(order_id);
-            const { status, addTime } = req.body;
+            const { order_id } = req.params;
+            const { statusNum, addTime } = req.body;
             const user = req.session.user;
-            const data = await this.orderService.orderUpdate({ order_id, status, addTime, user });
-            res.status(200).json({ data });
-        } catch (err) {
-            if (err.code) return res.status(err.code).json({ message: err.message });
-            return res.status(500).json({ message: err });
+            const { status, message, result } = await this.orderService.orderUpdate({ order_id, statusNum, addTime, user });
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
 }

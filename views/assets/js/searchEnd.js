@@ -6,44 +6,41 @@ function getRestaurant(restaurants, searchType, keyword) {
     searchKeywordBtn.innerHTML = `<h3 class="title ps-5">${keyword}에 대한 ${searchType} 검색 결과입니다</h3>`;
     cards.innerHTML = '';
 
-    for (let allRestaurant in restaurants) {
-        for (let r of restaurants[allRestaurant]) {
-            let keywordHtml = '';
-            let allStar = 0;
-            let count = 0;
-
-            for (let i in r.restaurant_keyword[allRestaurant]) {
-                keywordHtml += `<span class="badge rounded-pill text-bg-secondary">${r.restaurant_keyword[allRestaurant][i].keyword}</span>`;
-                count++;
-                //star를 가져올 수 없음
-                // allStar += r.restaurant_star[allRestaurant][i].star;
-            }
-            if (allStar > 0) allStar = Math.round((allStar / count) * 10) / 10;
-            else allStar = 0;
-            // console.log(r.restaurant_star);
-            // console.log(r.restaurant_star.length);
-            let createHTML =
-                `<div class="card storeCard m-3">
-                                    <img src="${r.image || ''}" class="card-img-top" alt="...">
+    for (let r in restaurants) {
+        let createKeywordList = '';
+        for (let i in restaurants[r].restaurantKeyword[r]) {
+            let item = restaurants[r].restaurantKeyword[r][i].keyword;
+            createKeywordList += `<span class="badge rounded-pill text-bg-secondary">${item}</span>`;
+        }
+        /** 별점 계산 */
+        let allStar = 0;
+        let count = 1;
+        for (let i in restaurants[r].restaurantStar[r]) {
+            allStar += restaurants[r].restaurantStar[r][i].star;
+            count++;
+        }
+        allStar = Math.round((allStar / count) * 10) / 10;
+        let createHTML =
+            `<div class="card storeCard m-3">
+                                    <img src="${restaurants[r].restaurantImage || ''}" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                    <a  href="/restaurant/page/${r.restaurant_id}">
-                                    <h5 class="card-title">${r.restaurant_name}</h5>
+                                    <a  href="/restaurant/page/${restaurants[r].restaurantId}">
+                                    <h5 class="card-title">${restaurants[r].restaurantName}</h5>
                                     </a>
                                     <div class="d-flex">
-                                    <p class="card-rate">⭐️${allStar}</p>
+                                    <p class="card-rate">⭐️ ${allStar}</p>
                                     <div class="keyword-list ms-3">` +
-                keywordHtml +
-                `
+            createKeywordList +
+            `
                                     </div>
                                     </div>
-                                    <p class="card-text">${r.restaurant_number}</p>
-                                    <p class="card-text">${r.restaurant_address}</p>
-                                    <p class="card-text">${r.desc}</p>
+                                    <p class="card-text">${restaurants[r].restaurantNumber}</p>
+                                    <p class="card-text">${restaurants[r].restaurantAddress}</p>
+                                    <p class="card-text">${restaurants[r].desc}</p>
                                     </div>
                                 </div>`;
 
-            cards.innerHTML += createHTML;
-        }
+        cards.innerHTML += createHTML;
     }
 }
 
@@ -52,14 +49,17 @@ window.addEventListener('load', async () => {
     const urlParams = new URLSearchParams(queryString);
     const value = urlParams.get('value').split(' ');
 
-    const api = await fetch(`/search/${value[0]}/${value[1]}`, {
+    //한글깨짐은 인코딩, 디코딩으로 처리
+    const encodeSearch = encodeURI(encodeURIComponent(value[1]));
+    const api = await fetch(`/search/${value[0]}/${encodeSearch}`, {
         method: 'GET',
     });
     const { status } = await api;
-    const { search, errorMessage } = await api.json();
+    const { message, result } = await api.json();
     if (status == 200) {
-        getRestaurant([search], value[0], value[1]);
+        const decodeSearch = decodeURI(decodeURIComponent(value[1]));
+        getRestaurant(result, value[0], decodeSearch);
     } else {
-        alert(errorMessage);
+        alert(message);
     }
 });
