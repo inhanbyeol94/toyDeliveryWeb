@@ -14,7 +14,7 @@ function getRestaurant(restaurants, searchType, keyword) {
         }
         /** 별점 계산 */
         let allStar = 0;
-        let count = 1;
+        let count = 0;
         for (let i in restaurants[r].restaurantStar[r]) {
             allStar += restaurants[r].restaurantStar[r][i].star;
             count++;
