@@ -58,7 +58,7 @@ class RestaurantService {
             updatedAt: createRestaurant.updatedAt,
         };
 
-        return new ServiceReturn('레스토랑이 정상 생성되었습니다.', 201, createRestaurantData);
+        return new ServiceReturn('레스토랑이 정상 생성되었습니다.', 200, createRestaurantData);
     };
 
     //** 레스토랑 수정 */

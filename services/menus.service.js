@@ -1,7 +1,7 @@
 const MenuRepository = require('../repositories/menus.repository');
 const RestaurantRepository = require('../repositories/restaurants.repository');
 const { CustomError, ServiceReturn } = require('../customClass');
-
+const AWS = require('aws-sdk');
 class MenuService {
     menuRepository = new MenuRepository();
     restaurantRepository = new RestaurantRepository();
@@ -75,6 +75,31 @@ class MenuService {
         await this.menuRepository.deleteMenu(restaurant_id, menu_id);
 
         return new ServiceReturn('메뉴가 정상 삭제되었습니다.', 200, true);
+    };
+    //** 메뉴 사진 추가 */
+    updateMenuImage = async ({ image, menu_id }) => {
+        await this.menuRepository.updateMenuImage({ image, menu_id });
+        return new ServiceReturn('메뉴 사진이 정상 저장되었습니다.', 200, true);
+    };
+    //** 메뉴 사진 삭제 */
+    deleteMenuImage = async ({ menu_id }) => {
+        const findUser = await this.menuRepository.findOne({ menu_id });
+        const imageKey = findUser.image.replace('https://toydeliverycloud.s3.ap-northeast-2.amazonaws.com/', '');
+
+        const s3 = new AWS.S3();
+
+        s3.deleteObject(
+            {
+                Bucket: 'toydeliverycloud',
+                Key: imageKey,
+            },
+            async (err) => {
+                if (err) throw new CustomError('삭제에 실패하였습니다.', 500);
+                await this.memberRepository.updateMenuImage({ menu_id, image: null });
+            }
+        );
+
+        return new ServiceReturn('정상적으로 삭제되었습니다.', 200, true);
     };
 }
 
