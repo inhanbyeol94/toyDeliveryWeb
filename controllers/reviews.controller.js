@@ -45,29 +45,21 @@ class ReviewsController {
         }
     };
 
-    /** 리뷰 생성 */
+    /** 리뷰 생성과 수정 */
     createReview = async (req, res) => {
         try {
             const { restaurant_id, order_id } = req.params;
             const { member_id } = req.session.user;
-            const { star, review, image } = req.body;
-            const { status, message, result } = await this.reviewService.createReview(restaurant_id, member_id, order_id, star, review, image);
-
-            res.status(status).json({ message, result });
-        } catch (error) {
-            if (error.status) return res.status(error.status).json({ message: error.message });
-            console.error(error);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
-        }
-    };
-
-    /** 리뷰 수정 */
-    updateReview = async (req, res) => {
-        try {
-            const review_id = req.params.review_id;
-            const { review, image, star } = req.body;
-            const { member_id } = req.session.user;
-            const { status, message, result } = await this.reviewService.updateReview(member_id, review_id, review, image, star);
+            const { star, review, image, review_id } = req.body;
+            const { status, message, result } = await this.reviewService.createReview(
+                restaurant_id,
+                member_id,
+                order_id,
+                star,
+                review,
+                image,
+                review_id
+            );
 
             res.status(status).json({ message, result });
         } catch (error) {

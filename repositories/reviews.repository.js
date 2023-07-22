@@ -24,8 +24,8 @@ class ReviewRepository {
         await Review.create({ restaurant_id, member_id, order_id, star, review, image });
     };
 
-    updateReview = async (review_id, star, review, image) => {
-        const updateReview = await this.Review.update(
+    updateReview = async (review_id, review, star, image) => {
+        const updateReview = await Review.update(
             { star, review, image },
             {
                 where: { review_id },
