@@ -3,7 +3,7 @@ const KeywordService = require('../services/keywords.service');
 class KeywordsController {
     keywordService = new KeywordService();
 
-    //레스토랑에 해당하는 키워드 모두 조회
+    /**레스토랑에 해당하는 키워드 모두 조회*/
     getKeyword = async (req, res) => {
         const { restaurant_id } = req.params;
 
@@ -15,7 +15,7 @@ class KeywordsController {
         }
     };
 
-    //키워드 생성
+    /**키워드 생성*/
     createKeyword = async (req, res) => {
         const { restaurant_id } = req.params;
         const { keyword } = req.body;
@@ -30,7 +30,7 @@ class KeywordsController {
         }
     };
 
-    //키워드 수정
+    /**키워드 수정*/
     updateKeyword = async (req, res) => {
         console.log(1);
         const { restaurant_id, keyword_id } = req.params;
@@ -47,7 +47,7 @@ class KeywordsController {
         }
     };
 
-    //키워드 삭제
+    /**키워드 삭제*/
     deleteKeyword = async (req, res) => {
         const { restaurant_id, keyword_id } = req.params;
         const { member_id } = req.session.user;

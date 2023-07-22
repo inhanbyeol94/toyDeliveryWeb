@@ -6,7 +6,7 @@ class KeywordService {
     keywordRepository = new KeywordRepository();
     restaurantRepository = new RestaurantRepository();
 
-    //레스토랑 키워드 모두 조회
+    /**레스토랑 키워드 모두 조회*/
     findKeyword = async (restaurant_id) => {
         const keywords = await this.keywordRepository.findAllKeyword(restaurant_id);
         const result = keywords.map((keyword) => {
@@ -21,7 +21,7 @@ class KeywordService {
         return new ServiceReturn('정상 반환되었습니다.', 200, result);
     };
 
-    //키워드 생성
+    /**키워드 생성*/
     createKeyword = async (restaurant_id, member_id, keyword) => {
         const findAllKeyword = await this.keywordRepository.findAllKeyword(restaurant_id);
         const findOneKeyword = await this.keywordRepository.findOneKeyword(restaurant_id, keyword);
@@ -36,7 +36,7 @@ class KeywordService {
         return new ServiceReturn('키워드를 추가했습니다.', 201, true);
     };
 
-    //키워드 수정
+    /**키워드 수정*/
     updateKeyword = async (keyword_id, restaurant_id, member_id, keyword) => {
         const findOneKeywordById = await this.keywordRepository.findOneKeywordById(keyword_id);
         const findOneRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id: restaurant_id });
@@ -55,7 +55,7 @@ class KeywordService {
         return new ServiceReturn('키워드를 수정하였습니다.', 200, true);
     };
 
-    //키워드 삭제
+    /**키워드 삭제*/
     deleteKeyword = async (keyword_id, restaurant_id, member_id) => {
         const findOneKeywordById = await this.keywordRepository.findOneKeywordById(keyword_id);
         const findOneRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id: restaurant_id });
