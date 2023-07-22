@@ -13,7 +13,7 @@ class RestaurantRepository {
         return await Restaurant.findAll({ where: { category } });
     };
 
-    createRestaurant = async (member_id, name, address, tel, desc, category, image) => {
+    createRestaurant = async ({ member_id, name, address, tel, desc, category, image }) => {
         return await Restaurant.create({ member_id, name, address, tel, desc, category, image });
     };
 

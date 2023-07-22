@@ -1,5 +1,6 @@
 const RestaurantRepository = require('../repositories/restaurants.repository');
 const { CustomError, ServiceReturn } = require('../customClass');
+
 const AWS = require('aws-sdk');
 class RestaurantService {
     restaurantRepository = new RestaurantRepository();
@@ -35,6 +36,13 @@ class RestaurantService {
         return new ServiceReturn('정상 반환되었습니다.', 200, findRestaurant);
     };
 
+    findMyrestaurant = async (member_id) => {
+        const findRestaurant = await this.restaurantRepository.findRestaurantId({ member_id });
+        if (!findRestaurant) throw new CustomError('레스토랑을 찾을 수 없습니다.', 404);
+
+        return new ServiceReturn('정상 반환되었습니다.', 200, findRestaurant);
+    };
+
     //** 레스토랑 생성 */
     createRestaurant = async (member_id, name, address, tel, desc, category, image) => {
         const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, tel, desc, category, image);
@@ -62,19 +70,7 @@ class RestaurantService {
 
         await this.restaurantRepository.updateRestaurant({ restaurant_id, name, address, tel, desc, category });
 
-        const updateRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-        const updateRestaurantData = {
-            restaurant_id: updateRestaurant.restaurant_id,
-            name: updateRestaurant.name,
-            address: updateRestaurant.address,
-            tel: updateRestaurant.tel,
-            category: updateRestaurant.category,
-            desc: updateRestaurant.desc,
-            createdAt: updateRestaurant.createdAt,
-            updatedAt: updateRestaurant.updatedAt,
-        };
-
-        return new ServiceReturn('정상 수정되었습니다.', 200, updateRestaurantData);
+        return ServiceReturn('매장 수정에 성공하였습니다.', 200, true);
     };
 
     //** 레스토랑 대표 이미지 수정 */
@@ -86,16 +82,14 @@ class RestaurantService {
     //** 레스토랑 삭제 */
     deleteRestaurant = async (restaurant_id, member_id) => {
         const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-        if (!findRestaurant) throw new CustomError('레스토랑이 존재하지 않습니다.', 404);
-        if (findRestaurant.member_id !== member_id) throw new CustomError('레스터랑 삭제는 본인이 개설한 레스토랑만 가능합니다.', 403);
+        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
+        if (findRestaurant.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
 
         await this.restaurantRepository.deleteRestaurant(restaurant_id);
-
-        const resultData = {
+        return {
             restaurant_id: findRestaurant.restaurant_id,
             name: findRestaurant.name,
         };
-        return new ServiceReturn('정상 삭제되었습니다.', 200, resultData);
     };
 
     //** 레스토랑 대표 이미지 삭제 */

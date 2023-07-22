@@ -30,7 +30,7 @@ class RestaurantsController {
         }
     };
 
-    //** 나의 레스토랑 불러오기 - 서비스 로직 없음 */
+    //** 나의 레스토랑 불러오기 - 특정 레스토랑은 restaurant_id를 param값으로 받고, myrestaurant는 session의 member_id를 받음 */
     getMyrestaurant = async (req, res) => {
         try {
             const { member_id } = req.session.user;
@@ -102,15 +102,10 @@ class RestaurantsController {
     //** 레스토랑 삭제 */
     deleteRestaurant = async (req, res) => {
         try {
-            const { restaurant_id } = req.params;
-            const { member_id } = req.session.user;
-            const { status, message, result } = await this.restaurantService.deleteRestaurant(restaurant_id, member_id);
-
-            res.status(status).json({ message, result });
+            const deleteRestaurant = await this.restaurantService.deleteRestaurant(restaurant_id, member_id);
+            res.status(200).json({ status: 200, result: deleteRestaurant });
         } catch (error) {
-            if (error.status) return res.status(error.status).json({ message: error.message });
-            console.error(error);
-            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+            res.status(400).json({ status: 400, result: Error });
         }
     };
 
