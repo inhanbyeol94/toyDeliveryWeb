@@ -26,7 +26,7 @@ const Restaurantvalidations = {
             await schema.validateAsync({ name, address, tel, desc });
         } catch (err) {
             console.log(err);
-            return res.status(412).json({ result: err.message });
+            return res.status(412).json({ message: err.message });
         }
         next();
     },

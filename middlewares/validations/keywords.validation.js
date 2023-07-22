@@ -17,7 +17,7 @@ const keywordValidations = {
         try {
             await schema.validateAsync({ keyword });
         } catch (err) {
-            return res.status(412).json({ result: err.message });
+            return res.status(412).json({ message: err.message });
         }
 
         next();
@@ -37,7 +37,7 @@ const keywordValidations = {
         try {
             await schema.validateAsync({ search });
         } catch (err) {
-            return res.status(412).json({ result: err.message });
+            return res.status(412).json({ message: err.message });
         }
 
         next();

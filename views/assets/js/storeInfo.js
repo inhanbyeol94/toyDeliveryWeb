@@ -15,8 +15,6 @@ window.addEventListener('load', () => {
     const addKeywordBtn = document.getElementById('addKeywordBtn');
 
     const restaurantId = JSON.parse(main.dataset.restaurantId);
-    let categoryVal;
-
     SaveChangesBtn.addEventListener('click', async () => {
         if (restaurantId === null) {
             const StoreApi = await fetch(`/restaurant`, {
@@ -52,6 +50,7 @@ window.addEventListener('load', () => {
     });
 
     imageBtn.addEventListener('click', () => {
+        if (restaurantId === null) return alert('아래 정보를 먼저 저장하고 이미지를 추가해주세요');
         profileImage.click();
     });
 
@@ -106,9 +105,6 @@ window.addEventListener('load', () => {
         }
     });
 
-    category.addEventListener('change', async (e) => {
-        categoryVal = e.target.value;
-    });
     editKeywordBtn.forEach((item) => {
         item.addEventListener('click', async (e) => {
             const keyword = e.target.previousElementSibling.value;
@@ -142,6 +138,7 @@ window.addEventListener('load', () => {
         });
     });
     addKeywordBtn.addEventListener('click', async (e) => {
+        if (restaurantId === null) return alert('위의 정보를 먼저 저장하고 이미지를 추가해주세요');
         const keyword = e.target.previousElementSibling.value;
         await fetch(`/restaurant/${restaurantId}/keyword`, {
             method: 'POST',
@@ -162,7 +159,7 @@ window.addEventListener('load', () => {
             this.address = address.value;
             this.tel = phone.value;
             this.desc = intro.value;
-            this.category = Number(categoryVal);
+            this.category = Number(category.value);
         }
     }
 });

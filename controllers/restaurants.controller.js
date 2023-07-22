@@ -47,9 +47,9 @@ class RestaurantsController {
     //** 레스토랑 생성 */
     createRestaurant = async (req, res) => {
         try {
-            const { name, address, tel, desc, category, image } = req.body;
+            const { name, address, tel, desc, category } = req.body;
             const { member_id } = req.session.user;
-            const { status, message, result } = await this.restaurantService.createRestaurant(member_id, name, address, tel, desc, category, image);
+            const { status, message, result } = await this.restaurantService.createRestaurant(member_id, name, address, tel, desc, category);
 
             res.status(status).json({ message, result });
         } catch (error) {
@@ -102,6 +102,8 @@ class RestaurantsController {
     //** 레스토랑 삭제 */
     deleteRestaurant = async (req, res) => {
         try {
+            const { restaurant_id } = req.params;
+            const { member_id } = req.session.user;
             const deleteRestaurant = await this.restaurantService.deleteRestaurant(restaurant_id, member_id);
             res.status(200).json({ status: 200, result: deleteRestaurant });
         } catch (error) {
