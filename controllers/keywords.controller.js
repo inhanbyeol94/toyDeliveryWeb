@@ -8,6 +8,7 @@ class KeywordsController {
         try {
             const { restaurant_id } = req.params;
             const { message, status, result } = await this.keywordService.findKeyword(restaurant_id);
+
             res.status(status).json({ message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
@@ -23,6 +24,7 @@ class KeywordsController {
             const { keyword } = req.body;
             const { member_id } = req.session.user;
             const { message, status, result } = await this.keywordService.createKeyword(restaurant_id, member_id, keyword);
+
             res.status(status).json({ message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
@@ -38,6 +40,7 @@ class KeywordsController {
             const { keyword } = req.body;
             const { member_id } = req.session.user;
             const { message, status, result } = await this.keywordService.updateKeyword(keyword_id, restaurant_id, member_id, keyword);
+
             res.status(status).json({ message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
@@ -52,6 +55,7 @@ class KeywordsController {
             const { restaurant_id, keyword_id } = req.params;
             const { member_id } = req.session.user;
             const { message, status, result } = await this.keywordService.deleteKeyword(keyword_id, restaurant_id, member_id);
+
             res.status(status).json({ message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
