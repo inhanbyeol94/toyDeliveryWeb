@@ -1,19 +1,21 @@
+const { Op } = require('sequelize');
 const { Review, Member } = require('../models');
 
 class ReviewRepository {
     findAllReview = async (restaurant_id) => {
-        return await Review.findAll({ where: { restaurant_id }, include: [{ model: Member }] });
+        return await Review.findAll({ where: { restaurant_id }, include: [{ model: Member }], order: [['created_at', 'DESC']] });
     };
 
     findReviewId = async (review_id) => {
         return await Review.findOne({
             where: { review_id },
+            include: [{ model: Member }],
         });
     };
 
-    findReviewsByMember = async (member_id) => {
+    findReviewsByMember = async (target) => {
         return await Review.findOne({
-            where: { member_id },
+            where: { [Op.and]: target },
             include: [{ model: Member }],
         });
     };
