@@ -25,7 +25,7 @@ class OrderRepository {
                             include: [
                                 {
                                     model: Menu,
-                                    attributes: ['name'],
+                                    attributes: ['name', 'price'],
                                 },
                             ],
                         },
