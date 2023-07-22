@@ -39,9 +39,15 @@ reAuthCodeBtn.addEventListener('click', async () => {
     if (reAuthCodeBtn.classList.contains('active')) return;
     reAuthCodeBtn.classList.toggle('active');
 
-    const result = await authEmail();
+    const { status, message } = await authEmail();
 
-    alert(result);
+    if (status == 200) {
+        alert(message);
+        authCode.focus();
+        return false;
+    } else {
+        alert(message);
+    }
 });
 
 createBtn.addEventListener('click', async () => {
@@ -57,10 +63,12 @@ createBtn.addEventListener('click', async () => {
         body: JSON.stringify(new createUser()),
     });
 
-    const { result } = await api.json();
-    alert(result);
+    const { status } = await api;
+    const { message } = await api.json();
 
-    if (result == '회원가입이 완료되었습니다.') return (window.location.href = '/login');
+    alert(message);
+
+    if (status == 201) return (window.location.href = '/login');
 });
 
 userAddress.addEventListener('click', () => {
