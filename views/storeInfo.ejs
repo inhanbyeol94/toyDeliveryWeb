@@ -147,16 +147,16 @@
                         <label for="category" class="col-md-4 col-lg-3 col-form-label">카테고리</label>
                         <div class="col-md-8 col-lg-9">
                           <select class="form-select" aria-label=".form-select example" id="category" required>
-                            <option selected hidden>카테고리를 선택해주세요</option>
-                            <option value="0">한식</option>
-                            <option value="1">분식</option>
-                            <option value="2">카페 & 디저트</option>
-                            <option value="3">치킨</option>
-                            <option value="4">피자</option>
-                            <option value="5">아시안</option>
-                            <option value="6">양식</option>
-                            <option value="7">일식</option>
-                            <option value="8">중식</option>
+                            <option hidden <% if (restaurantCategory === null) { %>selected<% } %>>카테고리를 선택해주세요</option>
+                            <option value="0"<% if (restaurantCategory === '한식') { %>selected<% } %>>한식</option>
+                            <option value="1"<% if (restaurantCategory === '분식') { %>selected<% } %>>분식</option>
+                            <option value="2"<% if (restaurantCategory === '카페 & 디저트') { %>selected<% } %>>카페 & 디저트</option>
+                            <option value="3"<% if (restaurantCategory === '치킨') { %>selected<% } %>>치킨</option>
+                            <option value="4"<% if (restaurantCategory === '피자') { %>selected<% } %>>피자</option>
+                            <option value="5"<% if (restaurantCategory === '아시안') { %>selected<% } %>>아시안</option>
+                            <option value="6"<% if (restaurantCategory === '양식') { %>selected<% } %>>양식</option>
+                            <option value="7"<% if (restaurantCategory === '일식') { %>selected<% } %>>일식</option>
+                            <option value="8"<% if (restaurantCategory === '중식') { %>selected<% } %>>중식</option>
                           </select>
                       </div>
                       </div>

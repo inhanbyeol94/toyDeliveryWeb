@@ -44,8 +44,8 @@ class RestaurantService {
     };
 
     //** 레스토랑 생성 */
-    createRestaurant = async (member_id, name, address, tel, desc, category, image) => {
-        const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, tel, desc, category, image);
+    createRestaurant = async (member_id, name, address, tel, desc, category) => {
+        const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, tel, desc, category);
         const createRestaurantData = {
             restaurant_id: createRestaurant.restaurant_id,
             member_id: createRestaurant.member_id,
@@ -54,7 +54,6 @@ class RestaurantService {
             category: createRestaurant.category,
             tel: createRestaurant.tel,
             desc: createRestaurant.desc,
-            image: createRestaurant.image,
             createdAt: createRestaurant.createdAt,
             updatedAt: createRestaurant.updatedAt,
         };
@@ -70,7 +69,7 @@ class RestaurantService {
 
         await this.restaurantRepository.updateRestaurant({ restaurant_id, name, address, tel, desc, category });
 
-        return ServiceReturn('매장 수정에 성공하였습니다.', 200, true);
+        return new ServiceReturn('매장 수정에 성공하였습니다.', 200, true);
     };
 
     //** 레스토랑 대표 이미지 수정 */
@@ -82,14 +81,15 @@ class RestaurantService {
     //** 레스토랑 삭제 */
     deleteRestaurant = async (restaurant_id, member_id) => {
         const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
-        if (findRestaurant.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
+        if (!findRestaurant) throw new CustomError('레스토랑이 존재하지 않습니다', 404);
+        if (findRestaurant.member_id !== member_id) throw new CustomError('해당 레스토랑을 삭제 할 권한이 없습니다.', 403);
 
         await this.restaurantRepository.deleteRestaurant(restaurant_id);
-        return {
+        const restaurantDeleteData = {
             restaurant_id: findRestaurant.restaurant_id,
             name: findRestaurant.name,
         };
+        new ServiceReturn('정상 삭제되었습니다.', 200, restaurantDeleteData);
     };
 
     //** 레스토랑 대표 이미지 삭제 */
