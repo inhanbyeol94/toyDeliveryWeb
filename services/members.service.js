@@ -12,7 +12,7 @@ class MemberService {
 
     //** 회원가입 */
     signUp = async ({ email, nickname, password, name, phone, address, authCode, url }) => {
-        const overlapEmail = await this.memberRepository.findOne({ email });
+        const overlapEmail = await this.memberRepository.findOne([{ email }]);
         if (overlapEmail) throw new CustomError('이미 사용중인 이메일 입니다.', 403);
 
         const overlapNickname = overlapEmail?.nickname == nickname;
