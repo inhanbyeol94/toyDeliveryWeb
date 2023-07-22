@@ -30,13 +30,13 @@ window.addEventListener('load', async () => {
         method: 'GET',
     });
     const { status } = await api;
-    const { restaurant, errorMessage } = await api.json();
+    const { message, result } = await api.json();
     if (status == 200) {
-        getMenuPage(restaurant);
-        const { resultStar, count } = await getReviewPage(restaurant);
-        getRestaurantPage(restaurant, resultStar, count);
+        getMenuPage(result);
+        const { resultStar, count } = await getReviewPage(result);
+        getRestaurantPage(result, resultStar, count);
     } else {
-        alert(errorMessage);
+        alert(message);
     }
 });
 
@@ -55,9 +55,8 @@ const getRestaurantPage = (restaurant, resultStar, count) => {
     else if (restaurant.category == 7) categoryName = '일식';
     else if (restaurant.category == 8) categoryName = '중국집';
 
-    console.log(resultStar, Number(count) + 1);
     resultStar = Math.round((resultStar / (Number(count) + 1)) * 10) / 10;
-    console.log(resultStar);
+
     const createCardHTML = `<div class="card info-card sales-card">
 
                                 <div class="card-body" id="card-top">
@@ -90,12 +89,12 @@ const getMenuPage = async (restaurant) => {
         method: 'GET',
     });
     const { status } = await api;
-    const { menus, errorMessage } = await api.json();
+    const { message, result } = await api.json();
     if (status == 200) {
         // console.log(menus);
-        menuPageHtml(menus);
+        menuPageHtml(result);
     } else {
-        alert(errorMessage);
+        alert(message);
     }
 };
 
@@ -114,7 +113,7 @@ const menuPageHtml = async (menus) => {
                                         <p class="card-text">${menu.price}원</p>
                                         <div class="input-group mb-3" style="max-width: 190px;">
                                             <input type="number" class="form-control" style="width: 50px;" value="0" id="countInput${menu.menu_id}">
-                                            <button type="button" class="btn btn-dark" onclick="addCart(${menu.menu_id})">장바구니 담기</button>
+                                            <button type="button" class="btn btn-dark" onclick="addCart(${menu.menuId})">장바구니 담기</button>
                                         </div>
                                         </div>
                                     </div>
@@ -130,25 +129,23 @@ const getReviewPage = async (restaurant) => {
         method: 'GET',
     });
     const { status } = await api;
-    const { data, errorMessage } = await api.json();
+    const { message, result } = await api.json();
     let resultStar = 0;
     let count = 0;
     if (status == 200) {
-        console.log('data : ', data);
-        reviewPageHtml(data);
-        for (count in data) {
-            resultStar += data[count].star;
+        reviewPageHtml(result);
+        for (count in result) {
+            resultStar += result[count].star;
         }
         return { resultStar, count };
     } else {
-        alert(errorMessage);
+        alert(message);
     }
 };
 
 const reviewPageHtml = (reviews) => {
     reviewOverview.innerHTML = '';
     for (let review of reviews) {
-        console.log(review);
         let starHtml = '';
 
         if (review.star == 1) starHtml = '★☆☆☆☆';
@@ -159,7 +156,7 @@ const reviewPageHtml = (reviews) => {
         const createReviewHtml = `<div class="card mb-3">
                                         <div class="row g-0">
                                         <div class="col-md-1" style="text-align: center;">
-                                            <img src="/assets/img/card.jpg" class="img-fluid rounded-circle"
+                                            <img src="${review.image || ''}" class="img-fluid rounded-circle"
                                             style="width: 100px; height: 100px; object-fit: cover;" alt="...">
                                         </div>
                                         <div class="col-md-8">

@@ -14,7 +14,7 @@ class ReviewService {
         const allReviewData = allReview.map((review) => {
             return {
                 reviewId: review.review_id,
-                memberId: review.Members.member_id,
+                memberId: review.member_id,
                 orderId: review.order_id,
                 star: review.star,
                 review: review.review,
