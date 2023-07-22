@@ -29,7 +29,7 @@ class SearchController {
             //인코딩을 받은 값을 디코딩
             const decodeSearch = decodeURI(decodeURIComponent(search));
 
-            const { status, message, result } = await this.searchService.keyword(decodeSearch);
+            const { status, message, result } = await this.searchService.menu(decodeSearch);
 
             res.status(status).json({ message, result });
         } catch (error) {
@@ -47,7 +47,7 @@ class SearchController {
             //인코딩을 받은 값을 디코딩
             const decodeSearch = decodeURI(decodeURIComponent(search));
 
-            const { status, message, result } = await this.searchService.keyword(decodeSearch);
+            const { status, message, result } = await this.searchService.category(decodeSearch);
 
             res.status(status).json({ message, result });
         } catch (error) {
