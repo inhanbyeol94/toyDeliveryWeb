@@ -7,17 +7,18 @@ searchBtn.addEventListener('click', async () => {
     if (searchType.value == 'keyword') selectType = 'keyword';
     else if (searchType.value == 'menuName') selectType = 'menu';
 
-    const api = await fetch(`/search/${selectType}/${searchKeyword.value}`, {
+    //한글깨짐은 인코딩, 디코딩으로 처리
+    const encodeSearch = encodeURI(encodeURIComponent(searchKeyword.value));
+    const api = await fetch(`/search/${selectType}/${encodeSearch}`, {
         method: 'GET',
     });
+
     const { status } = await api;
-    const { search, errorMessage } = await api.json();
-    console.log(status, [search]);
-    console.log([search].length);
-    console.log([search][0][0]);
+    const { message, result } = await api.json();
+    console.log(status, result);
     if (status == 200) {
         window.location.href = `/storeList?value=${selectType} ${searchKeyword.value}`;
     } else {
-        alert(errorMessage);
+        alert(message);
     }
 });
