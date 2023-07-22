@@ -19,10 +19,10 @@ authBtn.addEventListener('click', async () => {
     authBtn.classList.toggle('active');
     authBtn.innerText = '발송중';
 
-    const result = await authEmail();
+    const { status, message } = await authEmail();
 
-    if (result.indexOf('인증번호가 발송되었습니다.') !== -1) {
-        alert(result);
+    if (status == 200) {
+        alert(message);
         authBtn.parentNode.removeChild(authBtn);
         authCodeBox.classList.remove('d-none');
         authCode.focus();
@@ -31,7 +31,7 @@ authBtn.addEventListener('click', async () => {
     } else {
         authBtn.classList.toggle('active');
         authBtn.innerText = '인증';
-        alert(result);
+        alert(message);
     }
 });
 
@@ -89,9 +89,10 @@ async function authEmail() {
         body: JSON.stringify({ email: userEmail.value }),
     });
 
-    const { result } = await api.json();
+    const { status } = await api;
+    const { result, message } = await api.json();
 
-    return result;
+    return { result, status, message };
 }
 
 class createUser {
