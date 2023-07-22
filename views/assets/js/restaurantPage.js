@@ -104,9 +104,9 @@ const menuPageHtml = async (menus) => {
 
     for (let menu of menus) {
         const createMenuHTML = `<div class="card mb-3">
-                                    <div class="row g-0">
-                                    <div class="col-md-2">
-                                        <img src="${menu.image || ''}" class="img-fluid rounded-start" alt="...">
+                                    <div class="row g-0 imageBox">
+                                    <div class="col-md-2 imageSubBox">
+                                        <img src="${menu.image || '/assets/img/card.jpg'}" class="img-fluid rounded-start img" alt="...">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
@@ -155,9 +155,9 @@ const reviewPageHtml = (reviews) => {
         else if (review.star == 4) starHtml = '⭐⭐⭐⭐';
         else if (review.star == 5) starHtml = '⭐⭐⭐⭐⭐';
         const createReviewHtml = `<div class="card mb-3">
-                                        <div class="row g-0">
-                                        <div class="col-md-1" style="text-align: center;">
-                                            <img src="${review.image || ''}" class="img-fluid rounded-circle"
+                                        <div class="row g-0 imageBox">
+                                        <div class="col-md-1 imageSubBox" style="text-align: center;">
+                                            <img src="${review.image || ''}" class="img-fluid img rounded-circle"
                                             style="width: 100px; height: 100px; object-fit: cover;" alt="...">
                                         </div>
                                         <div class="col-md-8">
