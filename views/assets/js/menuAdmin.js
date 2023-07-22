@@ -1,41 +1,41 @@
 const menuList = document.getElementById('menuList');
 const menuName = document.getElementById('menuName');
 const menuPrice = document.getElementById('menuPrice');
-const menuDesc = document.getElementById('menuDesc');
 const createBtn = document.getElementById('createBtn');
-const menuImage = document.getElementById('menuImage');
 const largeModal = document.getElementById('largeModal');
-const modalImage = document.getElementById('modalImage');
 const modalName = document.getElementById('modalName');
 const modalPrice = document.getElementById('modalPrice');
 const deleteBtn = document.getElementById('deleteBtn');
 const updateBtn = document.getElementById('updateBtn');
-
+const imageBtn = document.getElementById('imageBtn');
+const imageDelBtn = document.getElementById('imageDelBtn');
+const profileImage = document.getElementById('profileImage');
+const imgMenu = document.getElementById('imgMenu');
+let menuImage = '';
+let menu_id = '';
 const showmenuList = async () => {
     await fetchData('/myrestaurant', { method: 'GET' }).then((data) => {
-        const { restaurant } = data;
-        const restaurant_id = restaurant.restaurant_id;
+        const { restaurant_id } = data.result;
         fetchData(`/restaurant/${restaurant_id}/menu`, { method: 'GET' }).then((data) => {
-            const { menus } = data;
+            const menus = data.result;
+            console.log(menus);
             menuList.innerHTML = '';
             menus.forEach((menu) => {
-                let menuImage = '';
                 if (menu.image) {
-                    menuImage = `<img src="/${menu.image.replace(/\\/g, '/')}" alt="음식 이미지">`;
+                    menuImage = `<img src="${menu.image}" alt="음식 이미지" id="menuImg" class="modal-image img-fluid rounded-start">`;
                 } else {
-                    menuImage = `<img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">`;
+                    menuImage = `<img src="/assets/img/card.jpg"id="menuImg" class="img-fluid rounded-start" alt="...">`;
                 }
                 const menuHtml = `<div class="card my-3 menuCard" data-bs-toggle="modal" data-bs-target="#largeModal">
                                         <div >
                                         <div class="row g-0"  id="cards" value="${menu.menu_id}">
-                                        <div class="col-md-4" id="menuImage" alt="">
+                                        <div class="col-md-4"  alt="">
                                             ${menuImage}
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
                                             <h5 class="card-title menuTitle" id="menuname">${menu.name}</h5>
-                                            <p class="card-text">메뉴상세내용 완전 맛있는 00맛 00000</p>
-                                            <h5 class="card-sub-title" id="menuprice">가격: ${menu.price}</h5>
+                                            <h5 class="card-sub-title" >가격: <span id="menuprice">${menu.price}</span></h5>
                                             </div>
                                         </div>
                                         </div>
@@ -49,24 +49,29 @@ const showmenuList = async () => {
                     const element = event.currentTarget;
                     const name = element.querySelector('#menuname').innerHTML;
                     const price = element.querySelector('#menuprice').innerHTML;
-                    document.getElementById('modalName').placeholder = name;
-                    document.getElementById('modalPrice').placeholder = price;
-
+                    const image = element.querySelector('#menuImg').src;
+                    console.log(image);
+                    console.log(name, price);
+                    document.getElementById('modalName').value = name;
+                    document.getElementById('modalPrice').value = Number(price);
+                    imgMenu.src = image;
+                    menu_id = card.getAttribute('value');
                     updateBtn.addEventListener('click', async () => {
-                        const menu_id = card.getAttribute('value');
                         if (!modalName.value) return alert('이름을 작성해 주세요.');
                         if (!modalPrice.value) return alert('가격을 입력해주세요.');
+
                         const api = await fetch(`/restaurant/menu/${menu_id}`, {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(new updateMenu()),
                         });
                         const { status } = await api;
-                        const { result } = await api.json();
-
+                        const { message } = await api.json();
                         if (status == 200) {
-                            alert(result);
-                            window.location.href = '/menuAdmin';
+                            alert(message);
+                            window.location.reload();
+                        } else {
+                            alert(message);
                         }
                     });
 
@@ -76,11 +81,50 @@ const showmenuList = async () => {
                             method: 'DELETE',
                         });
                         const { status } = await api;
-                        const { result } = await api.json();
+                        const { message } = await api.json();
+                        if (status == 200) {
+                            alert(message);
+                            window.location.reload();
+                        } else {
+                            alert(message);
+                        }
+                    });
+                    imageBtn.addEventListener('click', () => {
+                        profileImage.click();
+                    });
+
+                    imageDelBtn.addEventListener('click', async () => {
+                        const api = await fetch(`/menu/${menu_id}/image`, {
+                            method: 'DELETE',
+                        });
+                        const { status } = await api;
+                        const { message } = await api.json();
+                        if (status == 200) {
+                            alert(message);
+                            window.location.reload();
+                        } else {
+                            alert(message);
+                        }
+                    });
+
+                    profileImage.addEventListener('change', async (e) => {
+                        const image = e.target.files[0];
+                        const form = new FormData();
+                        form.append('image', image);
+
+                        const api = await fetch(`/menu/${menu_id}/image`, {
+                            method: 'POST',
+                            body: form,
+                        });
+
+                        const { status } = await api;
+                        const { message } = await api.json();
 
                         if (status == 200) {
-                            alert(result);
+                            alert(message);
                             window.location.reload();
+                        } else {
+                            alert(message);
                         }
                     });
                 });
@@ -105,11 +149,14 @@ createBtn.addEventListener('click', async () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(new createMenu()),
     });
-
-    const { result } = await api.json();
-    alert(result);
-
-    if (result == '메뉴의 추가가 완료되었습니다.') return (window.location.href = '/menuAdmin');
+    const { status } = await api;
+    const { message } = await api.json();
+    if (status == 201) {
+        alert(message);
+        window.location.reload();
+    } else {
+        alert(message);
+    }
 });
 
 async function fetchData(url, options) {

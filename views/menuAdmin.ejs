@@ -5,19 +5,22 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="d-flex flex-column align-items-center">
-            <img src="<%= image %>" class="img-fluid rounded-start modal-image" alt="..." id="modalImage">
-            <label class="file-label" for="chooseFile">이미지 선택</label>
-            <input class="file" id="chooseFile"
-            type="file"
-            accept="image/png, image/jpeg, image/gif"
-            >
+          <div class="d-flex flex-column">
+            <div class="col-md-8 col-lg-9">
+              <img src="/assets/img/card.jpg" alt="Profile" class="modal-image " id="imgMenu">
+              <div class="pt-2">
+                <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i
+                    class="bi bi-upload" id="imageBtn"></i></a>
+                <input type="file" style="display:none"id="profileImage"
+                  accept="image/gif, image/png, image/jpg, image/jpeg">
+                <a href="#" class="btn btn-danger btn-sm " id="imageDelBtn" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+              </div>
+            </div>
             </div>
           </div>
         <div class="modal-body d-flex flex-column w-75">
-            <input class="modalEdit" id="modalName" placeholder=""/>
-            <input class="modalEdit" placeholder="메뉴상세내용 완전 맛있는 00맛 00000"/>
-            <input class="modalEdit" type="number" id="modalPrice" placeholder="가격:"/>
+            <input class="modalEdit" id="modalName" placeholder="메뉴 이름을 입력해주세요"/>
+            <input class="modalEdit" type="number" id="modalPrice" placeholder="메뉴 가격을 입력해주세요"/>
         </div>
         <div class="modal-footer d-flex justify-content-around">
           <button type="button" class="btn modalBtn" style="background-color:#d62828;" id="deleteBtn">메뉴삭제</button>
@@ -31,18 +34,13 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="d-flex flex-column align-items-center">
-              <img src="assets/img/card.jpg" class="img-fluid rounded-start modal-image" alt="...">
-              <label class="file-label" for="chooseFile">이미지 선택</label>
-              <input class="file" id="chooseFile"
-              type="file"
-              accept="image/png, image/jpeg, image/gif"
-              >
+            <div class="d-flex flex-column">
+              <div class="col-md-8 col-lg-9">
+              </div>
               </div>
             </div>
           <div class="modal-body d-flex flex-column w-75">
               <input class="modalEdit" id="menuName" placeholder="메뉴이름을 입력해주세요"/>
-              <input class="modalEdit" id="menuDesc" placeholder="메뉴상세내용을 입력해주세요"/>
               <input class="modalEdit" id="menuPrice" type="number"placeholder="가격을 입력해주세요"/>
           </div>
           <div class="modal-footer d-flex justify-content-around">
