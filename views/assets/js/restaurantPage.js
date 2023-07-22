@@ -113,7 +113,7 @@ const menuPageHtml = async (menus) => {
                                         <h5 class="card-title">${menu.name}</h5>
                                         <p class="card-text">${menu.price}원</p>
                                         <div class="input-group mb-3" style="max-width: 190px;">
-                                            <input type="number" class="form-control" style="width: 50px;" id="countInput${menu.menu_id}">
+                                            <input type="number" class="form-control" style="width: 50px;" value="0" id="countInput${menu.menu_id}">
                                             <button type="button" class="btn btn-dark" onclick="addCart(${menu.menu_id})">장바구니 담기</button>
                                         </div>
                                         </div>
