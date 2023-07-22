@@ -37,10 +37,20 @@ class RestaurantsController {
         const { member_id } = req.session.user;
 
         try {
-            const createRestaurant = await this.restaurantService.createRestaurant(member_id, name, address, tel, desc, category, image);
-            res.status(201).json({ status: 200, result: createRestaurant });
+            const { status, message, result } = await this.restaurantService.createRestaurant({
+                member_id,
+                name,
+                address,
+                tel,
+                desc,
+                category,
+                image,
+            });
+            res.status(status).json({ message, result });
         } catch (error) {
-            res.status(400).json({ status: 200, result: error.message });
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.log(error);
+            return res.status(500).json({ message: '오류가 발생했습니다.' });
         }
     };
 
@@ -70,10 +80,12 @@ class RestaurantsController {
         const { restaurant_id } = req.params;
         const { member_id } = req.session.user;
         try {
-            const deleteRestaurant = await this.restaurantService.deleteRestaurant(restaurant_id, member_id);
-            res.status(200).json({ status: 200, result: deleteRestaurant });
+            const { status, message, result } = await this.restaurantService.deleteRestaurant(restaurant_id, member_id);
+            res.status(status).json({ message, result });
         } catch (error) {
-            res.status(400).json({ status: 400, result: Error });
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.log(error);
+            return res.status(500).json({ message: '오류가 발생했습니다.' });
         }
     };
     deleteRestaurantImg = async (req, res) => {

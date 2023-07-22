@@ -1,4 +1,6 @@
 const RestaurantRepository = require('../repositories/restaurants.repository');
+const { CustomError, ServiceReturn } = require('../customClass');
+
 const AWS = require('aws-sdk');
 class RestaurantService {
     restaurantRepository = new RestaurantRepository();
@@ -28,39 +30,25 @@ class RestaurantService {
         return restaurant;
     };
 
-    createRestaurant = async (member_id, name, address, tel, desc, category, image) => {
-        const createRestaurant = await this.restaurantRepository.createRestaurant(member_id, name, address, tel, desc, category, image);
+    createRestaurant = async ({ member_id, name, address, tel, desc, category, image }) => {
+        const overlapName = await this.restaurantRepository.findRestaurantId({ name: name });
+        if (overlapName) throw new CustomError('이미 사용중인 매장의 이름입니다.', 403);
 
-        return {
-            restaurant_id: createRestaurant.restaurant_id,
-            member_id: createRestaurant.member_id,
-            name: createRestaurant.name,
-            address: createRestaurant.address,
-            category: createRestaurant.category,
-            tel: createRestaurant.tel,
-            desc: createRestaurant.desc,
-            image: createRestaurant.image,
-            createdAt: createRestaurant.createdAt,
-            updatedAt: createRestaurant.updatedAt,
-        };
+        const overlapAdmin = await this.restaurantRepository.findRestaurantId({ member_id: member_id });
+        if (overlapAdmin) throw new CustomError('해당 아이디에는 이미 매장이 존재합니다.', 403);
+
+        await this.restaurantRepository.createRestaurant({ member_id, name, address, tel, desc, category, image });
+
+        return new ServiceReturn('매장 생성이 완료되었습니다.', 201, true);
     };
 
     updateRestaurant = async (member_id, restaurant_id, name, address, tel, desc, category) => {
-        const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
-        if (findRestaurant.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
+        const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id: restaurant_id });
+        if (!findRestaurant) throw new CustomError('존재하지 않는 매장입니다.', 404);
+        if (findRestaurant.member_id !== member_id) throw new CustomError('작성한 유저가 아닙니다.', 404);
         await this.restaurantRepository.updateRestaurant({ restaurant_id, name, address, tel, desc, category });
-        const updateRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-        return {
-            restaurant_id: updateRestaurant.restaurant_id,
-            name: updateRestaurant.name,
-            address: updateRestaurant.address,
-            tel: updateRestaurant.tel,
-            category: updateRestaurant.category,
-            desc: updateRestaurant.desc,
-            createdAt: updateRestaurant.createdAt,
-            updatedAt: updateRestaurant.updatedAt,
-        };
+
+        return ServiceReturn('매장 수정에 성공하였습니다.', 200, true);
     };
     updateRestaurantImg = async ({ image, restaurant_id }) => {
         await this.restaurantRepository.updateRestaurantImg({ image, restaurant_id });
@@ -69,14 +57,11 @@ class RestaurantService {
 
     deleteRestaurant = async (restaurant_id, member_id) => {
         const findRestaurant = await this.restaurantRepository.findRestaurantId({ restaurant_id });
-        if (!findRestaurant) throw new Error("Restaurant doesn't exist");
-        if (findRestaurant.member_id !== member_id) throw new Error('작성한 유저가 아닙니다.');
+        if (!findRestaurant) throw new CustomError('존재하지 않는 매장입니다.', 404);
+        if (findRestaurant.member_id !== member_id) throw new CustomError('작성한 유저가 아닙니다.', 404);
 
         await this.restaurantRepository.deleteRestaurant(restaurant_id);
-        return {
-            restaurant_id: findRestaurant.restaurant_id,
-            name: findRestaurant.name,
-        };
+        return ServiceReturn('매장 삭제에 성공하였습니다.', 200, true);
     };
     deleteProfileImage = async ({ restaurant_id }) => {
         try {
