@@ -3,99 +3,123 @@ const RestaurantService = require('../services/restaurants.service');
 class RestaurantsController {
     restaurantService = new RestaurantService();
 
-    getRestaurantList = async (req, res, next) => {
-        const restaurants = await this.restaurantService.findAllRestaurant();
-
-        res.status(200).json({ restaurants });
-    };
-
-    getRestaurant = async (req, res, next) => {
-        const { restaurant_id } = req.params;
+    //** 전체 레스토랑 불러오기 */
+    getRestaurantList = async (req, res) => {
         try {
-            const restaurant = await this.restaurantService.findRestaurant(restaurant_id);
-            if (!restaurant) throw new Error('존재하지 않는 매장입니다.');
+            const { status, message, result } = await this.restaurantService.findAllRestaurant();
 
-            res.status(200).json({ restaurant });
+            res.status(status).json({ message, result });
         } catch (error) {
-            res.status(400).json({ errorMessage: Error });
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
 
-    getMyrestaurant = async (req, res, next) => {
-        const { member_id } = req.session.user;
-
+    //** 특정 레스토랑 불러오기 */
+    getRestaurant = async (req, res) => {
         try {
-            const restaurant = await this.restaurantService.findMyrestaurant(member_id);
-            res.status(200).json({ restaurant });
+            const { restaurant_id } = req.params;
+            const { status, message, result } = await this.restaurantService.findRestaurant(restaurant_id);
+
+            res.status(status).json({ message, result });
         } catch (error) {
-            res.status(400).json({ errorMessage: Error });
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
 
-    createRestaurant = async (req, res, next) => {
-        const { name, address, tel, desc, category, image } = req.body;
-        const { member_id } = req.session.user;
-
+    //** 나의 레스토랑 불러오기 - 특정 레스토랑은 restaurant_id를 param값으로 받고, myrestaurant는 session의 member_id를 받음 */
+    getMyrestaurant = async (req, res) => {
         try {
-            const { status, message, result } = await this.restaurantService.createRestaurant({
+            const { member_id } = req.session.user;
+            const { status, message, result } = await this.restaurantService.findRestaurant(member_id);
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+
+    //** 레스토랑 생성 */
+    createRestaurant = async (req, res) => {
+        try {
+            const { name, address, tel, desc, category, image } = req.body;
+            const { member_id } = req.session.user;
+            const { status, message, result } = await this.restaurantService.createRestaurant(member_id, name, address, tel, desc, category, image);
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+
+    //** 레스토랑 수정 */
+    updateRestaurant = async (req, res) => {
+        try {
+            const { restaurant_id } = req.params;
+            const { name, address, tel, desc, category, image } = req.body;
+            const { member_id } = req.session.user;
+            const { status, message, result } = await this.restaurantService.updateRestaurant(
                 member_id,
+                restaurant_id,
                 name,
                 address,
                 tel,
                 desc,
                 category,
-                image,
-            });
+                image
+            );
+
             res.status(status).json({ message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
-            console.log(error);
-            return res.status(500).json({ message: '오류가 발생했습니다.' });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
 
-    updateRestaurant = async (req, res, next) => {
-        const { restaurant_id } = req.params;
-        const { name, address, tel, desc, category, image } = req.body;
-        const { member_id } = req.session.user;
+    //** 레스토랑 대표 이미지 수정 */
+    updateRestaurantImg = async (req, res) => {
         try {
-            await this.restaurantService.updateRestaurant(member_id, restaurant_id, name, address, tel, desc, category, image);
-            res.status(200).json({ status: 200, result: '수정되었습니다' });
-        } catch (error) {
-            res.status(400).json({ status: 500, result: '수정중 오류가 발생했습니다' });
-        }
-    };
-    updateRestaurantImg = async (req, res, next) => {
-        const { restaurant_id } = req.params;
-        const image = req.file.location;
-        try {
-            const { result } = await this.restaurantService.updateRestaurantImg({ image, restaurant_id });
-            res.status(200).json({ status: 200, result });
-        } catch (error) {
-            res.status(400).json({ status: 500, result: '오류가 발생했습니다' });
-        }
-    };
+            const { restaurant_id } = req.params;
+            const image = req.file.location;
+            const { status, message, result } = await this.restaurantService.updateRestaurantImg({ image, restaurant_id });
 
-    deleteRestaurant = async (req, res, next) => {
-        const { restaurant_id } = req.params;
-        const { member_id } = req.session.user;
-        try {
-            const { status, message, result } = await this.restaurantService.deleteRestaurant(restaurant_id, member_id);
             res.status(status).json({ message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
-            console.log(error);
-            return res.status(500).json({ message: '오류가 발생했습니다.' });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
+
+    //** 레스토랑 삭제 */
+    deleteRestaurant = async (req, res) => {
+        try {
+            const deleteRestaurant = await this.restaurantService.deleteRestaurant(restaurant_id, member_id);
+            res.status(200).json({ status: 200, result: deleteRestaurant });
+        } catch (error) {
+            res.status(400).json({ status: 400, result: Error });
+        }
+    };
+
+    //** 레스토랑 대표 이미지 삭제 */
     deleteRestaurantImg = async (req, res) => {
         try {
             const { restaurant_id } = req.params;
-            const { result } = await this.restaurantService.deleteProfileImage({ restaurant_id });
-            res.status(200).json({ status: 200, result });
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ status: 500, result: '오류가 발생했습니다' });
+            const { status, message, result } = await this.restaurantService.deleteProfileImage({ restaurant_id });
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
 }
