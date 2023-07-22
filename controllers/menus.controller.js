@@ -3,49 +3,77 @@ const MenuService = require('../services/menus.service');
 class MenusController {
     menuService = new MenuService();
 
-    getMenuList = async (req, res, next) => {
-        const { restaurant_id } = req.params;
-        const menus = await this.menuService.findAllMenu(restaurant_id);
-        res.status(200).json({ menus });
-    };
-
-    getMenu = async (req, res, next) => {
-        const { restaurant_id, menu_id } = req.params;
-        const menu = await this.menuService.findMenu(restaurant_id, menu_id);
-        res.status(200).json({ menu });
-    };
-
-    createMenu = async (req, res, next) => {
-        const { member_id } = req.session.user;
-        const { name, price, image } = req.body;
+    //** 레스토랑 전체 메뉴 불러오기 */
+    getMenuList = async (req, res) => {
         try {
-            const { code, result } = await this.menuService.createMenu(member_id, name, price, image);
-            res.status(code).json({ result });
+            const { restaurant_id } = req.params;
+            const { status, message, result } = await this.menuService.findAllMenu(restaurant_id);
+
+            return res.status(status).json({ message, result });
         } catch (error) {
-            res.status(400).json({ errorMessage: Error });
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
 
-    updateMenu = async (req, res, next) => {
-        const { menu_id } = req.params;
-        const { name, price, image } = req.body;
-        const { member_id } = req.session.user;
+    //** 레스토랑 단일 메뉴 불러오기 */
+    getMenu = async (req, res) => {
         try {
-            const { code, result } = await this.menuService.updateMenu(member_id, menu_id, name, price, image);
-            res.status(code).json({ result });
+            const { restaurant_id, menu_id } = req.params;
+            const { status, message, result } = await this.menuService.findMenu(restaurant_id, menu_id);
+
+            return res.status(status).json({ message, result });
         } catch (error) {
-            res.status(400).json({ errorMessage: Error });
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
 
-    deleteMenu = async (req, res, next) => {
-        const { menu_id } = req.params;
-        const { member_id } = req.session.user;
+    //** 레스토랑 메뉴 생성 */
+    createMenu = async (req, res) => {
         try {
-            const { code, result } = await this.menuService.deleteMenu(member_id, menu_id);
-            res.status(code).json({ result });
+            const { member_id } = req.session.user;
+            const { name, price, image } = req.body;
+            const { status, message, result } = await this.menuService.createMenu(member_id, name, price, image);
+
+            return res.status(status).json({ message, result });
         } catch (error) {
-            res.status(400).json({ errorMessage: Error });
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+
+    //** 레스토랑 특정 메뉴 수정 */
+    updateMenu = async (req, res) => {
+        try {
+            const { menu_id } = req.params;
+            const { name, price, image } = req.body;
+            const { member_id } = req.session.user;
+            const { status, message, result } = await this.menuService.updateMenu(member_id, menu_id, name, price, image);
+
+            return res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+
+    //** 레스토랑 특정 메뉴 삭제 */
+    deleteMenu = async (req, res) => {
+        try {
+            const { menu_id } = req.params;
+            const { member_id } = req.session.user;
+            const { status, message, result } = await this.menuService.deleteMenu(member_id, menu_id);
+
+            return res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
 }
