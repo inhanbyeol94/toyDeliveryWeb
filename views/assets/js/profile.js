@@ -40,13 +40,13 @@ profileImage.addEventListener('change', async (e) => {
     });
 
     const { status } = await api;
-    const { result } = await api.json();
+    const { message } = await api.json();
 
     if (status == 200) {
-        alert(result);
+        alert(message);
         window.location.reload();
     } else {
-        alert(result);
+        alert(message);
     }
 });
 
