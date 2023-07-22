@@ -126,13 +126,13 @@ class MemberService {
         if (!findMember) throw new CustomError('패스워드가 일치하지 않습니다.', 401);
         await this.memberRepository.deleteMember(member_id);
 
-        return ServiceReturn('회원 탈퇴에 성공하였습니다.', 200, true);
+        return new ServiceReturn('회원 탈퇴에 성공하였습니다.', 200, true);
     };
 
     //** 회원 프로필 사진 추가 */
     updateProfileImage = async ({ member_id, image }) => {
         await this.memberRepository.updateProfileImage({ member_id, image });
-        return ServiceReturn('프로필 사진이 정상 저장되었습니다.', 200, true);
+        return new ServiceReturn('프로필 사진이 정상 저장되었습니다.', 200, true);
     };
 
     //** 회원 프로필 사진 삭제 */
@@ -153,7 +153,7 @@ class MemberService {
             }
         );
 
-        return ServiceReturn('정상적으로 삭제되었습니다.', 200, true);
+        return new ServiceReturn('정상적으로 삭제되었습니다.', 200, true);
     };
 }
 
