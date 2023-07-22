@@ -20,9 +20,9 @@ imageDelBtn.addEventListener('click', async () => {
         method: 'DELETE',
     });
     const { status } = await api;
-    const { result } = await api.json();
+    const { message } = await api.json();
 
-    alert(result);
+    alert(message);
 
     if (status == 200) {
         window.location.reload();
@@ -57,13 +57,13 @@ SaveChangesBtn.addEventListener('click', async () => {
         body: JSON.stringify(new updateUser()),
     });
     const { status } = await api;
-    const { result } = await api.json();
+    const { message } = await api.json();
 
     if (status == 200) {
-        alert(result);
+        alert(message);
         window.location.href = '/profile';
     } else {
-        alert(result);
+        alert(message);
     }
 });
 
@@ -87,13 +87,13 @@ changePwdBtn.addEventListener('click', async () => {
         body: JSON.stringify(new changePassword()),
     });
     const { status } = await api;
-    const { result } = await api.json();
+    const { message } = await api.json();
 
     if (status == 200) {
-        alert(result);
+        alert(message);
         window.location.href = '/profile';
     } else {
-        alert(result);
+        alert(message);
     }
 });
 class changePassword {
