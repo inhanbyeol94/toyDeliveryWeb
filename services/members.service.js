@@ -155,6 +155,24 @@ class MemberService {
 
         return new ServiceReturn('정상적으로 삭제되었습니다.', 200, true);
     };
+
+    createDeliveryInfo = async ({ name, phone, address, member_id }) => {
+        await this.memberRepository.createDeliveryInfo({ name, phone, address, member_id });
+        return new ServiceReturn('새로운 배송지 정보가 추가되었습니다.', 200, true);
+    };
+
+    updateDeliveryInfo = async ({ memberInfoId, member_id }) => {
+        const findMemberInfo = await this.memberRepository.findByMemberInfoId({ memberInfoId });
+
+        if (!findMemberInfo) throw new CustomError('선택한 배송지 주소가 존재하지 않습니다.', 404);
+        if (findMemberInfo.member_id !== member_id) throw new CustomError('선택한 배송지 주소가 존재하지 않습니다.', 404);
+
+        const [findMemberInfoDefault] = (await this.memberRepository.findByMemberInfoList({ member_id })).filter((x) => x.default == true);
+
+        await this.memberRepository.updateMemberInfoDefault({ oldId: findMemberInfoDefault.member_info_id, newId: memberInfoId });
+
+        return new ServiceReturn('기본 배송지가 변경되었습니다.', 200, true);
+    };
 }
 
 module.exports = MemberService;
