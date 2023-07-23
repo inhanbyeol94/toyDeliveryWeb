@@ -2,7 +2,27 @@ const { Order, Cart, MemberInfo, Menu, CartItem, Restaurant, Point, sequelize } 
 
 class OrderRepository {
     findById = async ({ order_id }) => {
-        const order = await Order.findByPk(order_id, { raw: true });
+        const order = await Order.findOne({
+            where: { order_id },
+            include: [
+                { model: Restaurant, attributes: ['name'] },
+                {
+                    model: Cart,
+                    include: [
+                        {
+                            model: CartItem,
+                            attributes: ['count'],
+                            include: [
+                                {
+                                    model: Menu,
+                                    attributes: ['name', 'price'],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        });
         return order;
     };
     findByMember = async (member_info_id) => {

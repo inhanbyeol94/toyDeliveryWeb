@@ -9,6 +9,8 @@ const reviewImage = document.getElementById('reviewImg');
 const reviewText = document.querySelector('#floatingTextarea2');
 const rate = document.querySelector('#rate');
 
+let btnList;
+let reviewEditBtnDataId;
 window.addEventListener('load', async () => {
     orderApiGet();
     imageClickBtn();
@@ -38,26 +40,50 @@ const orderHtml = (order) => {
                       </div>
                       <div class="col-md-8">
                         <div class="card-body pb-2">
-                        <h5 id="restaurantId"class="card-title data-id="${order[i].restaurant_id}">${order[i].Restaurant.name}</h5>
+                        <h5 id="restaurantId"class="card-title" data-id="${order[i].restaurant_id}">${order[i].Restaurant.name}</h5>
                           <p class="card-text" id="orderId" data-id="${order[i].order_id}">${order[i].Cart.CartItems.map((a) => {
             return a.Menu.name;
-        }).join(',')}
+        }).join(',')} 
                           </p>
                           <div class="btnList">
-                              <button type="button" class="btn btn-success btn-lg" data-bs-target="#cartModals"data-bs-toggle="modal">상세 정보</button>
-                              <button type="button" class="btn btn-success btn-lg" data-bs-target="#modal"data-bs-toggle="modal">리뷰 수정</button>
+                              <button type="button" class="btn btn-success btn-lg" data-bs-target="#cartModals"data-bs-toggle="modal" data-id="${
+                                  order[i].order_id
+                              }">상세 정보</button>
+                              <button type="button" class="btn btn-success btn-lg reviewEditBtn" data-bs-target="#modal"data-bs-toggle="modal" data-id="${
+                                  order[i].order_id
+                              }">리뷰 수정</button>
                           </div>
                         </div>
                       </div>
                       </div>
                 </div>`;
-
         cardBox.innerHTML += createOrderHtml;
-        orderViewDetailModal(order[i]);
-        reviewApiGet(order[i]);
     }
+    btnList = document.querySelectorAll('.btnList');
+    btnList.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            reviewEditBtnDataId = e.target.getAttribute('data-id');
+            orderDetailViewGet(reviewEditBtnDataId);
+            // orderViewDetailModal(order[i]);
+            // reviewApiGet(order[i]);
+        });
+    });
 };
 
+/** 주문 상세 보기 get */
+const orderDetailViewGet = async (order_id) => {
+    const api = await fetch(`/order/${order_id}`, {
+        method: 'GET',
+    });
+    const { status } = await api;
+    const { message, result } = await api.json();
+    if (status == 200) {
+        orderViewDetailModal(result);
+        reviewOneGet(order_id, result.restaurant_id);
+    } else {
+        alert(message);
+    }
+};
 /** 주문 상세보기 모달 */
 const orderViewDetailModal = (order) => {
     cartModals.innerHTML = '';
@@ -139,30 +165,27 @@ function imageClickBtn() {
 }
 
 /** get review */
-const reviewApiGet = async (order) => {
-    //리뷰중 로그인한 멤버 전체 리뷰 조회 (리뷰 조회중 따로 order_id로 가져오는 것이 없음)
-    //reviewId로도 찾고 싶으나 머리가 안돌아감.
-    const api = await fetch(`/member/review`, {
+const reviewOneGet = async (order_id, restaurant_id) => {
+    const api = await fetch(`/restaurant/review/order/${order_id}`, {
         method: 'GET',
     });
     const { status } = await api;
     const { message, result } = await api.json();
     if (status == 200) {
-        if (result) reviewModalHtml(result);
-        reviewApiPost(order, result);
-        reviewApiDel(order, result);
+        reviewModalHtml(result);
+        reviewApiPost(restaurant_id, order_id, result);
+        reviewApiDel(result);
     } else {
         alert(message);
     }
 };
-
 /** review post */
-const reviewApiPost = (order, review) => {
+const reviewApiPost = (restaurant_id, order_id, review) => {
     let reviewData;
-    if (review.reviewId) reviewData = review.reviewId;
+    if (review) reviewData = review.reviewId;
     else reviewData = null;
     reviewSaveBtn.addEventListener('click', async () => {
-        const api = await fetch(`/restaurant/${order.restaurant_id}/review/order/${order.order_id}`, {
+        const api = await fetch(`/restaurant/${restaurant_id}/review/order/${order_id}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(new addReview()),
@@ -171,8 +194,7 @@ const reviewApiPost = (order, review) => {
         const { result } = await api.json();
 
         if (status == 201) {
-            alert(result);
-            window.location.reload();
+            window.location.href = '/orderHistory';
         } else {
             alert(result);
         }
@@ -189,9 +211,9 @@ const reviewApiPost = (order, review) => {
 };
 
 /** review delete */
-const reviewApiDel = (order, review) => {
+const reviewApiDel = (review) => {
     reviewDelBtn.addEventListener('click', async () => {
-        const api = await fetch(`/restaurant/${order.restaurant_id}/review/${review.reviewId}`, {
+        const api = await fetch(`/restaurant/review/${Number(review.reviewId)}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         });
@@ -200,7 +222,7 @@ const reviewApiDel = (order, review) => {
 
         if (status == 200) {
             alert(result);
-            window.location.reload();
+            window.location.href = '/orderHistory';
         } else {
             alert(result);
         }

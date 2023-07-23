@@ -72,7 +72,7 @@ class ReviewsController {
     /** 리뷰 삭제 */
     deleteReview = async (req, res) => {
         try {
-            const review_id = req.params.review_id;
+            const { review_id } = req.params;
             const { member_id } = req.session.user;
             const { status, message, result } = await this.reviewService.deleteReview(review_id, member_id);
 
@@ -105,6 +105,20 @@ class ReviewsController {
             const { review_id } = req.params;
             const { member_id } = req.session.user;
             const { status, message, result } = await this.reviewService.deleteReviewImage({ member_id, review_id });
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+
+    getReviewOder = async (req, res) => {
+        try {
+            const { order_id } = req.params;
+            const { member_id } = req.session.user;
+            const { status, message, result } = await this.reviewService.getReviewOder(order_id, member_id);
 
             res.status(status).json({ message, result });
         } catch (error) {
