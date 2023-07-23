@@ -34,8 +34,22 @@ class OrdersController {
     //** 특정 레스토랑 전체 주문 불러오기 */
     orderCheck = async (req, res) => {
         try {
-            const { restaurant_id } = req.params;
-            const { status, message, result } = await this.orderService.orderCheck({ restaurant_id });
+            const { member_id } = req.session.user;
+            const { status, message, result } = await this.orderService.orderCheck({ member_id });
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+
+    /** 단일 주문 불러오기 */
+    findByOrder = async (req, res) => {
+        try {
+            const { orderId } = req.params;
+            const { status, message, result } = await this.orderService.findByOrder({ orderId });
 
             res.status(status).json({ message, result });
         } catch (error) {

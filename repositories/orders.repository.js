@@ -1,4 +1,4 @@
-const { Order, Cart, MemberInfo, Menu, CartItem, Restaurant, Point, sequelize } = require('../models');
+const { Order, Cart, MemberInfo, Menu, CartItem, Restaurant, Point, Member, sequelize } = require('../models');
 
 class OrderRepository {
     findById = async ({ order_id }) => {
@@ -55,33 +55,76 @@ class OrderRepository {
         });
         return order;
     };
+    findByOrder = async ({ orderId }) => {
+        return await Order.findOne({
+            where: { order_id: orderId },
+            include: [{ model: MemberInfo }, { model: Cart, include: [{ model: CartItem, include: [{ model: Menu }] }] }],
+        });
+    };
     orderCheck = async ({ restaurant_id }) => {
         const order = await Order.findAll({
-            attributes: ['order_id', 'status', 'created_at'],
             order: ['created_at'],
             where: { restaurant_id },
-            raw: true,
             include: [
                 {
                     model: MemberInfo,
-                    attributes: ['name', 'phone', 'address'],
+                },
+                {
+                    model: Cart,
+                    include: [{ model: CartItem, include: [{ model: Menu }] }],
                 },
             ],
         });
         return order;
     };
-    orderUpdate = async ({ order_id, status, addTime, arrival_at }) => {
+    orderUpdate = async ({ order_id, status, addTime }) => {
         const order = await Order.update(
             {
                 status,
-                addTime,
-                arrival_at,
+                arrival_at: addTime,
             },
             {
                 where: { order_id },
             }
         );
         return order;
+    };
+
+    orderStatusUpdateAndCalculate = async ({ order_id, status, deductionPrice }) => {
+        return await sequelize.transaction(async (transaction) => {
+            const findByOrder = await Order.findOne({ where: { order_id }, include: [{ model: Restaurant }] }, { transaction });
+
+            await Order.update({ status }, { where: { order_id } }, { transaction });
+            await Point.create(
+                {
+                    member_id: findByOrder.Restaurant.member_id,
+                    point_status_code: 1,
+                    point: deductionPrice,
+                    reason: '상품판매 후 정산',
+                },
+                { transaction }
+            );
+        });
+    };
+
+    orderStatusUpdate = async ({ order_id, status }) => {
+        return await Order.update({ status }, { where: { order_id } });
+    };
+
+    orderUpdateAndPointRefund = async ({ order_id, addTime, deductionPrice }) => {
+        return await sequelize.transaction(async (transaction) => {
+            const findByOrder = await Order.findOne({ where: { order_id }, include: [{ model: MemberInfo }] }, { transaction });
+            await Point.create(
+                {
+                    member_id: findByOrder.MemberInfo.member_id,
+                    point_status_code: 1,
+                    point: deductionPrice,
+                    reason: '주문 비용 환불 : 업체에서 직접 취소',
+                },
+                { transaction }
+            );
+            return await Order.update({ status: 0, arrival_at: addTime }, { where: { order_id } }, { transaction });
+        });
     };
     pricePoint = async ({ cart_id }) => {
         const cart = await Cart.findByPk(cart_id, {
