@@ -125,6 +125,26 @@ class ReviewService {
 
         return new ServiceReturn('정상 삭제되었습니다.', 200, true);
     };
+
+    getReviewOder = async (order_id, member_id) => {
+        const review = await this.reviewRepository.getReviewOder(order_id, member_id);
+        let reviewData;
+        if (!review) reviewData = false;
+        else {
+            reviewData = {
+                reviewId: review.review_id,
+                memberId: review.member_id,
+                orderId: review.order_id,
+                star: review.star,
+                review: review.review,
+                image: review.image,
+                createdAt: review.created_at,
+                updatedAt: review.updated_at,
+            };
+        }
+
+        return new ServiceReturn('정상 반환되었습니다.', 200, reviewData);
+    };
 }
 
 module.exports = ReviewService;

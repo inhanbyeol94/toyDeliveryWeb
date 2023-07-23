@@ -10,6 +10,11 @@ class OrderService {
     memberRepository = new MemberRepository();
     cartRepository = new CartRepository();
 
+    findOrder = async ({ order_id }) => {
+        const order = await this.orderRepository.findById({ order_id });
+        return new ServiceReturn('정상 반환되었습니다.', 200, order);
+    };
+
     //** 장바구니 주문 */
     orderCart = async ({ cart_id, member_id, deliveryInfoId }) => {
         const findbyCart = await this.cartRepository.memberCartitems({ cart_id });

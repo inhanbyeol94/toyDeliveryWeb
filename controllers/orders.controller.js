@@ -2,6 +2,18 @@ const OrderService = require('../services/orders.service');
 
 class OrdersController {
     orderService = new OrderService();
+    findOrder = async (req, res) => {
+        try {
+            const { order_id } = req.params;
+            const { status, message, result } = await this.orderService.findOrder({ order_id });
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
 
     //** 장바구니 주문 */
     orderCart = async (req, res) => {

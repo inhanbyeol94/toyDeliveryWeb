@@ -31,6 +31,20 @@ class PointsController {
             return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
+
+    /** point history 조회 */
+    getPointHistory = async (req, res) => {
+        try {
+            const { member_id } = req.session.user;
+            const { status, message, result } = await this.pointService.getPoint(member_id);
+
+            res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
 }
 
 module.exports = PointsController;

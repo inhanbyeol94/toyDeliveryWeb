@@ -13,6 +13,7 @@ const imageDelBtn = document.getElementById('imageDelBtn');
 const point = document.getElementById('point');
 const addPoint = document.getElementById('addPoint');
 const addPointBtn = document.getElementById('addPointBtn');
+const pointHistory = document.getElementById('pointHistory');
 
 imageBtn.addEventListener('click', () => {
     profileImage.click();
@@ -111,6 +112,7 @@ class changePassword {
 /** point get */
 window.addEventListener('load', () => {
     getPoint();
+    getPointHistory();
 });
 const getPoint = async () => {
     const api = await fetch(`/member_info/point`, {
@@ -158,3 +160,33 @@ class changePoint {
         this.reason = '포인트를 추가하였습니다.';
     }
 }
+
+/** point history */
+const getPointHistory = async () => {
+    const api = await fetch(`/member_info/point/history`, {
+        method: 'GET',
+    });
+    const { status } = await api;
+    const { message, result } = await api.json();
+
+    if (status == 200) {
+        getPointHistoryHtml(result);
+    } else {
+        alert(message);
+    }
+};
+
+const getPointHistoryHtml = (points) => {
+    console.log(points);
+    pointHistory.innerHTML = '';
+    for (let point of points) {
+        let createPointHTML = '';
+        if (point.point_status_code == 0) {
+            createPointHTML = `<div class="col-lg-3 col-md-4 label" style="color: red;">${point.reason} : - ${point.point}</div>`;
+        } else {
+            createPointHTML = `<div class="col-lg-3 col-md-4 label">${point.reason} : ${point.point}</div>`;
+        }
+
+        pointHistory.innerHTML += createPointHTML;
+    }
+};

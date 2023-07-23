@@ -50,6 +50,10 @@ class ReviewRepository {
     deleteReviewByOrder = async (order_id, member_id) => {
         return await Review.destroy({ where: { order_id, member_id } });
     };
+
+    getReviewOder = async (order_id, member_id) => {
+        return await Review.findOne({ where: { order_id, member_id } });
+    };
 }
 
 module.exports = ReviewRepository;
