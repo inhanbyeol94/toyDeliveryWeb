@@ -6,10 +6,9 @@ class PointsController {
     /** 포인트 생성(추가및 차감)*/
     createPoint = async (req, res) => {
         try {
-            const url_member_id = req.params.member_id;
             const { point, point_status_code, reason } = req.body;
             const { member_id } = req.session.user;
-            const { status, message, result } = await this.pointService.postPoint(member_id, url_member_id, point, point_status_code, reason);
+            const { status, message, result } = await this.pointService.postPoint(member_id, point, point_status_code, reason);
 
             res.status(status).json({ message, result });
         } catch (error) {
@@ -22,9 +21,8 @@ class PointsController {
     /** 해당 member 계산된 포인트 조회 */
     getPoint = async (req, res) => {
         try {
-            const url_member_id = req.params.member_id;
             const { member_id } = req.session.user;
-            const { status, message, result } = await this.pointService.calculation(member_id, url_member_id);
+            const { status, message, result } = await this.pointService.calculation(member_id);
 
             res.status(status).json({ message, result });
         } catch (error) {

@@ -31,11 +31,10 @@ class PointService {
     // };
 
     /** 포인트 생성(추가및 차감)*/
-    postPoint = async (member_id_session, member_id, point, point_status_code, reason) => {
+    postPoint = async (member_id, point, point_status_code, reason) => {
         const findMember = await this.memberRepository.findOne({ member_id });
 
         if (!findMember) throw new CustomError('회원 정보가 존재하지 않습니다.', 403);
-        else if (member_id_session != findMember.member_id) throw new CustomError('포인트를 변경할 권한이 없습니다.', 403);
         else if (point_status_code < 0 || point_status_code > 1) throw new CustomError('포인트 상태 코드를 사용할 수 없습니다.', 412);
 
         const findAllPoint = await this.pointRepository.findAllPoint(member_id);
@@ -61,11 +60,9 @@ class PointService {
     };
 
     /** 포인트 계산후 출력*/
-    calculation = async (member_id_session, member_id) => {
+    calculation = async (member_id) => {
         const findAllPoint = await this.pointRepository.findAllPoint(member_id);
         let firstPoint = 0;
-
-        if (member_id_session != findAllPoint[0].member_id) throw new CustomError('포인트 조회 권한이 없습니다.', 403);
 
         for (let i in findAllPoint) {
             if (i == 0) {
