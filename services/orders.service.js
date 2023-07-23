@@ -1,23 +1,27 @@
 const OrderRepository = require('../repositories/orders.repository');
 const PointRepository = require('../repositories/points.repository');
 const MemberRepository = require('../repositories/members.repository');
+const CartRepository = require('../repositories/carts.repository');
 
 const { CustomError, ServiceReturn } = require('../customClass');
 class OrderService {
     orderRepository = new OrderRepository();
     pointRepository = new PointRepository();
     memberRepository = new MemberRepository();
+    cartRepository = new CartRepository();
 
     //** 장바구니 주문 */
-    orderCart = async ({ cart_id, member_id }) => {
+    orderCart = async ({ cart_id, member_id, deliveryInfoId }) => {
+        const findbyCart = await this.cartRepository.memberCartitems({ cart_id });
+        if (findbyCart.member_id !== member_id) throw new CustomError('주문 정보가 존재하지 않습니다.');
+
         const total = await this.calculatePrice({ member_id, cart_id });
         if (total <= 0) throw new CustomError('잔액이 부족합니다.', 404);
 
-        const pricePoint = await this.orderRepository.pricePoint({ cart_id });
-        const userInfo = await this.memberRepository.findOne({ member_id });
+        const { restaurant_id } = findbyCart;
+        const [deductionPrice] = findbyCart.CartItems.map((x) => x.count * x.Menu.price);
 
-        await this.pointRepository.createPoint(member_id, total, 0, '주문 비용 지불');
-        await this.orderRepository.addOrder(pricePoint.restaurant_id, cart_id, userInfo.MemberInfos.member_info_id);
+        await this.orderRepository.addOrder({ cart_id, member_id, restaurant_id, deliveryInfoId, deductionPrice });
 
         return new ServiceReturn('주문이 완료되었습니다.', 200, true);
     };
