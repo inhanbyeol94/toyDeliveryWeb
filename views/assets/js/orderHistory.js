@@ -64,8 +64,6 @@ const orderHtml = (order) => {
         btn.addEventListener('click', (e) => {
             reviewEditBtnDataId = e.target.getAttribute('data-id');
             orderDetailViewGet(reviewEditBtnDataId);
-            // orderViewDetailModal(order[i]);
-            // reviewApiGet(order[i]);
         });
     });
 };
