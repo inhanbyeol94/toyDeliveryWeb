@@ -27,9 +27,21 @@ class OrderService {
     };
 
     //** 특정 레스토랑 전체 주문 불러오기 */
-    orderCheck = async ({ restaurant_id }) => {
-        const order = await this.orderRepository.orderCheck({ restaurant_id });
-        return new ServiceReturn('정상 반환되었습니다.', 200, order);
+    orderCheck = async ({ member_id }) => {
+        const findUser = await this.memberRepository.findOne({ member_id });
+        const restaurantId = findUser?.Restaurant.restaurant_id;
+
+        if (!restaurantId) throw new CustomError('레스토랑 관리에서 레스토랑을 먼저 생성해 주세요.', 403);
+
+        const findAllOrder = await this.orderRepository.orderCheck({ restaurant_id: restaurantId });
+
+        return new ServiceReturn('정상 반환되었습니다.', 200, findAllOrder);
+    };
+    /** 단일 주문 불러오기 */
+    findByOrder = async ({ orderId }) => {
+        const findByOrderData = await this.orderRepository.findByOrder({ orderId });
+
+        return new ServiceReturn('정상 반환되었습니다.', 200, findByOrderData);
     };
 
     //** 특정 회원의 전체 주문 불러오기 */
@@ -41,37 +53,52 @@ class OrderService {
     };
 
     //** 특정 주문 수정 */
-    orderUpdate = async ({ order_id, status, addTime, user }) => {
+    orderUpdate = async ({ order_id, statusNum, addTime, user }) => {
         const order = await this.orderRepository.findById({ order_id });
 
         if (!order) throw new CustomError('해당 주문이 존재하지 않습니다.', 404);
         if (addTime === null) throw new CustomError('예상 조리시간을 적어주세요.', 412);
 
-        const arrival_at = this.calculateArriveTime(addTime);
-        const updatedOrder = await this.orderRepository.orderUpdate({ order_id, status, addTime, arrival_at });
+        if (statusNum == 0) {
+            const findbyCart = await this.cartRepository.memberCartitems({ cart_id: order.cart_id });
+            const [deductionPrice] = findbyCart.CartItems.map((x) => x.count * x.Menu.price);
 
-        if (updatedOrder[0] === 1) {
-            const orderCheck = await this.orderRepository.findById({ order_id });
+            await this.orderRepository.orderUpdateAndPointRefund({ order_id, addTime, deductionPrice });
 
-            if (orderCheck.status === 4) {
-                const member_id = user.member_id;
-                const cart_id = orderCheck.cart_id;
-                const point = await this.calculatePrice({ member_id, cart_id });
-                const point_status_code = 1;
-                const reason = '판매 수익';
-                await this.pointRepository.createPoint(member_id, point, point_status_code, reason);
-                return new ServiceReturn('배달이 완료되었습니다.', 200, true);
+            return new ServiceReturn('주문이 취소되었습니다.', 200, true);
+        } else {
+            if (addTime == -1) {
+                if (statusNum == 4) {
+                    const findbyCart = await this.cartRepository.memberCartitems({ cart_id: order.cart_id });
+                    const [deductionPrice] = findbyCart.CartItems.map((x) => x.count * x.Menu.price);
+
+                    await this.orderRepository.orderStatusUpdateAndCalculate({
+                        order_id,
+                        status: statusNum,
+                        deductionPrice,
+                    });
+
+                    return new ServiceReturn('배달이 종료되었습니다.', 200, true);
+                } else {
+                    await this.orderRepository.orderStatusUpdate({
+                        order_id,
+                        status: statusNum,
+                    });
+                    return new ServiceReturn('배달이 시작되었습니다.\n배달이 완료될 경우 배달완료 버튼을 클릭해 주세요.', 200, true);
+                }
+            } else {
+                const arrivalAt = new Date();
+                await this.orderRepository.orderUpdate({
+                    order_id,
+                    status: statusNum,
+                    addTime: arrivalAt.setMinutes(arrivalAt.getMinutes() + addTime),
+                });
+
+                return new ServiceReturn('주문이 정상 등록되었습니다.\n조리를 시작해 주세요.', 200, true);
             }
-
-            return new ServiceReturn('정상 반영되었습니다.', 200, true);
         }
     };
 
-    calculateArriveTime = (addTime) => {
-        const currentDateTime = new Date();
-        const arrivalDateTime = new Date(currentDateTime.getTime() + addTime * 60000);
-        return arrivalDateTime;
-    };
     calculatePrice = async function ({ member_id, cart_id }) {
         const findAllPoint = await this.pointRepository.findAllPoint(member_id);
         let userPoint = 0;
