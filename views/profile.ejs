@@ -51,6 +51,10 @@
                       Password</button>
                   </li>
 
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-point">Add Point</button>
+                  </li>
+
                 </ul>
                 <div class="tab-content pt-2">
 
@@ -97,7 +101,10 @@
                           <div class="col-lg-9 col-md-8">사장</div>
                         </div>
                         <% } %>
-
+                        <div class="row">
+                          <div class="col-lg-3 col-md-4 label">Point</div>
+                          <div class="col-lg-9 col-md-8" id="point"></div>
+                        </div>
                   </div>
 
                   <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
@@ -184,6 +191,24 @@
 
                       <div class="text-center">
                         <button class="btn btn-primary" id="changePwdBtn">Change Password</button>
+                      </div>
+                    </div><!-- End Change Password Form -->
+
+                  </div>
+
+                  <div class="tab-pane fade pt-3" id="profile-point">
+                    <!-- Change Password Form -->
+                    <div>
+
+                      <div class="row mb-3">
+                        <label for="addPoint" class="col-md-4 col-lg-3 col-form-label">Add point</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="addPoint" class="form-control" id="addPoint">
+                        </div>
+                      </div>
+
+                      <div class="text-center">
+                        <button class="btn btn-primary" id="addPointBtn">포인트 추가</button>
                       </div>
                     </div><!-- End Change Password Form -->
 
