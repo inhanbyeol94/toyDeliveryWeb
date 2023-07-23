@@ -143,9 +143,9 @@ addPointBtn.addEventListener('click', async () => {
     const { status } = await api;
     const { message } = await api.json();
 
-    if (status == 200) {
+    if (status == 201) {
         alert(message);
-        window.location.href = '/profile';
+        window.location.reload();
     } else {
         alert(message);
     }
