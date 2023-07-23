@@ -1,4 +1,4 @@
-const { Order, Cart, MemberInfo, Menu, CartItem, Restaurant } = require('../models');
+const { Order, Cart, MemberInfo, Menu, CartItem, Restaurant, Point, sequelize } = require('../models');
 
 class OrderRepository {
     findById = async ({ order_id }) => {
@@ -80,14 +80,11 @@ class OrderRepository {
         });
         return cart;
     };
-    addOrder = async (restaurant_id, cart_id, member_info_id) => {
-        const order = await Order.create({
-            restaurant_id,
-            cart_id,
-            status: 1,
-            member_info_id,
+    addOrder = async ({ cart_id, member_id, deliveryInfoId, restaurant_id, deductionPrice }) => {
+        await sequelize.transaction(async (transaction) => {
+            await Point.create({ member_id, point_status_code: 0, point: deductionPrice, reason: '주문 비용 지불' }, { transaction });
+            await Order.create({ restaurant_id, member_info_id: deliveryInfoId, cart_id }, { transaction });
         });
-        return order;
     };
 }
 
