@@ -10,8 +10,9 @@ const { reviewValidation } = require('../middlewares/validations/reviews.validat
 router.get('/member/review', allAuthMiddleware, reviewController.getReviewsByMember);
 router.get('/restaurant/:restaurant_id/review', reviewController.getReviewList);
 router.get('/restaurant/:restaurant_id/review/:review_id', reviewController.getReview);
+router.get('/restaurant/review/order/:order_id', allAuthMiddleware, reviewController.getReviewOder);
 router.post('/restaurant/:restaurant_id/review/order/:order_id', allAuthMiddleware, reviewController.createReview);
-router.delete('/restaurant/:restaurant_id/review/:review_id', allAuthMiddleware, reviewController.deleteReview);
+router.delete('/restaurant/review/:review_id', allAuthMiddleware, reviewController.deleteReview);
 router.post('/review/image', allAuthMiddleware, imageUploader.single('image'), reviewController.updateReviewImage);
 router.delete('/review/image', allAuthMiddleware, reviewController.deleteReviewImage);
 

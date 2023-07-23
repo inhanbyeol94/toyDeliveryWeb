@@ -6,29 +6,25 @@ class PointService {
     pointRepository = new PointRepository();
     memberRepository = new MemberRepository();
 
-    // getPoint = async (member_id_session, member_id) => {
-    //     const findAllPoint = await this.pointRepository.findAllPoint(member_id);
-    //     const error = new Error();
-    //     if (member_id_session != findAllPoint.member_id) {
-    //         error.message = '포인트 조회 권한이 없습니다.';
-    //         error.status = 403;
-    //         throw error;
-    //     }
-    //     findAllPoint.sort((a, b) => {
-    //         return b.created_at - a.created_at;
-    //     });
+    getPoint = async (member_id) => {
+        const findAllPoint = await this.pointRepository.findAllPoint(member_id);
 
-    //     return findAllPoint.map((point) => {
-    //         return {
-    //             point_id: point.point_id,
-    //             member_id: point.member.member_id,
-    //             point: point.point,
-    //             point_status_code: point.point_status_code,
-    //             reason: point.reason,
-    //             created_at: point.created_at,
-    //         };
-    //     });
-    // };
+        findAllPoint.sort((a, b) => {
+            return b.created_at - a.created_at;
+        });
+
+        const result = findAllPoint.map((point) => {
+            return {
+                point_id: point.point_id,
+                member_id: point.member_id,
+                point: point.point,
+                point_status_code: point.point_status_code,
+                reason: point.reason,
+                created_at: point.created_at,
+            };
+        });
+        return new ServiceReturn('포인트 히스토리를 조회하였습니다.', 200, result);
+    };
 
     /** 포인트 생성(추가및 차감)*/
     postPoint = async (member_id, point, point_status_code, reason) => {
