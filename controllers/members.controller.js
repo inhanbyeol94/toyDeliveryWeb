@@ -148,6 +148,35 @@ class MembersController {
             return res.status(500).json({ message: '오류가 발생하였습니다.' });
         }
     };
+
+    //** 회원 배달지 정보 추가 */
+    createDeliveryInfo = async (req, res) => {
+        try {
+            const { member_id } = req.session.user;
+            const { name, phone, address } = req.body;
+            const { status, message, result } = await this.memberService.createDeliveryInfo({ name, phone, address, member_id });
+
+            return res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
+
+    updateDeliveryInfo = async (req, res) => {
+        try {
+            const { member_id } = req.session.user;
+            const { memberInfoId } = req.body;
+            const { status, message, result } = await this.memberService.updateDeliveryInfo({ memberInfoId, member_id });
+
+            return res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.error(error);
+            return res.status(500).json({ message: '오류가 발생하였습니다.' });
+        }
+    };
 }
 
 module.exports = MembersController;
