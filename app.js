@@ -19,12 +19,7 @@ app.use(
         },
     })
 );
-app.use((req, res, next) => {
-    if (!req.session.user) {
-        req.session.user = { member_id: 4 };
-    }
-    next();
-});
+
 //front-end
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');

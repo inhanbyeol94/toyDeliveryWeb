@@ -22,13 +22,13 @@ function getRestaurant(restaurants, searchType, keyword) {
         allStar = Math.round((allStar / count) * 10) / 10;
         let createHTML =
             `<div class="card storeCard m-3">
-                                    <img src="${restaurants[r].restaurantImage || ''}" class="card-img-top" alt="...">
+                                    <img src="${restaurants[r].restaurantImage || 'assets/img/card.jpg'}" class="card-img-top" alt="...">
                                     <div class="card-body">
                                     <a  href="/restaurant/page/${restaurants[r].restaurantId}">
                                     <h5 class="card-title">${restaurants[r].restaurantName}</h5>
                                     </a>
                                     <div class="d-flex">
-                                    <p class="card-rate">⭐️ ${allStar}</p>
+                                    <p class="card-rate">⭐️ ${isNaN(allStar) ? 0 : allStar}</p>
                                     <div class="keyword-list ms-3">` +
             createKeywordList +
             `
