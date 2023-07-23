@@ -75,6 +75,13 @@ class ViewsController {
         console.log('여기', restaurantId);
         return res.render('restaurant', pageInfo);
     };
+
+    order = async (req, res) => {
+        const member_id = req.session.user?.member_id;
+        const { title, subtitle } = pageConfig.index;
+        const pageInfo = await this.viewService.authorization({ member_id, title, subtitle });
+        return res.render('order', pageInfo);
+    };
 }
 
 module.exports = ViewsController;
