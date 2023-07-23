@@ -6,9 +6,10 @@ class OrdersController {
     //** 장바구니 주문 */
     orderCart = async (req, res) => {
         try {
+            const { deliveryInfoId } = req.body;
             const { cart_id } = req.params;
             const { member_id } = req.session.user;
-            const { status, message, result } = await this.orderService.orderCart({ cart_id, member_id });
+            const { status, message, result } = await this.orderService.orderCart({ cart_id, member_id, deliveryInfoId });
 
             res.status(status).json({ message, result });
         } catch (error) {
