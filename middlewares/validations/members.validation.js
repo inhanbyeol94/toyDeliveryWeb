@@ -53,6 +53,36 @@ const Membervalidations = {
         next();
     },
 
+    createDeliveryInfoValidation: async (req, res, next) => {
+        const { name, phone, address } = req.body;
+
+        const schema = Joi.object().keys({
+            name: Joi.string()
+                .empty()
+                .required()
+                .min(2)
+                .max(10)
+                .regex(/^[가-힣a-zA-Z]+$/)
+                .messages(member.name),
+            phone: Joi.string()
+                .empty()
+                .required()
+                .min(11)
+                .max(15)
+                .regex(/^\d{2,3}-?\d{3,4}-?\d{4}$/)
+                .messages(member.phone),
+            address: Joi.string().empty().required().max(100).messages(member.address),
+        });
+
+        try {
+            await schema.validateAsync({ name, phone, address });
+        } catch (err) {
+            return res.status(412).json({ message: err.message });
+        }
+
+        next();
+    },
+
     loginValidation: async (req, res, next) => {
         const { email, password } = req.body;
 
