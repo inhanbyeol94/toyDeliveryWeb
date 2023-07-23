@@ -47,5 +47,6 @@ module.exports = {
     restaurant: {
         title,
         subtitle: ' | 식당',
+        css: 'restaurantPage',
     },
 };

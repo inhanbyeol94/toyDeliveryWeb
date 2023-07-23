@@ -27,7 +27,7 @@ const showmenuList = async () => {
                     menuImage = `<img src="/assets/img/card.jpg"id="menuImg" class="img-fluid rounded-start" alt="...">`;
                 }
                 const menuHtml = `<div class="card my-3 menuCard" data-bs-toggle="modal" data-bs-target="#largeModal">
-                                        <div >
+                                        <div class="menuDiv">
                                         <div class="row g-0"  id="cards" value="${menu.menu_id}">
                                         <div class="col-md-4"  alt="">
                                             ${menuImage}
