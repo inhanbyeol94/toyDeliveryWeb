@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { Cart, CartItem, Menu, Restaurant, sequelize } = require('../models');
+const { Cart, CartItem, Menu, Restaurant, Order, Member, MemberInfo, sequelize } = require('../models');
 class CartRepository {
     //** 카트와 아이템 동시 생성 */
     addCartAndItem = async ({ restaurant_id, member_id, menu_id, count }) => {
@@ -31,6 +31,7 @@ class CartRepository {
     findOne = async ({ restaurant_id, member_id }) => {
         const cart = await Cart.findOne({
             where: { restaurant_id, member_id },
+            include: [{ model: Order }],
         });
         return cart;
     };
@@ -86,7 +87,7 @@ class CartRepository {
     };
 
     memberCartitems = async (data) => {
-        return Cart.findOne({ where: data, include: [{ model: CartItem }] });
+        return Cart.findOne({ where: data, include: [{ model: CartItem, include: [{ model: Menu }] }] });
     };
 
     getCurrentCart = async ({ member_id }) => {
@@ -94,7 +95,12 @@ class CartRepository {
             where: { member_id },
             limit: 1,
             order: [['created_at', 'DESC']],
-            include: [{ model: CartItem, include: [{ model: Menu }] }, { model: Restaurant }],
+            include: [
+                { model: CartItem, include: [{ model: Menu }] },
+                { model: Restaurant },
+                { model: Order },
+                { model: Member, include: [{ model: MemberInfo }] },
+            ],
         });
     };
 }

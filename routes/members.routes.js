@@ -8,6 +8,7 @@ const {
     isEmailValidation,
     updateValidation,
     updatePwdValidation,
+    createDeliveryInfoValidation,
 } = require('../middlewares/validations/members.validation');
 const imageUploader = require('../imageUploader');
 
@@ -26,5 +27,7 @@ router.post('/member_info/image', allAuthMiddleware, imageUploader.single('image
 router.delete('/member_info/image', allAuthMiddleware, membersController.deleteProfileImage);
 router.put('/member_info/password', allAuthMiddleware, updatePwdValidation, membersController.updatePassword);
 router.delete('/member_info/:member_id', allAuthMiddleware, membersController.deleteMember);
+router.post('/deliveryinfo', allAuthMiddleware, createDeliveryInfoValidation, membersController.createDeliveryInfo);
+router.put('/deliveryinfo', allAuthMiddleware, membersController.updateDeliveryInfo);
 
 module.exports = router;

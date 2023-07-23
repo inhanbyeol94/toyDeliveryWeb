@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="titleList mt-4">
-                    <h5 class="cart-title" id="restaurantName">00음식점</h5>
+                    <h5 class="cart-title" id="restaurantName"></h5>
                 </div>
                 <button type="button" class="btn-close" id="modal-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
@@ -28,7 +28,8 @@
                     <h4 style="font-weight: 600">총 결제금액</h4>
                     <h4 id="sumPrice"></h4>
                 </div>
-                <button type="button" class="btn btn-success btn-lg" id="payBtn">결제하기</button>
+                <button type="button" class="btn btn-success btn-lg" id="payBtn"
+                    onclick="window.location.href='/order'">결제하기</button>
             </div>
         </div>
     </div>

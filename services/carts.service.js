@@ -8,13 +8,16 @@ class CartService {
     addItem = async ({ restaurant_id, memberId, menu_id, count }) => {
         if (count <= 0) throw new CustomError('상품 수량은 1개 이상 선택해 주세요.', 403);
 
-        const cartToValid = await this.cartRepository.findOne({ restaurant_id, member_id: memberId });
+        const getCurrentCartData = await this.cartRepository.getCurrentCart({ member_id: memberId });
 
-        if (!cartToValid) {
+        if (!getCurrentCartData?.Order && getCurrentCartData?.restaurant_id != restaurant_id && getCurrentCartData?.restaurant_id)
+            throw new CustomError('장바구니에 이미 다른 식당의 음식이 담겨져 있어 추가할 수 없습니다.', 403);
+
+        if (!getCurrentCartData || getCurrentCartData?.Order) {
             await this.cartRepository.addCartAndItem({ restaurant_id, member_id: memberId, menu_id, count });
             return new ServiceReturn('장바구니에 메뉴가 추가되었습니다.', 200, true);
         } else {
-            const cartId = cartToValid.cart_id;
+            const cartId = getCurrentCartData.cart_id;
             const findItem = await this.cartRepository.findItem([{ cart_id: cartId, menu_id }]);
 
             if (findItem) {
@@ -49,6 +52,7 @@ class CartService {
     getCurrentCart = async ({ member_id }) => {
         const getCurrentCartData = await this.cartRepository.getCurrentCart({ member_id });
         if (!getCurrentCartData) throw new CustomError('현재 사용중인 장바구니가 없습니다.', 404, false);
+        if (getCurrentCartData.Order) throw new CustomError('현재 사용중인 장바구니가 없습니다.', 404, false);
 
         const sumPrice = getCurrentCartData.CartItems.map((x) => x.Menu.price * x.count).reduce((acc, cur) => acc + cur, 0);
         return new ServiceReturn('정상 반환되었습니다.', 200, [getCurrentCartData, sumPrice]);

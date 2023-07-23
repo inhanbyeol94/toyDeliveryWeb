@@ -104,9 +104,12 @@ const menuPageHtml = async (menus) => {
 
     for (let menu of menus) {
         const createMenuHTML = `<div class="card mb-3">
-                                    <div class="row g-0 imageBox">
-                                    <div class="col-md-2 imageSubBox">
-                                        <img src="${menu.image || '/assets/img/card.jpg'}" class="img-fluid rounded-start img" alt="...">
+
+                                    <div class="row g-0">
+                                    <div class="col-md-2">
+                                        <img src="${
+                                            menu.image || 'https://www.bizforms.co.kr/form/image/thumb_ing.gif'
+                                        }" class="img-fluid rounded-start" alt="...">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">

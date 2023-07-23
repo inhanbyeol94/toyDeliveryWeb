@@ -63,6 +63,25 @@ class MemberRepository {
 
         return deleteMemberData;
     };
+
+    createDeliveryInfo = async ({ name, phone, address, member_id }) => {
+        return await MemberInfo.create({ member_id, name, phone, address, default: false });
+    };
+
+    findByMemberInfoId = async ({ memberInfoId }) => {
+        return await MemberInfo.findOne({ where: { member_info_id: memberInfoId } });
+    };
+
+    findByMemberInfoList = async ({ member_id }) => {
+        return await MemberInfo.findAll({ where: { member_id } });
+    };
+
+    updateMemberInfoDefault = async ({ oldId, newId }) => {
+        await sequelize.transaction(async (transaction) => {
+            await MemberInfo.update({ default: false }, { where: { member_info_id: oldId } }, { transaction });
+            await MemberInfo.update({ default: true }, { where: { member_info_id: newId } }, { transaction });
+        });
+    };
 }
 
 module.exports = MemberRepository;

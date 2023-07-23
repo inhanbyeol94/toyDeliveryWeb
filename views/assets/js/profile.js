@@ -10,6 +10,9 @@ const changePwdBtn = document.getElementById('changePwdBtn');
 const imageBtn = document.getElementById('imageBtn');
 const profileImage = document.getElementById('profileImage');
 const imageDelBtn = document.getElementById('imageDelBtn');
+const point = document.getElementById('point');
+const addPoint = document.getElementById('addPoint');
+const addPointBtn = document.getElementById('addPointBtn');
 
 imageBtn.addEventListener('click', () => {
     profileImage.click();
@@ -101,5 +104,57 @@ class changePassword {
         this.password = currentPassword.value;
         this.changePwd = newPassword.value;
         this.confirmPwd = renewPassword.value;
+    }
+}
+
+/** point 부분 */
+/** point get */
+window.addEventListener('load', () => {
+    getPoint();
+});
+const getPoint = async () => {
+    const api = await fetch(`/member_info/point`, {
+        method: 'GET',
+    });
+    const { status } = await api;
+    const { message, result } = await api.json();
+
+    if (status == 200) {
+        getPointHtml(result);
+    } else {
+        alert(message);
+    }
+};
+
+const getPointHtml = (p) => {
+    console.log(p.point);
+    point.innerHTML = `<p>${p.point.toLocaleString()}</p>`;
+};
+
+/** point post */
+addPointBtn.addEventListener('click', async () => {
+    if (!addPoint.value) return alert('추가할 포인트를 입력해주세요.');
+
+    const api = await fetch(`/member_info/point`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(new changePoint()),
+    });
+    const { status } = await api;
+    const { message } = await api.json();
+
+    if (status == 201) {
+        alert(message);
+        window.location.reload();
+    } else {
+        alert(message);
+    }
+});
+
+class changePoint {
+    constructor() {
+        this.point = Number(addPoint.value);
+        this.point_status_code = 1;
+        this.reason = '포인트를 추가하였습니다.';
     }
 }
