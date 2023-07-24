@@ -181,10 +181,27 @@ const getPointHistoryHtml = (points) => {
     pointHistory.innerHTML = '';
     for (let point of points) {
         let createPointHTML = '';
+        let pointCreateDate = point.created_at.split('T');
         if (point.point_status_code == 0) {
-            createPointHTML = `<div class="col-lg-3 col-md-4 label" style="color: red;">${point.reason} : - ${point.point}</div>`;
+            createPointHTML = `<div class="row mb-3">
+                                    <label for="addPoint" style="color:red;">${point.reason}</label>
+                                    <div class="col-md-8 col-lg-9">
+                                    - ${point.point.toLocaleString()}
+                                    </div>
+                                    <div class="col-md-8 col-lg-9">
+                                    - ${pointCreateDate[0]}
+                                    </div>
+                                </div>`;
         } else {
-            createPointHTML = `<div class="col-lg-3 col-md-4 label">${point.reason} : ${point.point}</div>`;
+            createPointHTML = `<div class="row mb-3">
+                                    <label for="addPoint" >${point.reason}</label>
+                                    <div class="col-md-8 col-lg-9">
+                                    + ${point.point.toLocaleString()}
+                                    </div>
+                                    <div class="col-md-8 col-lg-9">
+                                    - ${pointCreateDate[0]}
+                                    </div>
+                                </div>`;
         }
 
         pointHistory.innerHTML += createPointHTML;
