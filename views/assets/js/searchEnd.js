@@ -5,8 +5,9 @@ function getRestaurant(restaurants, searchType, keyword) {
     searchKeywordBtn.innerHTML = '';
     searchKeywordBtn.innerHTML = `<h3 class="title ps-5">${keyword}에 대한 ${searchType} 검색 결과입니다</h3>`;
     cards.innerHTML = '';
-
-    for (let r in restaurants) {
+    let restaurantLength = restaurants.length;
+    if (searchType != 'category') if (restaurantLength > 1) restaurantLength -= 1;
+    for (let r = 0; r < restaurantLength; r++) {
         let createKeywordList = '';
         for (let i in restaurants[r].restaurantKeyword[r]) {
             let item = restaurants[r].restaurantKeyword[r][i].keyword;

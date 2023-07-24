@@ -3,7 +3,7 @@ const KeywordRepository = require('../repositories/keywords.repository');
 const RestaurantRepository = require('../repositories/restaurants.repository');
 const ReviewRepository = require('../repositories/reviews.repository');
 const { ServiceReturn } = require('../customClass');
-class RestaurantService {
+class SearchService {
     menuRepository = new MenuRepository();
     keywordRepository = new KeywordRepository();
     restaurantRepository = new RestaurantRepository();
@@ -212,4 +212,4 @@ class RestaurantService {
     };
 }
 
-module.exports = RestaurantService;
+module.exports = SearchService;
